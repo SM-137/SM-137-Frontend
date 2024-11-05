@@ -1,33 +1,69 @@
-import styled from "@emotion/styled";
-//typeScript 정의
+import React from 'react';
+import styled from '@emotion/styled';
+import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
+import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
+
 interface ButtonProps {
-  width?: string; // Button 컴포넌트의 props 타입 정의
+  width?: string;
+  type?: 'default' | 'attach' | 'previous' | 'library' | 'login' | 'register'; 
+  content?: string; // New prop for external text content
 }
+
 interface ButtonContainerProps {
-  width?: string; // width가 선택적 속성임을 정의
+  width?: string;
 }
-const ButtonContainer = styled.div<ButtonContainerProps>`
-  /*flex 줄 */
+
+const ButtonContainer = styled.div<ButtonContainerProps & ButtonProps>`
   display: flex;
   align-items: center;
-  text-align: center;
-  gap: 1rem; //ButtonContainer 밑에 하위 컴포넌트가 2개일 경우
   justify-content: center;
-
-  width: ${(props) => props.width};
-  height: 100px; //컴포넌트의 특정 크기 - px
-  border-radius: 4px; //컴포넌트 라운딩 처리
-  background-color: var(--primary); // var() - index.css에 정의해둔 변수명
+  gap: ${(props) => (props.type === 'library' ? '0.5rem' : '1rem')};
+  width: ${(props) => props.width || '120px'};
+  height: ${(props) => (props.type === 'login' ? '123px' : '40px')};
+  border-radius: 4px;
+  background-color: ${({ type }) =>
+    type === 'attach' || type === 'library' ? 'var(--gray2-subbtn)' : 'var(--primary)'};
+  cursor: pointer;
+  font-family: "pretendardM";
+  font-size: 1rem; 
+  line-height: 1.5rem; 
+  letter-spacing: -0.02em; 
 `;
-const ButtonContents = styled.h2`
-  //h2 - 피그마 기준으로 Desktop - header2
-  color: white; // 폰트 색상
+
+const ButtonContents = styled.span<ButtonProps>` 
+  color: ${({ type }) => 
+    type === 'attach' || type === 'library' ? 'var(--gray5-lowtext)' : 'var(--white)'};
+  font-family: inherit; 
 `;
 
-const Button = ({ width }: ButtonProps) => {
+const LibraryIcon = styled(SvgIcon)<SvgIconProps>`
+  color: var(--primary);
+  width: 24px;
+  height: 24px;
+`;
+
+const Button: React.FC<ButtonProps> = ({ width, type = 'default', content }) => {
+  const label = content || (() => {
+    switch (type) {
+      case 'attach':
+        return '첨부파일';
+      case 'previous':
+        return '이전';
+      case 'library':
+        return '도서관';
+      case 'login':
+        return '로그인';
+      case 'register':
+        return '등록';
+      default:
+        return '다음';
+    }
+  })();
+
   return (
-    <ButtonContainer width={width}>
-      <ButtonContents>hi</ButtonContents>
+    <ButtonContainer width={width} type={type}>
+      {type === 'library' && <LibraryIcon component={MenuBookRoundedIcon} />}
+      <ButtonContents type={type}>{label}</ButtonContents>
     </ButtonContainer>
   );
 };
