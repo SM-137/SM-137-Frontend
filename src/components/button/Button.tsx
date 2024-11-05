@@ -23,15 +23,16 @@ const ButtonContainer = styled.div<ButtonContainerProps & ButtonProps>`
   background-color: ${({ type }) =>
     type === 'attach' || type === 'library' ? 'var(--gray2-subbtn)' : 'var(--primary)'};
   cursor: pointer;
+  font-family: "pretendardM";
+  font-size: 1rem; 
+  line-height: 1.5rem; 
+  letter-spacing: -0.02em; 
 `;
 
-const ButtonContents = styled.h2<ButtonProps>`
+const ButtonContents = styled.span<ButtonProps>` 
   color: ${({ type }) => 
     type === 'attach' || type === 'library' ? 'var(--gray5-lowtext)' : 'var(--white)'};
-  font-family: "pretendardB";
-  font-size: 1rem;
-  line-height: 1rem;
-  letter-spacing: -0.02em;
+  font-family: inherit; 
 `;
 
 const LibraryIcon = styled(SvgIcon)<SvgIconProps>`
