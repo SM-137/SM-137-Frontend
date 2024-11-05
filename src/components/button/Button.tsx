@@ -6,6 +6,7 @@ import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 interface ButtonProps {
   width?: string;
   type?: 'default' | 'attach' | 'previous' | 'library' | 'login' | 'register'; 
+  content?: string; // New prop for external text content
 }
 
 interface ButtonContainerProps {
@@ -41,27 +42,23 @@ const LibraryIcon = styled(SvgIcon)<SvgIconProps>`
   height: 24px;
 `;
 
-const Button: React.FC<ButtonProps> = ({ width, type = 'default' }) => {
-  let label;
-  switch (type) {
-    case 'attach':
-      label = '첨부파일';
-      break;
-    case 'previous':
-      label = '이전';
-      break;
-    case 'library':
-      label = '도서관';
-      break;
-    case 'login':
-      label = '로그인';
-      break;
-    case 'register':
-      label = '등록';
-      break;
-    default:
-      label = '다음';
-  }
+const Button: React.FC<ButtonProps> = ({ width, type = 'default', content }) => {
+  const label = content || (() => {
+    switch (type) {
+      case 'attach':
+        return '첨부파일';
+      case 'previous':
+        return '이전';
+      case 'library':
+        return '도서관';
+      case 'login':
+        return '로그인';
+      case 'register':
+        return '등록';
+      default:
+        return '다음';
+    }
+  })();
 
   return (
     <ButtonContainer width={width} type={type}>
