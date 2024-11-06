@@ -1,26 +1,8 @@
 import styled from "@emotion/styled";
+import { buttonType } from "./ButtonType";
 
 const DEFAULT_CONTENT = "버튼 내용";
 const DEFAULT_TYPE = "default";
-
-const buttonType = {
-  default: {
-    width: "120px",
-    height: "40px",
-    padding: "0.5rem 3rem ",
-    backGround: "var(--light-primary)",
-    hoverBackGround: "var(--primary)",
-    color: "var(--white)",
-  },
-  login: {
-    width: "100px",
-    height: "123px",
-    padding: "3rem 2rem ",
-    backGround: "var(--light-primary)",
-    hoverBackGround: "var(--primary)",
-    color: "var(--white)",
-  },
-};
 
 interface ContentProps {
   content: string;
