@@ -7,7 +7,7 @@ const ModalWrapper = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* 페이지를 덮는 레이어 */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,11 +16,11 @@ const ModalWrapper = styled.div`
 
 const UpAnimation = keyframes`
   from {
-    transform: translateY(100%); /* 화면 아래에서 시작 */
+    transform: translateY(100%);
     opacity: 0;
   }
   to {
-    transform: translateY(0); /* 원래 위치로 이동 */
+    transform: translateY(0); 
     opacity: 1;
   }
 `;
@@ -32,7 +32,7 @@ const ModalContent = styled.div`
   max-width: 562px;
   max-height: 348px;
   text-align: center;
-  animation: ${UpAnimation} 0.5s ease-out; /* UpAnimation 적용 */
+  animation: ${UpAnimation} 0.5s ease-out;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,7 +57,7 @@ interface ModalProps {
 const Modal = ({ contents, onClose }: ModalProps) => {
   return (
     <ModalWrapper>
-      <Backdrop onClick={onClose} /> {/* 모달 외부를 클릭하면 닫힘 */}
+      <Backdrop onClick={onClose} />
       <ModalContent>{contents}</ModalContent>
     </ModalWrapper>
   );

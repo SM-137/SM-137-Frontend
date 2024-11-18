@@ -6,8 +6,8 @@ import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 interface ButtonProps {
   width?: string;
   type?: "default" | "attach" | "previous" | "library" | "login" | "register";
-  content?: string; // New prop for external text content
-  onClick?: () => void; // onClick 추가
+  content?: string;
+  onClick?: () => void;
 }
 
 interface ButtonContainerProps {
@@ -51,7 +51,7 @@ const Button: React.FC<ButtonProps> = ({
   width,
   type = "default",
   content,
-  onClick, // onClick 추가
+  onClick,
 }) => {
   const label =
     content ||
