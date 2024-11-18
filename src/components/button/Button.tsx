@@ -7,6 +7,7 @@ interface ButtonProps {
   width?: string;
   type?: "default" | "attach" | "previous" | "library" | "login" | "register";
   content?: string; // New prop for external text content
+  onClick?: () => void; // onClick 추가
 }
 
 interface ButtonContainerProps {
@@ -50,6 +51,7 @@ const Button: React.FC<ButtonProps> = ({
   width,
   type = "default",
   content,
+  onClick, // onClick 추가
 }) => {
   const label =
     content ||
@@ -71,7 +73,7 @@ const Button: React.FC<ButtonProps> = ({
     })();
 
   return (
-    <ButtonContainer width={width} type={type}>
+    <ButtonContainer width={width} type={type} onClick={onClick}>
       {type === "library" && <LibraryIcon component={MenuBookRoundedIcon} />}
       <ButtonContents type={type}>{label}</ButtonContents>
     </ButtonContainer>
