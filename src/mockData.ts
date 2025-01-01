@@ -8,7 +8,7 @@ export const mockData: DataType[] = [
     content:
       "안녕하세요, 저는 저녁 시간대에 수업을 듣고 있는 학생입니다. 최근 들어 강의실 내부가 너무 덥거나 추운 경우가 많아 학습 환경이 다소 불편한데, 저녁 수업시간에도 냉난방을 틀어주실 수 있을까요?",
     likes: 12,
-    bookmarks: 3,
+    bookmarks: 0,
     date: "2024-09-20",
   },
   {
@@ -18,7 +18,7 @@ export const mockData: DataType[] = [
     content:
       "도서관 열람실에서 시끄러운 소음이 계속 발생하고 있어 집중이 잘 되지 않습니다. 조용한 환경을 유지할 수 있도록 조치를 부탁드립니다.",
     likes: 12,
-    bookmarks: 3,
+    bookmarks: 1,
     date: "2024-09-20",
   },
   {
@@ -28,7 +28,7 @@ export const mockData: DataType[] = [
     content:
       "이번 수업에 사용된 자료를 공유해주실 수 있을까요? 수업 중에 놓친 부분이 있어서 자료가 필요합니다.",
     likes: 12,
-    bookmarks: 3,
+    bookmarks: 10,
     date: "2024-09-20",
   },
   {
@@ -38,7 +38,7 @@ export const mockData: DataType[] = [
     content:
       "엘리베이터가 자주 멈추고 고장 나는 것 같습니다. 점검을 요청드립니다.",
     likes: 12,
-    bookmarks: 3,
+    bookmarks: 5,
     date: "2024-09-20",
   },
   {
@@ -47,7 +47,7 @@ export const mockData: DataType[] = [
     status: "rejected",
     content: "Wi-Fi 연결이 자주 끊깁니다. 연결 상태를 개선해주시길 바랍니다.",
     likes: 12,
-    bookmarks: 3,
+    bookmarks: 1,
     date: "2024-09-20",
   },
   {
@@ -57,7 +57,7 @@ export const mockData: DataType[] = [
     content:
       "캠퍼스 내 주차 공간이 부족하여 주차가 어려운 경우가 많습니다. 주차 공간을 추가로 마련해주시기 바랍니다.",
     likes: 12,
-    bookmarks: 3,
+    bookmarks: 5,
     date: "2024-09-20",
   },
   {
@@ -67,7 +67,7 @@ export const mockData: DataType[] = [
     content:
       "다음 주 수업 시간이 갑자기 변경되어 불편합니다. 가능한 한 예고 없이 일정 변경을 자제해주시기 바랍니다.",
     likes: 12,
-    bookmarks: 3,
+    bookmarks: 4,
     date: "2024-09-20",
   },
   {
