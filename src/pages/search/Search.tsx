@@ -55,8 +55,8 @@ const ContentContainer = styled.div`
 
 const Search = () => {
   //검색어 갖고오기
-  const KEYWORD_OFFSET = 1;
-  const SEARCH_KEYWORD = useLocation().search.split("=")[KEYWORD_OFFSET];
+  const params = new URLSearchParams(location.search);
+  const SEARCH_KEYWORD = decodeURIComponent(params.get("keyword") || "");
 
   return (
     <SearchArea>
