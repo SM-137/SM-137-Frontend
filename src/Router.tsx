@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "my-scrap",
+        path: "mypage/my-scrap",
         element: <Scrap />,
       },
     ],
