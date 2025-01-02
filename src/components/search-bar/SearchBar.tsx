@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import SearchInput from "./SearchInput";
 import SearchButton from "./SearchButton";
+import { useState } from "react";
 
 const BarContainer = styled.div`
   display: flex;
@@ -13,10 +14,14 @@ const BarContainer = styled.div`
 `;
 
 const SearchBar = () => {
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(e.target.value);
+  };
   return (
     <BarContainer>
-      <SearchInput />
-      <SearchButton />
+      <SearchInput handleKeyword={handleKeyword} />
+      <SearchButton searchKeyword={searchKeyword} />
     </BarContainer>
   );
 };

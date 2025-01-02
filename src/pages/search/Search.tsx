@@ -6,6 +6,8 @@ import ContentList from "../../components/content/ContentList";
 import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
 import SortBar from "../../components/sort-bar/SortBar";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const SearchArea = styled.div`
   position: absolute;
@@ -52,8 +54,10 @@ const ContentContainer = styled.div`
 `;
 
 const Search = () => {
-  //검색어 임시
-  const SEARCH_KEYWORD = "도서관 냉난방";
+  //검색어 갖고오기
+  const KEYWORD_OFFSET = 1;
+  const SEARCH_KEYWORD = useLocation().search.split("=")[KEYWORD_OFFSET];
+
   return (
     <SearchArea>
       <Background>
