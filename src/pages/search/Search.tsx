@@ -6,8 +6,6 @@ import ContentList from "../../components/content/ContentList";
 import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
 import SortBar from "../../components/sort-bar/SortBar";
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
 const SearchArea = styled.div`
   position: absolute;
