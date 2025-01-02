@@ -8,6 +8,7 @@ import HeaderSideNav from "./header-components/HeaderSideNav";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { HOME_URL } from "../../utils/URL";
+import Loading from "../loading/Loading";
 
 interface BackgroundProps {
   $isDark: boolean;
@@ -40,15 +41,17 @@ const NavigatorSet = styled.div`
 `;
 
 const Header = () => {
-  const { isDark, handleDark } = useHeaderContext();
+  const { isDark, handleDark, handleLight } = useHeaderContext();
   const path = useLocation().pathname;
   const navigate = useNavigate();
 
   useEffect(() => {
     if (path === "/") {
       handleDark();
+      return;
     }
-  }, []);
+    handleLight();
+  }, [path]);
 
   return (
     <Background $isDark={isDark}>
