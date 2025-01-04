@@ -7,5 +7,13 @@ export interface DataType {
   content: string;
   likes: number;
   bookmarks: number;
-  date: string; 
+  date: string;
+}
+
+export interface MyPageProps {
+  state: string;
+  name: string;
+  sid: number;
+  major: string;
+  email: string;
 }

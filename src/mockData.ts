@@ -1,4 +1,12 @@
-import { DataType } from "./types/Type";
+import { DataType, MyPageProps } from "./types/Type";
+
+export const myPageInfo: MyPageProps = {
+  name: "홍길동",
+  state: "재학생",
+  sid: 2012345,
+  major: "컴퓨터과학전공",
+  email: "test1234@gmail.com",
+};
 
 export const mockData: DataType[] = [
   {
@@ -10,7 +18,7 @@ export const mockData: DataType[] = [
     likes: 12,
     bookmarks: 3,
     date: "2024-09-20",
-    },
+  },
   {
     title: "도서관 열람실 조용히 해주세요",
     category: ["시설", "도서관", "조용한 환경"],
@@ -20,7 +28,7 @@ export const mockData: DataType[] = [
     likes: 12,
     bookmarks: 3,
     date: "2024-09-20",
-    },
+  },
   {
     title: "수업자료 공유 요청",
     category: ["수업", "자료", "공유"],
@@ -30,7 +38,7 @@ export const mockData: DataType[] = [
     likes: 12,
     bookmarks: 3,
     date: "2024-09-20",
-    },
+  },
   {
     title: "엘리베이터 점검 요청",
     category: ["시설", "설비", "엘리베이터"],
@@ -40,7 +48,7 @@ export const mockData: DataType[] = [
     likes: 12,
     bookmarks: 3,
     date: "2024-09-20",
-    },
+  },
   {
     title: "Wi-Fi 연결 문제",
     category: ["기술", "네트워크", "Wi-Fi"],
@@ -49,7 +57,7 @@ export const mockData: DataType[] = [
     likes: 12,
     bookmarks: 3,
     date: "2024-09-20",
-    },
+  },
   {
     title: "주차 공간 추가 요청",
     category: ["시설", "주차", "공간 추가"],
@@ -59,7 +67,7 @@ export const mockData: DataType[] = [
     likes: 12,
     bookmarks: 3,
     date: "2024-09-20",
-    },
+  },
   {
     title: "수업 일정 변경 요청",
     category: ["수업", "일정", "변경"],
@@ -69,7 +77,7 @@ export const mockData: DataType[] = [
     likes: 12,
     bookmarks: 3,
     date: "2024-09-20",
-    },
+  },
   {
     title: "카페에서 음료 제공 시간 연장",
     category: ["시설", "식음료", "시간 연장"],
@@ -79,7 +87,7 @@ export const mockData: DataType[] = [
     likes: 12,
     bookmarks: 3,
     date: "2024-09-20",
-    },
+  },
   {
     title: "교내 행사 관련 공지 요청",
     category: ["행사", "공지", "알림"],
@@ -89,7 +97,7 @@ export const mockData: DataType[] = [
     likes: 12,
     bookmarks: 3,
     date: "2024-09-20",
-    },
+  },
   {
     title: "학생 회관 내부 청소 요청",
     category: ["시설", "청소", "학생 회관"],
@@ -98,5 +106,5 @@ export const mockData: DataType[] = [
     likes: 12,
     bookmarks: 3,
     date: "2024-09-20",
-    },
+  },
 ];
