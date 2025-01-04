@@ -18,7 +18,24 @@ const ModifyIcon = styled(SvgIcon)<SvgIconProps>`
   width: 2rem;
   height: 2rem;
   color: var(--disabled-primary);
-  margin-top: 7rem;
+`;
+
+const ModifyTitle = styled.h2`
+  margin: 1rem 0;
+`;
+
+const PillMark = styled.div`
+  background-color: var(--light-primary);
+  border-radius: 3rem;
+  width: 3rem;
+  height: 1.375rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--white);
 `;
 
 const Background = styled.div`
@@ -41,10 +58,21 @@ const ContentContainer = styled.div`
   padding: 2.5rem;
 `;
 
+const FormWrapper = styled.div`
+  width: 16rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+`;
+
 const Email = styled.p`
   background-color: var(--gray1-background);
-  border-radius: 500px;
-  padding: 0.5rem 1.5rem;
+  border-radius: 3.125rem;
+  width: 13.068rem;
+  height: 1.844rem;
+  padding: 0.5rem 1rem;
   color: var(--gray4-placeholder-low);
   display: flex;
   align-items: center;
@@ -56,19 +84,33 @@ const EmailIcon = styled.img`
   height: 20px;
 `;
 
+const WithdrawText = styled.p`
+  color: var(--error);
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transform: translate(9rem, -1.5rem);
+
+  &:hover {
+  }
+`;
+
 const Modify = () => {
   return (
     <Container>
       <ModifyIcon component={MoodRoundedIcon} />
-      <h2>개인정보 수정</h2>
+      <ModifyTitle>개인정보 수정</ModifyTitle>
       <Background>
         <ContentContainer>
-          <UserInfoForm />
+          <PillMark>재학생</PillMark>
+          <FormWrapper>
+            <UserInfoForm />
+          </FormWrapper>
           <Email>
             <EmailIcon src={Gmail} alt="gmail icon" />
             {myPageInfo.email}
           </Email>
         </ContentContainer>
+        <WithdrawText>회원 탈퇴</WithdrawText>
         <Button type="_120x40_Primary" content="다음" />
       </Background>
     </Container>
