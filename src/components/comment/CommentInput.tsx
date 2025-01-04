@@ -4,13 +4,14 @@ import { Icon } from "../../styles/CommentTitleStyle";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 
 const Container = styled.div`
-  width: 782px;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 1rem;
   padding-top: 1.5rem;
   z-index: 10;
-  margin-bottom: 2rem;
+  border-radius: 4px;
+  padding: 1rem;
 `;
 const InputContainer = styled.div`
   display: flex;

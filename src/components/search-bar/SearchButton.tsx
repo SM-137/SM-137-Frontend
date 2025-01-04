@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { SvgIcon, SvgIconProps } from "@mui/material";
+import { SEARCH_URL } from "../../utils/URL";
+import { useNavigate } from "react-router-dom";
 
 const SearchIcon = styled(SvgIcon)<SvgIconProps>`
   width: 24px;
@@ -18,8 +20,10 @@ const Button = styled.button`
 `;
 
 const SearchButton = () => {
+  const navigate = useNavigate();
+
   return (
-    <Button>
+    <Button onClick={() => navigate(SEARCH_URL)}>
       <SearchIcon component={SearchRoundedIcon} />
     </Button>
   );

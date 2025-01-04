@@ -1,34 +1,32 @@
 import styled from "@emotion/styled";
 
-interface InfoInputProps {
+interface InfoTextAreaProps {
   height?: string;
 }
 
-interface InputProps extends InfoInputProps {
+interface TextAreaProps extends InfoTextAreaProps {
   label: string;
   placeholder: string;
-  type?: string;
   isRequired?: boolean;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const Container = styled.div`
+const TextAreaContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: start;
   gap: 1.5rem;
-  width: 100%;
 `;
 
 const LabelContainer = styled.div`
+  width: 15%;
   display: flex;
   align-items: center;
   justify-content: right;
   gap: 0.4rem;
-  width: 15%;
 `;
 
-const InfoLabel = styled.label`
+const FieldLabel = styled.label`
   color: var(--gray4-placeholder-low);
   text-align: right;
 `;
@@ -39,13 +37,14 @@ const RequiredMark = styled.span`
   margin-right: 4px;
 `;
 
-const InfoInput = styled.input<InfoInputProps>`
+const StyledTextArea = styled.textarea<InfoTextAreaProps>`
   width: 85%;
-  height: ${(props) => props.height || "35px"};
+  height: ${(props) => props.height || "119px"};
   padding: 5px 16px;
   border: 1px solid var(--gray3-border);
   border-radius: 4px;
   font-size: 14px;
+  resize: none;
 
   &::placeholder {
     color: var(--gray4-placeholder-low);
@@ -56,28 +55,26 @@ const InfoInput = styled.input<InfoInputProps>`
   }
 `;
 
-const Input = ({
+const TextArea = ({
   label = "labelText",
   placeholder = "placeholder",
-  type = "text",
-  height = "35px",
+  height = "119px",
   isRequired = false,
   onChange,
-}: InputProps) => {
+}: TextAreaProps) => {
   return (
-    <Container>
+    <TextAreaContainer>
       <LabelContainer>
         {isRequired && <RequiredMark>*</RequiredMark>}
-        <InfoLabel>{label}</InfoLabel>
+        <FieldLabel>{label}</FieldLabel>
       </LabelContainer>
-      <InfoInput
-        type={type}
+      <StyledTextArea
         placeholder={placeholder}
         height={height}
         onChange={onChange}
       />
-    </Container>
+    </TextAreaContainer>
   );
 };
 
-export default Input;
+export default TextArea;
