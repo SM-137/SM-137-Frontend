@@ -1,4 +1,9 @@
-import { CommentType, DataType } from "./types/Type";
+import {
+  AlarmDataProps,
+  CommentType,
+  DataType,
+  MyPageProps,
+} from "./types/Type";
 
 export const mockData: DataType[] = [
   {
@@ -162,5 +167,44 @@ export const commentMockData: CommentType[] = [
       "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
     time: "1시간 전",
     likes: 10,
+  },
+];
+
+export const myPageInfo: MyPageProps = {
+  name: "홍길동",
+  state: "재학생",
+  sid: 2012345,
+  major: "컴퓨터과학전공",
+  email: "test1234@gmail.com",
+};
+
+export const alarmData: AlarmDataProps[] = [
+  {
+    type: "info",
+    title: "'저녁 수업 냉난방 가동 요청' 민원에 답변이 달렸습니다.",
+    content: "",
+  },
+  {
+    type: "message",
+    title: "저녁 수업 냉난방 가동 요청 민원에 댓글이 달렸습니다. ",
+    content:
+      "동의합니다... 재직자들은 저녁에 수업이 있는데 너무 더워서 집중이 안돼요 ...",
+  },
+  {
+    type: "message",
+    title: "저녁 수업 냉난방 가동 요청 민원에 댓글이 달렸습니다. ",
+    content:
+      "동의합니다... 재직자들은 저녁에 수업이 있는데 너무 더워서 집중이 안돼요 ...",
+  },
+  {
+    type: "message",
+    title: "저녁 수업 냉난방 가동 요청 민원에 댓글이 달렸습니다. ",
+    content:
+      "동의합니다... 재직자들은 저녁에 수업이 있는데 너무 더워서 집중이 안돼요 ...",
+  },
+  {
+    type: "info",
+    title: "'저녁 수업 냉난방 가동 요청' 민원에 답변이 달렸습니다.",
+    content: "",
   },
 ];

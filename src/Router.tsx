@@ -3,6 +3,7 @@ import Layout from "./pages/Layout";
 import Home from "./pages/home/Home";
 import Detail from "./pages/detail/Detail";
 import View from "./pages/view/View";
+import MyPage from "./pages/my-page/MyPage";
 import Search from "./pages/search/Search";
 
 export const router = createBrowserRouter([
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: "complaint-view",
         element: <View />,
+      },
+      {
+        path: "mypage",
+        element: <MyPage />,
       },
     ],
   },

@@ -4,7 +4,6 @@ import HashtagCloud from "../../components/hashtag-cloud/HashtagCloud";
 import SearchBar from "../../components/search-bar/SearchBar";
 import QuickLink from "../../components/quick-link/QuickLink";
 import HomeContentList from "./HomeContentList";
-import ComplaintsForm from "../../components/form/ComplaintsForm";
 
 const HomeContainer = styled.div`
   height: 100%;
@@ -79,7 +78,6 @@ const Home = () => {
         <QuickLink />
       </QuickLinkContainer>
 
-      <ComplaintsForm />
       <HomeContentList />
     </HomeContainer>
   );

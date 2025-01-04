@@ -12,6 +12,7 @@ interface CommentProps {
   data: CommentType;
   index: number;
 }
+
 const Container = styled.div`
   width: 100%;
   background-color: var(--white);
