@@ -59,7 +59,7 @@ const ContentContainer = styled.div`
 `;
 
 const FormWrapper = styled.div`
-  width: 16rem;
+  width: 20rem;
   display: flex;
   flex-direction: column;
   align-items: center;
