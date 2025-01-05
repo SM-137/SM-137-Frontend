@@ -7,14 +7,15 @@ import {
 
 export const mockData: DataType[] = [
   {
+    id: 1,
     title: "저녁 수업 냉난방 가동 요청",
     category: ["시설", "설비", "냉난방"],
     status: "inProgress",
     content:
       "안녕하세요, 저는 저녁 시간대에 수업을 듣고 있는 학생입니다. 최근 들어 강의실 내부가 너무 덥거나 추운 경우가 많아 학습 환경이 다소 불편한데, 저녁 수업시간에도 냉난방을 틀어주실 수 있을까요?",
-    likes: 12,
+    likes: 10,
     bookmarks: 0,
-    date: "2024-09-20",
+    date: "2024-09-17T08:15:00.000Z",
     answer: `안녕하세요, 숙명여자대학교 시설관리팀입니다.
     제기해주신 강의실 냉난방
     시스템 관련 건의사항을 검토하였고, 저녁 수업 시간대의 온도 불편을
@@ -27,14 +28,15 @@ export const mockData: DataType[] = [
     다하겠습니다. 감사합니다.`,
   },
   {
+    id: 2,
     title: "도서관 열람실 조용히 해주세요",
     category: ["시설", "도서관", "조용한 환경"],
     status: "rejected",
     content:
       "도서관 열람실에서 시끄러운 소음이 계속 발생하고 있어 집중이 잘 되지 않습니다. 조용한 환경을 유지할 수 있도록 조치를 부탁드립니다.",
-    likes: 12,
+    likes: 8,
     bookmarks: 1,
-    date: "2024-09-20",
+    date: "2024-09-19T09:00:00.000Z",
     answer: `안녕하세요, 숙명여자대학교 시설관리팀입니다. 제기해주신 강의실 냉난방
     시스템 관련 건의사항을 검토하였고, 저녁 수업 시간대의 온도 불편을
     해결하기 위해 냉난방 시스템 운영 시간을 조정하였으며, 특히 9시 수업
@@ -46,6 +48,7 @@ export const mockData: DataType[] = [
     다하겠습니다. 감사합니다.`,
   },
   {
+    id: 3,
     title: "수업자료 공유 요청",
     category: ["수업", "자료", "공유"],
     status: "inProgress",
@@ -53,7 +56,7 @@ export const mockData: DataType[] = [
       "이번 수업에 사용된 자료를 공유해주실 수 있을까요? 수업 중에 놓친 부분이 있어서 자료가 필요합니다.",
     likes: 12,
     bookmarks: 10,
-    date: "2024-09-20",
+    date: "2024-09-18T17:45:00.000Z",
     answer: `안녕하세요, 숙명여자대학교 시설관리팀입니다. 제기해주신 강의실 냉난방
     시스템 관련 건의사항을 검토하였고, 저녁 수업 시간대의 온도 불편을
     해결하기 위해 냉난방 시스템 운영 시간을 조정하였으며, 특히 9시 수업
@@ -65,78 +68,85 @@ export const mockData: DataType[] = [
     다하겠습니다. 감사합니다.`,
   },
   {
+    id: 4,
     title: "엘리베이터 점검 요청",
     category: ["시설", "설비", "엘리베이터"],
     status: "pending",
     content:
       "엘리베이터가 자주 멈추고 고장 나는 것 같습니다. 점검을 요청드립니다.",
-    likes: 12,
+    likes: 0,
     bookmarks: 5,
-    date: "2024-09-20",
+    date: "2024-09-20T14:30:00.000Z",
     answer: "",
   },
   {
+    id: 5,
     title: "Wi-Fi 연결 문제",
     category: ["기술", "네트워크", "Wi-Fi"],
     status: "rejected",
     content: "Wi-Fi 연결이 자주 끊깁니다. 연결 상태를 개선해주시길 바랍니다.",
-    likes: 12,
+    likes: 1,
     bookmarks: 1,
-    date: "2024-09-20",
+    date: "2024-09-16T13:00:00.000Z",
     answer: "",
   },
   {
+    id: 6,
     title: "주차 공간 추가 요청",
     category: ["시설", "주차", "공간 추가"],
     status: "pending",
     content:
       "캠퍼스 내 주차 공간이 부족하여 주차가 어려운 경우가 많습니다. 주차 공간을 추가로 마련해주시기 바랍니다.",
-    likes: 12,
+    likes: 1,
     bookmarks: 5,
-    date: "2024-09-20",
+    date: "2024-09-15T12:30:00.000Z",
     answer: "",
   },
   {
+    id: 7,
     title: "수업 일정 변경 요청",
     category: ["수업", "일정", "변경"],
     status: "completed",
     content:
       "다음 주 수업 시간이 갑자기 변경되어 불편합니다. 가능한 한 예고 없이 일정 변경을 자제해주시기 바랍니다.",
-    likes: 12,
+    likes: 24,
     bookmarks: 4,
-    date: "2024-09-20",
+    date: "2024-09-14T10:00:00.000Z",
     answer: "",
   },
   {
+    id: 8,
     title: "카페에서 음료 제공 시간 연장",
     category: ["시설", "식음료", "시간 연장"],
     status: "inProgress",
     content:
       "카페의 음료 제공 시간이 너무 일찍 종료됩니다. 더 늦게까지 음료를 제공해주시면 좋겠습니다.",
-    likes: 12,
+    likes: 15,
     bookmarks: 3,
-    date: "2024-09-20",
+    date: "2024-09-13T11:15:00.000Z",
     answer: "",
   },
   {
+    id: 9,
     title: "교내 행사 관련 공지 요청",
     category: ["행사", "공지", "알림"],
     status: "completed",
     content:
       "다음 주 예정된 교내 행사에 대한 자세한 공지가 필요합니다. 참여자들에게 사전 안내를 부탁드립니다.",
-    likes: 12,
+    likes: 6,
     bookmarks: 3,
-    date: "2024-09-20",
+    date: "2024-09-12T16:45:00.000Z",
     answer: "",
   },
   {
+    id: 10,
     title: "학생 회관 내부 청소 요청",
     category: ["시설", "청소", "학생 회관"],
     status: "pending",
     content: "학생 회관 내부가 많이 지저분합니다. 청소를 해주실 수 있나요?",
-    likes: 12,
+    likes: 2,
     bookmarks: 3,
-    date: "2024-09-20",
+    date: "2024-09-11T14:00:00.000Z",
     answer: `안녕하세요, 숙명여자대학교 시설관리팀입니다. 제기해주신 강의실 냉난방
         시스템 관련 건의사항을 검토하였고, 저녁 수업 시간대의 온도 불편을
         해결하기 위해 냉난방 시스템 운영 시간을 조정하였으며, 특히 9시 수업

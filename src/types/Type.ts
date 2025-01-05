@@ -1,6 +1,7 @@
 export type StatusType = "inProgress" | "pending" | "rejected" | "completed";
 
 export interface DataType {
+  id: number;
   title: string;
   status: StatusType;
   category: string[];
