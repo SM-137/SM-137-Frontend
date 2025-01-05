@@ -6,6 +6,14 @@ import ContentList from "../../components/content/ContentList";
 import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
 import SortBar from "../../components/sort-bar/SortBar";
+import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { DataType } from "../../types/Type";
+// import { useSort } from "../../hooks/useSort";
+
+interface SearchDataProps {
+  searchData: DataType[];
+  setSearchData: Dispatch<SetStateAction<DataType[]>>;
+}
 
 const SearchArea = styled.div`
   position: absolute;
@@ -51,34 +59,45 @@ const ContentContainer = styled.div`
   flex-direction: column;
 `;
 
+export const SearchContext = createContext<SearchDataProps>({
+  searchData: mockData,
+  setSearchData: () => {},
+});
+
 const Search = () => {
   //검색어 임시
   const SEARCH_KEYWORD = "도서관 냉난방";
-  return (
-    <SearchArea>
-      <Background>
-        <SearchTitleContainer>
-          <SearchIcon component={SearchRoundedIcon} />
-          <AnimationContainer
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.5 }}
-          >
-            <SearchKeyword>"{SEARCH_KEYWORD}"</SearchKeyword>
-          </AnimationContainer>
-          <Title>민원 검색 결과</Title>
-        </SearchTitleContainer>
-        <SearchBar />
-      </Background>
+  const [searchData, setSearchData] = useState(mockData);
+  //초기 정렬 : 최신순 (백엔드 상의 필요), useEffect구문 내부에 넣을 것
+  // const { latestSort } = useSort(setSearchData);
 
-      <ContentContainer>
-        <SortBar />
-        {mockData.map((i, index) => (
-          <ContentList data={i} key={index} />
-        ))}
-      </ContentContainer>
-    </SearchArea>
+  return (
+    <SearchContext.Provider value={{ searchData, setSearchData }}>
+      <SearchArea>
+        <Background>
+          <SearchTitleContainer>
+            <SearchIcon component={SearchRoundedIcon} />
+            <AnimationContainer
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.5 }}
+            >
+              <SearchKeyword>"{SEARCH_KEYWORD}"</SearchKeyword>
+            </AnimationContainer>
+            <Title>민원 검색 결과</Title>
+          </SearchTitleContainer>
+          <SearchBar />
+        </Background>
+
+        <ContentContainer>
+          <SortBar />
+          {searchData.map((i, index) => (
+            <ContentList data={i} key={index} />
+          ))}
+        </ContentContainer>
+      </SearchArea>
+    </SearchContext.Provider>
   );
 };
 
