@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SortType } from "../types/Type";
 
 export const useSort = (
   setData: React.Dispatch<React.SetStateAction<any[]>>
@@ -9,7 +10,7 @@ export const useSort = (
     likes: false,
   });
 
-  const handleClick = (type: "latest" | "scrap" | "likes") => {
+  const handleSort = (type: SortType) => {
     setIsClick(() => ({
       latest: false,
       scrap: false,
@@ -18,12 +19,15 @@ export const useSort = (
     }));
     if (type === "scrap") {
       scrapSort();
+      return;
     }
     if (type === "likes") {
       likeSort();
+      return;
     }
     if (type === "latest") {
       latestSort();
+      return;
     }
   };
   const scrapSort = () => {
@@ -45,5 +49,6 @@ export const useSort = (
       });
     });
   };
-  return { handleClick, isClick, latestSort };
+
+  return { handleSort, isClick, latestSort };
 };
