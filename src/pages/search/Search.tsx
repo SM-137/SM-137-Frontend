@@ -7,12 +7,15 @@ import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
 import SortBar from "../../components/sort-bar/SortBar";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
-import { DataType } from "../../types/Type";
-// import { useSort } from "../../hooks/useSort";
+import { DataType, SortType } from "../../types/Type";
 
 interface SearchDataProps {
   searchData: DataType[];
   setSearchData: Dispatch<SetStateAction<DataType[]>>;
+  filteredData: DataType[];
+  setFilteredData: Dispatch<SetStateAction<DataType[]>>;
+  sortOption: SortType;
+  setSortOption: Dispatch<SetStateAction<SortType>>;
 }
 
 const SearchArea = styled.div`
@@ -57,22 +60,50 @@ const AnimationContainer = styled(motion.div)``;
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+
+const Warning = styled.h3`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: var(--light-primary);
+  margin-top: 100px;
 `;
 
 export const SearchContext = createContext<SearchDataProps>({
   searchData: mockData,
   setSearchData: () => {},
+  filteredData: mockData,
+  setFilteredData: () => {},
+  sortOption: "latest",
+  setSortOption: () => {},
 });
 
 const Search = () => {
   //검색어 임시
   const SEARCH_KEYWORD = "도서관 냉난방";
   const [searchData, setSearchData] = useState(mockData);
+  const [filteredData, setFilteredData] = useState(mockData);
+  const [sortOption, setSortOption] = useState<SortType>("latest");
+
+  const isComplaintExist = !(filteredData.length == 0);
+
   //초기 정렬 : 최신순 (백엔드 상의 필요), useEffect구문 내부에 넣을 것
   // const { latestSort } = useSort(setSearchData);
 
   return (
-    <SearchContext.Provider value={{ searchData, setSearchData }}>
+    <SearchContext.Provider
+      value={{
+        searchData,
+        setSearchData,
+        filteredData,
+        setFilteredData,
+        sortOption,
+        setSortOption,
+      }}
+    >
       <SearchArea>
         <Background>
           <SearchTitleContainer>
@@ -92,9 +123,11 @@ const Search = () => {
 
         <ContentContainer>
           <SortBar />
-          {searchData.map((i, index) => (
-            <ContentList data={i} key={index} />
-          ))}
+          {isComplaintExist ? (
+            filteredData.map((i, index) => <ContentList data={i} key={index} />)
+          ) : (
+            <Warning>조건에 맞는 게시물이 없습니다</Warning>
+          )}
         </ContentContainer>
       </SearchArea>
     </SearchContext.Provider>

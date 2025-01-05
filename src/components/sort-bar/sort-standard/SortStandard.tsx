@@ -3,11 +3,12 @@ import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import ThumbUpOffAltRoundedIcon from "@mui/icons-material/ThumbUpOffAltRounded";
 import { SvgIcon, SvgIconProps } from "@mui/material";
+import { SortType } from "../../../types/Type";
 
 interface SortStandardProps {
-  type: "latest" | "scrap" | "likes";
+  type: SortType;
   isClick: boolean;
-  handleClick: (type: "latest" | "scrap" | "likes") => void;
+  handleClick: (type: SortType) => void;
 }
 interface ContainerProps {
   isClick: boolean;
@@ -47,7 +48,6 @@ const SortStandard = ({ type, isClick, handleClick }: SortStandardProps) => {
       icon: ThumbUpOffAltRoundedIcon,
     },
   };
-  console.log(type, isClick);
   return (
     <Container isClick={isClick} onClick={() => handleClick(type)}>
       <Icon component={match[type].icon}></Icon>

@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import { SearchContext } from "../../pages/search/Search";
+import { useFilter } from "../../hooks/useFilter";
+import { useSort } from "../../hooks/useSort";
 
-interface DropDownProps {
-  options: string[];
-}
 interface OptionProps {
   isOpen: boolean;
 }
@@ -58,9 +58,14 @@ const DropDownIcon = styled(SvgIcon)<SvgIconProps>`
   right: 0;
 `;
 
-const DropDown = ({ options }: DropDownProps) => {
+const DropDown = () => {
+  const OPTIONS = ["전체", "1개월", "3개월", "6개월"];
   const [isOpen, setIsOpen] = useState(false);
-  const [data, setData] = useState(options[0]);
+  const [data, setData] = useState(OPTIONS[0]);
+
+  const { searchData, setFilteredData, sortOption } = useContext(SearchContext);
+  const { handleSort } = useSort(setFilteredData);
+  const { handlePeriod } = useFilter(setFilteredData);
 
   const handleOpenClose = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -71,6 +76,8 @@ const DropDown = ({ options }: DropDownProps) => {
     e.stopPropagation();
     setData(option);
     setIsOpen(false);
+    handlePeriod(searchData, option);
+    handleSort(sortOption);
   };
 
   const dropDownRef = useRef<HTMLUListElement>(null);
@@ -92,7 +99,7 @@ const DropDown = ({ options }: DropDownProps) => {
       {data}
       <OptionContainer isOpen={isOpen}>
         {isOpen &&
-          options.map((i, index) => (
+          OPTIONS.map((i, index) => (
             <Options key={index} onClick={(e) => handleClick(i, e)}>
               {i}
             </Options>

@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
 import DropDown from "../drop-down/DropDown";
 import SortStandard from "./sort-standard/SortStandard";
+import { useSort } from "../../hooks/useSort";
 import { useContext } from "react";
 import { SearchContext } from "../../pages/search/Search";
-import { useSort } from "../../hooks/useSort";
+import { SortType } from "../../types/Type";
 
 const Container = styled.div`
   max-width: 1114px;
@@ -23,34 +24,34 @@ const Divide = styled.pre`
 `;
 
 const SortBar = () => {
-  const OPTION = ["1개월", "3개월", "6개월"];
-  // sort할 데이터를 변경하는 set함수
-  const { setSearchData } = useContext(SearchContext);
-
-  const { isClick, handleStandard } = useSort(setSearchData);
-
+  const { setFilteredData, setSortOption } = useContext(SearchContext);
+  const { handleSort, isClick } = useSort(setFilteredData);
+  const handleClick = (type: SortType) => {
+    handleSort(type);
+    setSortOption(type);
+  };
   return (
     <Container>
       <SortOptionContainer>
         <SortStandard
           type="latest"
           isClick={isClick.latest}
-          handleClick={handleStandard}
+          handleClick={handleClick}
         />
         <Divide>|</Divide>
         <SortStandard
           type="scrap"
           isClick={isClick.scrap}
-          handleClick={handleStandard}
+          handleClick={handleClick}
         />
         <Divide>|</Divide>
         <SortStandard
           type="likes"
           isClick={isClick.likes}
-          handleClick={handleStandard}
+          handleClick={handleClick}
         />
       </SortOptionContainer>
-      <DropDown options={OPTION} />
+      <DropDown />
     </Container>
   );
 };
