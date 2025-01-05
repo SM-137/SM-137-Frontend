@@ -1,6 +1,5 @@
-import { DataType, SortType } from "../types/Type";
+import { DataType } from "../types/Type";
 import { matchingMonth } from "../utils/MatchingOption";
-import { useSort } from "./useSort";
 
 export const useFilter = (
   setData: React.Dispatch<React.SetStateAction<any[]>>
