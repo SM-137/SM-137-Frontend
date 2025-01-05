@@ -92,12 +92,9 @@ const getFill = (type: string) => {
 
 const Interaction = ({ type, count }: InteractionProps) => {
   const [isClick, setIsClick] = useState(false);
-  //초기값 : 백엔드에서 가져온 likes, bookmarks 값
-  const [value, setValue] = useState(count);
 
   const handleClick = () => {
     setIsClick((prev) => !prev);
-    setValue((prev: number) => (isClick ? prev - 1 : prev + 1));
   };
 
   return (
@@ -117,7 +114,7 @@ const Interaction = ({ type, count }: InteractionProps) => {
       ) : (
         <UnClickIcon component={getIcon(type)} onClick={handleClick} />
       )}
-      <Value>{value}</Value> {/* count 대신 상태 값 표시 */}
+      <Value>{count}</Value>
     </Container>
   );
 };
