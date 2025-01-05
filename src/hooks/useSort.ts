@@ -1,0 +1,49 @@
+import { useState } from "react";
+
+export const useSort = (
+  setData: React.Dispatch<React.SetStateAction<any[]>>
+) => {
+  const [isClick, setIsClick] = useState({
+    latest: true,
+    scrap: false,
+    likes: false,
+  });
+
+  const handleClick = (type: "latest" | "scrap" | "likes") => {
+    setIsClick(() => ({
+      latest: false,
+      scrap: false,
+      likes: false,
+      [type]: true,
+    }));
+    if (type === "scrap") {
+      scrapSort();
+    }
+    if (type === "likes") {
+      likeSort();
+    }
+    if (type === "latest") {
+      latestSort();
+    }
+  };
+  const scrapSort = () => {
+    setData((prev) => {
+      return [...prev].sort((a, b) => b.bookmarks - a.bookmarks);
+    });
+  };
+  const likeSort = () => {
+    setData((prev) => {
+      return [...prev].sort((a, b) => b.likes - a.likes);
+    });
+  };
+  const latestSort = () => {
+    setData((prev) => {
+      return [...prev].sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB - dateA;
+      });
+    });
+  };
+  return { handleClick, isClick, latestSort };
+};

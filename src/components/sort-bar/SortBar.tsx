@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 import DropDown from "../drop-down/DropDown";
 import SortStandard from "./sort-standard/SortStandard";
-import { useContext, useState } from "react";
-import { SearchContext } from "../../pages/complaint-search/ComplaintSearch";
+import { useContext } from "react";
+import { SearchContext } from "../../pages/search/Search";
+import { useSort } from "../../hooks/useSort";
 
 const Container = styled.div`
   max-width: 1114px;
@@ -23,29 +24,10 @@ const Divide = styled.pre`
 
 const SortBar = () => {
   const OPTION = ["1개월", "3개월", "6개월"];
-  const [isClick, setIsClick] = useState({
-    latest: false,
-    scrap: false,
-    likes: false,
-  });
+  // sort할 데이터를 변경하는 set함수
   const { setSearchData } = useContext(SearchContext);
 
-  const handleClick = (type: "latest" | "scrap" | "likes") => {
-    setIsClick(() => ({
-      latest: false,
-      scrap: false,
-      likes: false,
-      [type]: true,
-    }));
-
-    if (type === "scrap") {
-      setSearchData((prev) => {
-        return [...prev].sort((a, b) => {
-          return b.bookmarks - a.bookmarks;
-        });
-      });
-    }
-  };
+  const { isClick, handleClick } = useSort(setSearchData);
 
   return (
     <Container>
