@@ -8,6 +8,5 @@ export const matchingMonth = (option: string) => {
   if (option === "6개월") {
     return 6;
   }
-  //기본값: 12개월
-  return 12;
+  return 0;
 };
