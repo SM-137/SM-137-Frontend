@@ -31,3 +31,8 @@ export interface AlarmDataProps {
   title: string;
   content: string;
 }
+
+export interface SortStandardProps {
+  type: "latest" | "scrap" | "likes";
+}
+export type SortType = "latest" | "scrap" | "likes";
