@@ -27,7 +27,7 @@ const SortBar = () => {
   // sort할 데이터를 변경하는 set함수
   const { setSearchData } = useContext(SearchContext);
 
-  const { isClick, handleClick } = useSort(setSearchData);
+  const { isClick, handleStandard } = useSort(setSearchData);
 
   return (
     <Container>
@@ -35,19 +35,19 @@ const SortBar = () => {
         <SortStandard
           type="latest"
           isClick={isClick.latest}
-          handleClick={handleClick}
+          handleClick={handleStandard}
         />
         <Divide>|</Divide>
         <SortStandard
           type="scrap"
           isClick={isClick.scrap}
-          handleClick={handleClick}
+          handleClick={handleStandard}
         />
         <Divide>|</Divide>
         <SortStandard
           type="likes"
           isClick={isClick.likes}
-          handleClick={handleClick}
+          handleClick={handleStandard}
         />
       </SortOptionContainer>
       <DropDown options={OPTION} />
