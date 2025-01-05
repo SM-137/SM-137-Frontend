@@ -2,12 +2,14 @@ import styled from "@emotion/styled";
 import { useContext, useEffect, useRef, useState } from "react";
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import { SearchContext } from "../../pages/search/Search";
 import { useFilter } from "../../hooks/useFilter";
 import { useSort } from "../../hooks/useSort";
 
 interface OptionProps {
   isOpen: boolean;
+}
+interface SortBarProps {
+  context: React.Context<any>;
 }
 const DropBox = styled.ul<OptionProps>`
   -webkit-appearance: none;
@@ -58,12 +60,12 @@ const DropDownIcon = styled(SvgIcon)<SvgIconProps>`
   right: 0;
 `;
 
-const DropDown = () => {
+const DropDown = ({ context }: SortBarProps) => {
   const OPTIONS = ["전체", "1개월", "3개월", "6개월"];
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState(OPTIONS[0]);
 
-  const { searchData, setFilteredData, sortOption } = useContext(SearchContext);
+  const { originData, setFilteredData, sortOption } = useContext(context);
   const { handleSort } = useSort(setFilteredData);
   const { handlePeriod } = useFilter(setFilteredData);
 
@@ -76,7 +78,7 @@ const DropDown = () => {
     e.stopPropagation();
     setData(option);
     setIsOpen(false);
-    handlePeriod(searchData, option);
+    handlePeriod(originData, option);
     handleSort(sortOption);
   };
 

@@ -8,10 +8,11 @@ import { motion } from "framer-motion";
 import SortBar from "../../components/sort-bar/SortBar";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 import { DataType, SortType } from "../../types/Type";
+import { NoComplaints } from "../../styles/NoComplaints";
 
 interface SearchDataProps {
-  searchData: DataType[];
-  setSearchData: Dispatch<SetStateAction<DataType[]>>;
+  originData: DataType[];
+  setOriginData: Dispatch<SetStateAction<DataType[]>>;
   filteredData: DataType[];
   setFilteredData: Dispatch<SetStateAction<DataType[]>>;
   sortOption: SortType;
@@ -64,17 +65,9 @@ const ContentContainer = styled.div`
   width: 100%;
 `;
 
-const Warning = styled.h3`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  color: var(--light-primary);
-  margin-top: 100px;
-`;
-
 export const SearchContext = createContext<SearchDataProps>({
-  searchData: mockData,
-  setSearchData: () => {},
+  originData: mockData,
+  setOriginData: () => {},
   filteredData: mockData,
   setFilteredData: () => {},
   sortOption: "latest",
@@ -84,7 +77,7 @@ export const SearchContext = createContext<SearchDataProps>({
 const Search = () => {
   //검색어 임시
   const SEARCH_KEYWORD = "도서관 냉난방";
-  const [searchData, setSearchData] = useState(mockData);
+  const [originData, setOriginData] = useState(mockData);
   const [filteredData, setFilteredData] = useState(mockData);
   const [sortOption, setSortOption] = useState<SortType>("latest");
 
@@ -96,8 +89,8 @@ const Search = () => {
   return (
     <SearchContext.Provider
       value={{
-        searchData,
-        setSearchData,
+        originData,
+        setOriginData,
         filteredData,
         setFilteredData,
         sortOption,
@@ -122,11 +115,11 @@ const Search = () => {
         </Background>
 
         <ContentContainer>
-          <SortBar />
+          <SortBar context={SearchContext} />
           {isComplaintExist ? (
             filteredData.map((i, index) => <ContentList data={i} key={index} />)
           ) : (
-            <Warning>조건에 맞는 게시물이 없습니다</Warning>
+            <NoComplaints>조건에 맞는 게시물이 없습니다</NoComplaints>
           )}
         </ContentContainer>
       </SearchArea>

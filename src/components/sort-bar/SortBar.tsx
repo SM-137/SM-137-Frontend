@@ -3,8 +3,11 @@ import DropDown from "../drop-down/DropDown";
 import SortStandard from "./sort-standard/SortStandard";
 import { useSort } from "../../hooks/useSort";
 import { useContext } from "react";
-import { SearchContext } from "../../pages/search/Search";
 import { SortType } from "../../types/Type";
+
+interface SortBarProps {
+  context: React.Context<any>;
+}
 
 const Container = styled.div`
   max-width: 1114px;
@@ -23,8 +26,9 @@ const Divide = styled.pre`
   color: var(--gray4-placeholder-low);
 `;
 
-const SortBar = () => {
-  const { setFilteredData, setSortOption } = useContext(SearchContext);
+const SortBar = ({ context }: SortBarProps) => {
+  const { setFilteredData, setSortOption } = useContext(context);
+
   const { handleSort, isClick } = useSort(setFilteredData);
   const handleClick = (type: SortType) => {
     handleSort(type);
@@ -51,7 +55,7 @@ const SortBar = () => {
           handleClick={handleClick}
         />
       </SortOptionContainer>
-      <DropDown />
+      <DropDown context={context} />
     </Container>
   );
 };
