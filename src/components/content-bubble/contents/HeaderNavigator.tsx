@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
+import { MYPAGE_URL } from "../../../utils/URL";
 
 const NavigatorContainer = styled.ul`
   display: flex;
@@ -17,9 +19,12 @@ const NavigatorContent = styled.div`
 `;
 
 const HeaderNavigator = () => {
+  const navigate = useNavigate();
   return (
     <NavigatorContainer>
-      <NavigatorContent>마이페이지</NavigatorContent>
+      <NavigatorContent onClick={() => navigate(MYPAGE_URL)}>
+        마이페이지
+      </NavigatorContent>
       <NavigatorContent>내 민원</NavigatorContent>
       <NavigatorContent>결과 조회</NavigatorContent>
       <NavigatorContent>스크랩</NavigatorContent>

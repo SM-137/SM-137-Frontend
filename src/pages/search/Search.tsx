@@ -75,8 +75,10 @@ export const SearchContext = createContext<SearchDataProps>({
 });
 
 const Search = () => {
-  //검색어 임시
-  const SEARCH_KEYWORD = "도서관 냉난방";
+  //검색어 갖고오기
+  const params = new URLSearchParams(location.search);
+  const SEARCH_KEYWORD = decodeURIComponent(params.get("keyword") || "");
+
   const [originData, setOriginData] = useState(mockData);
   const [filteredData, setFilteredData] = useState(mockData);
   const [sortOption, setSortOption] = useState<SortType>("latest");

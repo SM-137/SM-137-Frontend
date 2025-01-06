@@ -3,6 +3,8 @@ import InfoMessage from "../../info-message/InfoMessage";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { alarmData } from "../../../mockData";
+import { useNavigate } from "react-router-dom";
+import { MYPAGE_URL } from "../../../utils/URL";
 
 const NotificationContainer = styled.div`
   display: flex;
@@ -30,8 +32,9 @@ const ViewMoreIcon = styled(SvgIcon)<SvgIconProps>`
 const ViewMoreText = styled.p``;
 
 const Notification = () => {
-  //임시;
+  //임시 데이터
   const data = alarmData.slice(0, 3);
+  const navigate = useNavigate();
   return (
     <NotificationContainer>
       <InfoMessageContainer>
@@ -47,7 +50,7 @@ const Notification = () => {
       {/*더보기 버튼*/}
       <ViewMoreButton>
         <ViewMoreIcon component={AddRoundedIcon} />
-        <ViewMoreText>더보기</ViewMoreText>
+        <ViewMoreText onClick={() => navigate(MYPAGE_URL)}>더보기</ViewMoreText>
       </ViewMoreButton>
     </NotificationContainer>
   );
