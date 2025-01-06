@@ -3,6 +3,7 @@ import SubCategory from "./SubCategory";
 import { useState } from "react";
 import { categoryName } from "../../utils/SubCategoryContent";
 import { motion } from "framer-motion";
+import { CategoryValue } from "../../types/Type";
 
 interface CategoryProps {
   isClick: boolean;
@@ -58,13 +59,15 @@ const CategorySelect = () => {
 
   const [category, setCategory] =
     useState<keyof typeof categoryName>("facility");
+
   const [isClick, setIsClick] = useState({
     facility: true,
     degree: false,
     career: false,
     school: false,
   });
-  const handleCategory = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+  const handleCategorySelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     const value = e.currentTarget.getAttribute("data-category")!;
     if (value) {
       setCategory(value as keyof typeof categoryName);
@@ -78,6 +81,7 @@ const CategorySelect = () => {
       });
     }
   };
+
   return (
     <Wrap>
       <CategoryContainer>
@@ -91,7 +95,7 @@ const CategorySelect = () => {
             <Category
               key={index}
               data-category={i}
-              onClick={handleCategory}
+              onClick={handleCategorySelect}
               isClick={isClick[i]}
             >
               {CATEGORY_CONTENT[index]}
