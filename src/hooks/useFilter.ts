@@ -1,4 +1,4 @@
-import { DataType } from "../types/Type";
+import { CategoryValue, DataType } from "../types/Type";
 import { matchingMonth } from "../utils/MatchingOption";
 
 export const useFilter = (
@@ -21,19 +21,19 @@ export const useFilter = (
     );
   };
 
-  //category-select 필터링
   const handleCategory = (
     originData: DataType[],
-    subCategoryArray: string[]
+    subCategory: CategoryValue
   ) => {
-    setData(() =>
-      originData.filter((i) => {
-        for (let subCategory of subCategoryArray) {
-          i.category.includes(subCategory);
-        }
-      })
-    );
+    //subCategory를 선택했을 때만 필터링
+    if (subCategory) {
+      setData(() => originData.filter((i) => i.category === subCategory));
+    }
   };
 
-  return { handlePeriod, handleCategory };
+  const handleReset = (originData: DataType[]) => {
+    setData(originData);
+  };
+
+  return { handlePeriod, handleCategory, handleReset };
 };
