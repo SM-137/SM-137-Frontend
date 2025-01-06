@@ -21,5 +21,19 @@ export const useFilter = (
     );
   };
 
-  return { handlePeriod };
+  //category-select 필터링
+  const handleCategory = (
+    originData: DataType[],
+    subCategoryArray: string[]
+  ) => {
+    setData(() =>
+      originData.filter((i) => {
+        for (let subCategory of subCategoryArray) {
+          i.category.includes(subCategory);
+        }
+      })
+    );
+  };
+
+  return { handlePeriod, handleCategory };
 };
