@@ -12,7 +12,7 @@ interface ComplaintContentProps {
   data: {
     title: string;
     status: StatusType;
-    category: string[];
+    hashtag: string[];
     content: string;
     likes: number;
     bookmarks: number;
@@ -120,8 +120,8 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
         <HeaderContent>
           <StatusDisplay type={data.status} />
           <CategoryContainer>
-            {data.category.map((category, index) => (
-              <CategoryTagGroup key={index} tagArray={[category]} />
+            {data.hashtag.map((hashtag, index) => (
+              <CategoryTagGroup key={index} hashtag={[hashtag]} />
             ))}
           </CategoryContainer>
         </HeaderContent>

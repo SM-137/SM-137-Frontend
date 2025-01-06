@@ -59,7 +59,7 @@ const SearchTextWrapper = styled.div`
   margin-right: 8px;
   margin-left: 8px;
   white-space: nowrap;
-  line-height: 1.5rem; 
+  line-height: 1.5rem;
 `;
 
 const FilterIcon = styled(FilterAltRoundedIcon)`
@@ -71,7 +71,7 @@ const FilterIcon = styled(FilterAltRoundedIcon)`
 const StatusButtonGroupContainer = styled.div`
   display: flex;
   white-space: nowrap;
-align-items: center; /* 버튼을 세로 중앙 정렬 */
+  align-items: center;
   height: 35px;
   @media (max-width: 768px) {
     width: 100%;
