@@ -6,6 +6,7 @@ import { Article, Title } from "../../styles/ContentStyle";
 import styled from "@emotion/styled";
 import ShareIcon from "@mui/icons-material/Share";
 import { SvgIcon, SvgIconProps } from "@mui/material";
+import { getFormatTime } from "../../utils/FormattingTime";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -99,6 +100,8 @@ const Category = styled.span`
 `;
 
 const ComplaintContent = ({ data }: ComplaintContentProps) => {
+  const formatTime = getFormatTime(data.date);
+
   return (
     <Container>
       {/* Header */}
@@ -142,7 +145,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
             답변이 달린 이후에는 수정 및 삭제가 불가능합니다
           </InfoComment>
         )}
-        <DateSection>{data.date}</DateSection>
+        <DateSection>{formatTime}</DateSection>
       </Footer>
     </Container>
   );
