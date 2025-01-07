@@ -100,7 +100,8 @@ const Category = styled.span`
 `;
 
 const ComplaintContent = ({ data }: ComplaintContentProps) => {
-  const formatTime = getFormatTime(data.date);
+  const date = new Date(data.date);
+  const formatTime = getFormatTime(date);
 
   return (
     <Container>

@@ -2,8 +2,7 @@ const DATE_INDEX = 0;
 const ONE_HOUR = 3600000;
 const ONE_DAY = 86400000;
 
-export const getFormatTime = (dateData: string) => {
-  const date = new Date(dateData);
+export const getFormatTime = (date: Date) => {
   const now = new Date();
   console.log(now);
   const formatTime = formattingTime(date, now);
