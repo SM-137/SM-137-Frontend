@@ -31,9 +31,5 @@ export const useFilter = (
     }
   };
 
-  const handleReset = (originData: DataType[]) => {
-    setData(originData);
-  };
-
-  return { handlePeriod, handleCategory, handleReset };
+  return { handlePeriod, handleCategory };
 };

@@ -67,10 +67,6 @@ const ContentsContainer = styled.div`
 const SortContainer = styled.div`
   width: 100%;
 `;
-const SelectCancle = styled.label`
-  color: var(--white);
-  cursor: pointer;
-`;
 
 export const ViewContext = createContext<ViewProps>({
   originData: mockData,
@@ -106,7 +102,6 @@ const View = () => {
             <Title>전체 민원 조회</Title>
           </TitleContainer>
           <CategorySelect />
-          <SelectCancle>초기화</SelectCancle>
         </Background>
 
         <ContentsContainer>
