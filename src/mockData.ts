@@ -17,7 +17,7 @@ export const mockData: DataType[] = [
     likes: 10,
     bookmarks: 0,
     date: "2024-12-05T08:15:00.000Z", // 1개월 이내
-    answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다.",
+    answer: "",
   },
   {
     id: 2,
