@@ -51,16 +51,16 @@ const ModalBackdrop = styled.div`
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  handleClose: () => void;
   contents: React.ReactNode;
 }
 
-const Modal = ({ isOpen, onClose, contents }: ModalProps) => {
+const Modal = ({ isOpen, handleClose, contents }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
     <ModalWrapper>
-      <ModalBackdrop onClick={onClose} />
+      <ModalBackdrop onClick={handleClose} />
       <ModalContent>{contents}</ModalContent>
     </ModalWrapper>
   );

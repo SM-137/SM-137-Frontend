@@ -7,6 +7,9 @@ import styled from "@emotion/styled";
 import ShareIcon from "@mui/icons-material/Share";
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import { getFormatTime } from "../../utils/FormattingTime";
+import { useModal } from "../../hooks/useModal";
+import Modal from "../modal/Modal";
+import DeleteComment from "../modal/contents/DeleteComment";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -103,8 +106,18 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   const date = new Date(data.date);
   const formatTime = getFormatTime(date);
 
+  const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
+  const handleDelete = () => {
+    handleModalOpen();
+  };
+
   return (
     <Container>
+      <Modal
+        isOpen={isModalOpen}
+        handleClose={handleModalClose}
+        contents={<DeleteComment handleClose={handleModalClose} />}
+      />
       {/* Header */}
       <Header>
         <HeaderContent>
@@ -139,7 +152,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
           <EditDeleteButtonContainer>
             <EditDeleteButton>수정</EditDeleteButton>
             <pre>|</pre>
-            <EditDeleteButton>삭제</EditDeleteButton>
+            <EditDeleteButton onClick={handleDelete}>삭제</EditDeleteButton>
           </EditDeleteButtonContainer>
         ) : (
           <InfoComment>

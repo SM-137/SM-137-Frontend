@@ -4,7 +4,6 @@ const ONE_DAY = 86400000;
 
 export const getFormatTime = (date: Date) => {
   const now = new Date();
-  console.log(now);
   const formatTime = formattingTime(date, now);
   return formatTime;
 };
@@ -13,7 +12,6 @@ const calculateGap = (date: Date, now: Date) => {
   const time = date.getTime();
   const nowTime = now.getTime();
   const millisecondGap = nowTime - time;
-  console.log(millisecondGap);
   const hourGap = Math.floor(millisecondGap / ONE_HOUR);
   return { millisecondGap, hourGap };
 };
