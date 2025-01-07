@@ -113,6 +113,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
 
   return (
     <Container>
+      {/* 모달 닫기 + 삭제 로직 동시에 보내줘야 함*/}
       <Modal
         isOpen={isModalOpen}
         handleClose={handleModalClose}

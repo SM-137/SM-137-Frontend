@@ -18,6 +18,7 @@ const Comment = styled.pre`
 
 const DeleteComment = ({ handleClose }: DeleteCommentProps) => {
   const DELETE_COMMENT = "해당 게시물을 삭제하시겠습니까?";
+  //handleClose 가 아닌, delete와 관련된 로직을 입력해야함
 
   return (
     <Container>
