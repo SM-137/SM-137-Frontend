@@ -1,6 +1,11 @@
 import { categoryName } from "../utils/SubCategoryContent";
 
-export type StatusType = "inProgress" | "pending" | "rejected" | "completed";
+export type StatusType =
+  | "inProgress"
+  | "pending"
+  | "rejected"
+  | "completed"
+  | undefined;
 
 export interface DataType {
   id: number;
