@@ -17,6 +17,16 @@ export const useFilter = (originData: DataType[]) => {
     status: null,
   });
 
+  const handleFilterOptions = <K extends keyof FiltersProps>(
+    option: K,
+    value: FiltersProps[K]
+  ) => {
+    setFilters((prev) => ({
+      ...prev,
+      [option]: value,
+    }));
+  };
+
   const handleFilter = () => {
     let result: DataType[] = originData;
     if (filters.period) {
@@ -59,5 +69,5 @@ export const useFilter = (originData: DataType[]) => {
     return result;
   };
 
-  return { filters, filteredData, handleFilter, setFilters };
+  return { filters, filteredData, handleFilter, handleFilterOptions };
 };

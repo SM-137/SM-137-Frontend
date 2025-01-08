@@ -3,7 +3,6 @@ import { categoryName } from "../../utils/SubCategoryContent";
 import { CategoryValue } from "../../types/Type";
 import { useContext, useState } from "react";
 import { ViewContext } from "../../pages/view/View";
-import { FiltersProps } from "../../hooks/useFilter";
 
 interface SubCategoryProps {
   category: keyof typeof categoryName;
@@ -54,10 +53,7 @@ const SubCategory = (props: SubCategoryProps) => {
       return;
     }
     setSubCategory(value);
-    context.setFilters((prev: FiltersProps) => ({
-      ...prev,
-      category: value,
-    }));
+    context.handleFilterOptions("category", value);
   };
 
   return (

@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { useContext, useEffect, useRef, useState } from "react";
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import { FiltersProps } from "../../hooks/useFilter";
 
 interface OptionProps {
   isOpen: boolean;
@@ -92,10 +91,7 @@ const DropDown = ({ context }: SortBarProps) => {
     e.stopPropagation();
     setData(option);
     setIsOpen(false);
-    parentContext.setFilters((prev: FiltersProps) => ({
-      ...prev,
-      period: option,
-    }));
+    parentContext.handleFilterOptions("period", option);
   };
 
   return (

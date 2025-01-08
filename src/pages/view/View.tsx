@@ -6,13 +6,7 @@ import SearchFilterBar from "../../components/search-filter/SearchFilter";
 import SortBar from "../../components/sort-bar/SortBar";
 import { mockData } from "../../mockData";
 import ContentList from "../../components/content/ContentList";
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useEffect, useState } from "react";
 import { DataType, SortType } from "../../types/Type";
 import { NoComplaints } from "../../styles/NoComplaints";
 import { FiltersProps, useFilter } from "../../hooks/useFilter";
@@ -21,7 +15,10 @@ import { SortOptionsProps, useSort } from "../../hooks/useSort";
 interface ViewProps {
   originData: DataType[];
   filters: FiltersProps;
-  setFilters: Dispatch<SetStateAction<any>>;
+  handleFilterOptions: <K extends keyof FiltersProps>(
+    option: K,
+    value: FiltersProps[K]
+  ) => void;
   handleFilter: () => void;
   handleSort: (inputData: DataType[]) => void;
   sortOptions: SortOptionsProps;
@@ -82,12 +79,10 @@ export const ViewContext = createContext<ViewProps | undefined>(undefined);
 const View = () => {
   const [originData] = useState(mockData);
 
-  const { filteredData, handleFilter, setFilters, filters } =
+  const { filteredData, handleFilter, handleFilterOptions, filters } =
     useFilter(originData);
   const { handleSort, sortOptions, handleSortOption, sortData } =
     useSort(filteredData);
-
-  const isComplaintExist = !(filteredData.length == 0);
 
   useEffect(() => {
     handleFilter();
@@ -97,13 +92,15 @@ const View = () => {
     handleSort(filteredData);
   }, [sortOptions, filteredData]);
 
+  const isComplaintExist = !(filteredData.length == 0);
+
   return (
     <ViewContext.Provider
       value={{
         originData,
         handleFilter,
         filters,
-        setFilters,
+        handleFilterOptions,
         handleSort,
         sortOptions,
         handleSortOption,
