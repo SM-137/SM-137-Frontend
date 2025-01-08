@@ -2,8 +2,7 @@ import styled from "@emotion/styled";
 import { useContext, useEffect, useRef, useState } from "react";
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import { useFilter } from "../../hooks/useFilter";
-import { useSort } from "../../hooks/useSort";
+import { FiltersProps } from "../../hooks/useFilter";
 
 interface OptionProps {
   isOpen: boolean;
@@ -65,21 +64,14 @@ const DropDown = ({ context }: SortBarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState(OPTIONS[0]);
 
-  const { originData, setFilteredData, sortOption } = useContext(context);
-  const { handleSort } = useSort(setFilteredData);
-  const { handlePeriod } = useFilter(setFilteredData);
+  const parentContext = useContext(context);
+  if (!parentContext) {
+    throw new Error("Dropdown에서 context호출 중 오류 발생");
+  }
 
   const handleOpenClose = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsOpen((prev) => !prev);
-  };
-
-  const handleClick = (option: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setData(option);
-    setIsOpen(false);
-    handlePeriod(originData, option);
-    handleSort(sortOption);
   };
 
   const dropDownRef = useRef<HTMLUListElement>(null);
@@ -95,6 +87,16 @@ const DropDown = ({ context }: SortBarProps) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleClick = (option: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setData(option);
+    setIsOpen(false);
+    parentContext.setFilters((prev: FiltersProps) => ({
+      ...prev,
+      period: option,
+    }));
+  };
 
   return (
     <DropBox isOpen={isOpen} onClick={handleOpenClose} ref={dropDownRef}>

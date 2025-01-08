@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import StatusButton from "./StatusButton";
 import styled from "@emotion/styled";
 import { StatusType } from "../../types/Type";
+import { ViewContext } from "../../pages/view/View";
+import { FiltersProps } from "../../hooks/useFilter";
 
 const ButtonGroupContainer = styled.div`
   display: flex;
@@ -11,10 +13,18 @@ const ButtonGroupContainer = styled.div`
 `;
 
 const StatusButtonGroup = () => {
-  const [selectedType, setSelectedType] = useState<StatusType>("inProgress"); // 초기 상태 설정
+  const [selectedType, setSelectedType] = useState<StatusType>();
+  const context = useContext(ViewContext);
+  if (!context) {
+    throw new Error("statusButtonGroup에서 context 호출 중 오류 발생");
+  }
 
   const handleClick = (type: StatusType) => {
     setSelectedType(type);
+    context.setFilters((prev: FiltersProps) => ({
+      ...prev,
+      status: type,
+    }));
   };
 
   return (

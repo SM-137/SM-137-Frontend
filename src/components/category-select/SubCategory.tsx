@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
 import { categoryName } from "../../utils/SubCategoryContent";
 import { CategoryValue } from "../../types/Type";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ViewContext } from "../../pages/view/View";
-import { useFilter } from "../../hooks/useFilter";
-import { useSort } from "../../hooks/useSort";
+import { FiltersProps } from "../../hooks/useFilter";
 
 interface SubCategoryProps {
   category: keyof typeof categoryName;
@@ -41,28 +40,25 @@ const SubCategory = (props: SubCategoryProps) => {
   const { category } = props;
   const subCategoryField = categoryName[category];
 
+  const context = useContext(ViewContext);
+  if (!context) {
+    throw new Error("SubCategory context 호출 중 오류 발생");
+  }
+
   //필터링
-  const { setFilteredData, originData, sortOption } = useContext(ViewContext);
-  const filter = useFilter(setFilteredData);
-  const sort = useSort(setFilteredData);
   const [subCategory, setSubCategory] = useState<CategoryValue>();
   const handleSubCategorySelect = (value: CategoryValue) => {
     if (subCategory === value) {
-      //초기화
+      //기존 선택지 해제
       setSubCategory(undefined);
-      setFilteredData(originData);
       return;
     }
     setSubCategory(value);
+    context.setFilters((prev: FiltersProps) => ({
+      ...prev,
+      category: value,
+    }));
   };
-
-  useEffect(() => {
-    if (subCategory) {
-      filter.handleCategory(originData, subCategory);
-      //필터링 이후 정렬 재정렬
-      sort.handleSort(sortOption);
-    }
-  }, [subCategory]);
 
   return (
     <Background>

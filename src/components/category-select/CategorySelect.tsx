@@ -3,7 +3,6 @@ import SubCategory from "./SubCategory";
 import { useState } from "react";
 import { categoryName } from "../../utils/SubCategoryContent";
 import { motion } from "framer-motion";
-import { CategoryValue } from "../../types/Type";
 
 interface CategoryProps {
   isClick: boolean;
