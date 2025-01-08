@@ -50,6 +50,7 @@ const SubCategory = (props: SubCategoryProps) => {
     if (subCategory === value) {
       //기존 선택지 해제
       setSubCategory(undefined);
+      context.handleFilterOptions("category", null);
       return;
     }
     setSubCategory(value);
