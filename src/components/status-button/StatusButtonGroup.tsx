@@ -17,11 +17,11 @@ interface SelectedTypeObject {
   rejected: boolean;
   completed: boolean;
 }
-interface StatusButtonTypeProps {
+interface UsageProps {
   usage: "filter" | "normal";
 }
 
-const StatusButtonGroup = ({ usage = "normal" }: StatusButtonTypeProps) => {
+const StatusButtonGroup = ({ usage = "normal" }: UsageProps) => {
   const initial: SelectedTypeObject = {
     inProgress: false,
     pending: false,

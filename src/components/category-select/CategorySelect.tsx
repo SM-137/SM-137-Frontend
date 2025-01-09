@@ -8,6 +8,10 @@ interface CategoryProps {
   isClick: boolean;
 }
 
+interface UsageProps {
+  usage: "filter" | "normal";
+}
+
 const Wrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -52,7 +56,7 @@ const Highlight = styled(motion.div)`
   background-color: var(--light-primary);
 `;
 
-const CategorySelect = () => {
+const CategorySelect = ({ usage }: UsageProps) => {
   const CATEGORY = ["facility", "degree", "career", "school"] as const;
   const CATEGORY_CONTENT = ["시설/설비", "대학원", "진로/취업", "학교생활"];
 
@@ -102,7 +106,7 @@ const CategorySelect = () => {
           ))}
         </BackGround>
       </CategoryContainer>
-      <SubCategory category={category} />
+      <SubCategory category={category} usage={usage} />
     </Wrap>
   );
 };

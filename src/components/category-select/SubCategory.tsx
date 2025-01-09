@@ -6,6 +6,7 @@ import { ViewContext } from "../../pages/view/View";
 
 interface SubCategoryProps {
   category: keyof typeof categoryName;
+  usage: "filter" | "normal";
 }
 
 const Background = styled.div`
@@ -36,7 +37,7 @@ const SubCategoryButton = styled.button<{ isClick: boolean }>`
 `;
 
 const SubCategory = (props: SubCategoryProps) => {
-  const { category } = props;
+  const { category, usage = "normal" } = props;
   const subCategoryField = categoryName[category];
 
   const context = useContext(ViewContext);
@@ -57,6 +58,20 @@ const SubCategory = (props: SubCategoryProps) => {
     context.handleFilterOptions("category", value);
   };
 
+  const handleClick = (value: CategoryValue) => {
+    if (subCategory === value) {
+      setSubCategory(undefined);
+      //선택에 대한 로직
+    }
+    setSubCategory(value);
+  };
+
+  //필터링 로직 vs 일반 선택 로직
+  const setHandleFunction = (usage: "filter" | "normal") => {
+    return usage === "filter" ? handleSubCategorySelect : handleClick;
+  };
+  const handleClickHandler = setHandleFunction(usage);
+
   return (
     <Background>
       <Container>
@@ -64,7 +79,7 @@ const SubCategory = (props: SubCategoryProps) => {
           <SubCategoryButton
             isClick={subCategory === item}
             key={index}
-            onClick={() => handleSubCategorySelect(item)}
+            onClick={() => handleClickHandler(item)}
           >
             {item}
           </SubCategoryButton>

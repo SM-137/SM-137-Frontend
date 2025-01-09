@@ -112,7 +112,7 @@ const View = () => {
             <Icon component={SearchRoundedIcon} />
             <Title>전체 민원 조회</Title>
           </TitleContainer>
-          <CategorySelect />
+          <CategorySelect usage="filter" />
         </Background>
 
         <ContentsContainer>
