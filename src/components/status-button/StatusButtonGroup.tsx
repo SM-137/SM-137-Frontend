@@ -43,10 +43,6 @@ const StatusButtonGroup = ({ usage = "normal" }: UsageProps) => {
   };
 
   //필터링 로직
-  const context = useContext(ViewContext);
-  if (!context) {
-    throw new Error("statusButtonGroup에서 context 호출 중 오류 발생");
-  }
 
   const handleFilter = (type: StatusType) => {
     if (type === undefined) {
@@ -84,6 +80,8 @@ const StatusButtonGroup = ({ usage = "normal" }: UsageProps) => {
 
   useEffect(() => {
     if (usage === "filter") {
+      const context = useContext(ViewContext);
+      if (!context) return;
       const filterOptionsArray = addIfValid(selectedType);
       context.handleFilterOptions("status", filterOptionsArray);
     }
