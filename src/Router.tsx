@@ -5,6 +5,7 @@ import Scrap from "./pages/scrap/Scrap";
 import Complaint from "./pages/my-complaint/Complaint";
 import Detail from "./pages/detail/Detail";
 import View from "./pages/view/View";
+import AdminHome from "./pages/AdminHome"
 import MyPage from "./pages/my-page/MyPage";
 import Search from "./pages/search/Search";
 
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       },
         path: "complaint-detail",
         element: <Detail />,
+        },
       },
       {
         path: "complaint-search",
@@ -39,6 +41,15 @@ export const router = createBrowserRouter([
       {
         path: "mypage",
         element: <MyPage />,
+      },
+    ],
+  },
+  {
+    path: "admin",
+    children: [
+      {
+        path: "home",
+        element: <AdminHome />,
       },
     ],
   },
