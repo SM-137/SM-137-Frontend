@@ -49,6 +49,9 @@ export const useFilter = (originData: DataType[]) => {
   };
 
   const handlePeriod = (originData: DataType[], dateOption: string) => {
+    if (dateOption === "전체") {
+      return originData;
+    }
     const lastDate = setLastDate(dateOption);
     const result = originData.filter((i) => {
       const date = new Date(i.date).getTime();
