@@ -5,7 +5,7 @@ import { matchingMonth } from "../utils/MatchingOption";
 export interface FiltersProps {
   period: string | null;
   category: CategoryValue | null;
-  status: StatusType | null;
+  status: StatusType[] | null;
 }
 
 export const useFilter = (originData: DataType[]) => {
@@ -14,7 +14,7 @@ export const useFilter = (originData: DataType[]) => {
     //필터 옵션 저장
     period: null,
     category: null,
-    status: null,
+    status: [],
   });
 
   const handleFilterOptions = <K extends keyof FiltersProps>(
@@ -30,13 +30,13 @@ export const useFilter = (originData: DataType[]) => {
   const handleFilter = () => {
     let result: DataType[] = originData;
     if (filters.period) {
-      result = handlePeriod(originData, filters.period);
+      result = handlePeriod(result, filters.period);
     }
     if (filters.category) {
       result = handleCategory(result, filters.category);
     }
     if (filters.status) {
-      //status 함수
+      result = handleStatus(result, filters.status);
     }
     setFilteredData(result);
   };
@@ -65,6 +65,16 @@ export const useFilter = (originData: DataType[]) => {
     let result = originData;
     if (subCategory) {
       result = originData.filter((i) => i.category === subCategory);
+    }
+    return result;
+  };
+
+  const handleStatus = (originData: DataType[], status: StatusType[]) => {
+    let result = originData;
+    const noStatusOption = status.length === 0;
+    //option이 선택된 경우에만 필터링
+    if (!noStatusOption) {
+      result = originData.filter((i) => status.includes(i.status));
     }
     return result;
   };
