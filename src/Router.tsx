@@ -18,14 +18,6 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "my-scrap",
-        element: <Scrap />,
-      },
-      {
-        path: "mypage/my-complaint",
-        element: <Complaint />,
-      },
-      {
         path: "complaint-detail",
         element: <Detail />,
       },
@@ -40,6 +32,14 @@ export const router = createBrowserRouter([
       {
         path: "mypage",
         element: <MyPage />,
+      },
+      {
+        path: "mypage/my-complaint",
+        element: <Complaint />,
+      },
+      {
+        path: "mypage/my-scrap",
+        element: <Scrap />,
       },
     ],
   },

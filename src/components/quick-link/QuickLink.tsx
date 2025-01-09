@@ -37,7 +37,7 @@ const QuickLink = () => {
         <QuickLinkItem icon={AccountBoxRoundedIcon} text="내 민원" url="/" />
       </QuickLinkDisplay>
       <QuickLinkDisplay>
-        <QuickLinkItem icon={SmsRoundedIcon} text="결과 조회" url="/" />
+        <QuickLinkItem icon={SmsRoundedIcon} text="스크랩" url="/" />
         <QuickLinkItem icon={CreateRoundedIcon} text="민원 신청" url="/" />
       </QuickLinkDisplay>
     </QuickLinkWrapper>
