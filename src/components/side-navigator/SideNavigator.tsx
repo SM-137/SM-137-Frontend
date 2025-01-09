@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import UserInfo from "./UserInfo";
 import { useNavigate } from "react-router-dom";
-import { VIEW_URL } from "../../utils/URL";
+import { MYPAGE_URL, VIEW_URL } from "../../utils/URL";
 
 const SideNavContainer = styled.div`
   @keyframes moveRight {
@@ -65,7 +65,9 @@ const SideNavigator = () => {
       </Menu>
       <Menu>
         <MenuSubTitle>마이페이지</MenuSubTitle>
-        <MenuContent>마이페이지</MenuContent>
+        <MenuContent onClick={() => navigate(MYPAGE_URL)}>
+          마이페이지
+        </MenuContent>
         <MenuContent>내 민원</MenuContent>
         <MenuContent>결과 조회</MenuContent>
         <MenuContent>스크랩한 민원</MenuContent>
