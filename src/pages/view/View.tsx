@@ -78,6 +78,7 @@ export const ViewContext = createContext<ViewProps | undefined>(undefined);
 
 const View = () => {
   const [originData] = useState(mockData);
+
   const { filteredData, handleFilter, handleFilterOptions, filters } =
     useFilter(originData);
   const { handleSort, sortOptions, handleSortOption, sortData } =

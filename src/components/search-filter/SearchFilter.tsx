@@ -64,7 +64,7 @@ const SearchFilterBar = () => {
 
       {/* 오른쪽 상태 버튼 그룹 */}
       <StatusButtonGroupContainer>
-        <StatusButtonGroup />
+        <StatusButtonGroup usage="filter" />
       </StatusButtonGroupContainer>
     </Container>
   );

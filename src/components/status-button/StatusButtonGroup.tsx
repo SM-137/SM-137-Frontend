@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import StatusButton from "./StatusButton";
 import styled from "@emotion/styled";
 import { StatusType } from "../../types/Type";
@@ -17,76 +17,99 @@ interface SelectedTypeObject {
   rejected: boolean;
   completed: boolean;
 }
+interface StatusButtonTypeProps {
+  usage: "filter" | "normal";
+}
 
-const StatusButtonGroup = () => {
+const StatusButtonGroup = ({ usage = "normal" }: StatusButtonTypeProps) => {
   const initial: SelectedTypeObject = {
     inProgress: false,
     pending: false,
     rejected: false,
     completed: false,
   };
+
   const [selectedType, setSelectedType] = useState(initial);
+
+  //일반 선택 로직
+  const handleClick = (type: StatusType) => {
+    if (type === undefined) {
+      return;
+    }
+    setSelectedType((prev) => ({
+      ...initial,
+      [type]: !prev[type],
+    }));
+  };
+
+  //필터링 로직
   const context = useContext(ViewContext);
   if (!context) {
     throw new Error("statusButtonGroup에서 context 호출 중 오류 발생");
   }
 
-  const handleClick = (type: StatusType) => {
+  const handleFilter = (type: StatusType) => {
     if (type === undefined) {
       return;
     }
-    //중복 선택 가능
-    let filterOptionsArray: StatusType[] = [];
     setSelectedType((prev) => {
       const updatedValue = !prev[type];
       const updatedType = {
         ...prev,
         [type]: updatedValue,
       };
-      setTimeout(() => {
-        filterOptionsArray = addIfValid(updatedType);
-        context.handleFilterOptions("status", filterOptionsArray);
-      }, 0);
-
       return updatedType;
     });
   };
 
   const addIfValid = (standard: SelectedTypeObject) => {
-    const clickedStatusArray: StatusType[] = [];
+    let clickedStatusArray: StatusType[] = [];
     for (let i in standard) {
       let value = standard[i as keyof SelectedTypeObject];
       if (value) {
         clickedStatusArray.push(i as keyof SelectedTypeObject);
       }
       if (!value) {
-        clickedStatusArray.filter((status) => status != i);
+        clickedStatusArray = clickedStatusArray.filter((status) => status != i);
       }
     }
     return clickedStatusArray;
   };
+
+  //필터링 로직 vs 일반 선택 로직
+  const setHandleFunction = (usage: "filter" | "normal") => {
+    return usage === "filter" ? handleFilter : handleClick;
+  };
+  const handleClickHandler = setHandleFunction(usage);
+
+  useEffect(() => {
+    if (usage === "filter") {
+      const filterOptionsArray = addIfValid(selectedType);
+      context.handleFilterOptions("status", filterOptionsArray);
+    }
+  }, [selectedType, usage]);
 
   return (
     <ButtonGroupContainer>
       <StatusButton
         type="inProgress"
         isSelected={selectedType.inProgress}
-        onClick={() => handleClick("inProgress")}
+        onClick={() => handleClickHandler("inProgress")}
       />
       <StatusButton
         type="pending"
         isSelected={selectedType.pending}
-        onClick={() => handleClick("pending")}
+        onClick={() => handleClickHandler("pending")}
       />
       <StatusButton
         type="rejected"
         isSelected={selectedType.rejected}
-        onClick={() => handleClick("rejected")}
+        onClick={() => handleClickHandler("rejected")}
       />
       <StatusButton
         type="completed"
         isSelected={selectedType.completed}
-        onClick={() => handleClick("completed")}
+        onClick={() => handleClickHandler("completed")}
       />
     </ButtonGroupContainer>
   );
