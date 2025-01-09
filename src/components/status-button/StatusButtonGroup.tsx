@@ -78,9 +78,9 @@ const StatusButtonGroup = ({ usage = "normal" }: UsageProps) => {
   };
   const handleClickHandler = setHandleFunction(usage);
 
+  const context = useContext(ViewContext);
   useEffect(() => {
     if (usage === "filter") {
-      const context = useContext(ViewContext);
       if (!context) return;
       const filterOptionsArray = addIfValid(selectedType);
       context.handleFilterOptions("status", filterOptionsArray);
