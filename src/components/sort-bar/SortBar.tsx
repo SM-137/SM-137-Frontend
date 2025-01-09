@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import DropDown from "../drop-down/DropDown";
 import SortStandard from "./sort-standard/SortStandard";
-import { useSort } from "../../hooks/useSort";
 import { useContext } from "react";
 import { SortType } from "../../types/Type";
 
@@ -27,31 +26,35 @@ const Divide = styled.pre`
 `;
 
 const SortBar = ({ context }: SortBarProps) => {
-  const { setFilteredData, setSortOption } = useContext(context);
+  const parentContext = useContext(context);
+  if (!parentContext) {
+    throw new Error("sortbar에서 context 호출 중 오류 발생");
+  }
 
-  const { handleSort, isClick } = useSort(setFilteredData);
   const handleClick = (type: SortType) => {
-    handleSort(type);
-    setSortOption(type);
+    parentContext.handleSortOption(type);
   };
+
+  const sortOptions = parentContext.sortOptions;
+
   return (
     <Container>
       <SortOptionContainer>
         <SortStandard
           type="latest"
-          isClick={isClick.latest}
+          isClick={sortOptions.latest}
           handleClick={handleClick}
         />
         <Divide>|</Divide>
         <SortStandard
           type="scrap"
-          isClick={isClick.scrap}
+          isClick={sortOptions.scrap}
           handleClick={handleClick}
         />
         <Divide>|</Divide>
         <SortStandard
           type="likes"
-          isClick={isClick.likes}
+          isClick={sortOptions.likes}
           handleClick={handleClick}
         />
       </SortOptionContainer>

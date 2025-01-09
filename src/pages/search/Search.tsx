@@ -6,17 +6,23 @@ import ContentList from "../../components/content/ContentList";
 import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
 import SortBar from "../../components/sort-bar/SortBar";
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { DataType, SortType } from "../../types/Type";
 import { NoComplaints } from "../../styles/NoComplaints";
+import { FiltersProps, useFilter } from "../../hooks/useFilter";
+import { SortOptionsProps, useSort } from "../../hooks/useSort";
 
 interface SearchDataProps {
   originData: DataType[];
-  setOriginData: Dispatch<SetStateAction<DataType[]>>;
-  filteredData: DataType[];
-  setFilteredData: Dispatch<SetStateAction<DataType[]>>;
-  sortOption: SortType;
-  setSortOption: Dispatch<SetStateAction<SortType>>;
+  filters: FiltersProps;
+  handleFilterOptions: <K extends keyof FiltersProps>(
+    option: K,
+    value: FiltersProps[K]
+  ) => void;
+  handleFilter: () => void;
+  handleSort: (inputData: DataType[]) => void;
+  sortOptions: SortOptionsProps;
+  handleSortOption: (type: SortType) => void;
 }
 
 const SearchArea = styled.div`
@@ -65,23 +71,28 @@ const ContentContainer = styled.div`
   width: 100%;
 `;
 
-export const SearchContext = createContext<SearchDataProps>({
-  originData: mockData,
-  setOriginData: () => {},
-  filteredData: mockData,
-  setFilteredData: () => {},
-  sortOption: "latest",
-  setSortOption: () => {},
-});
+export const SearchContext = createContext<SearchDataProps | undefined>(
+  undefined
+);
 
 const Search = () => {
-  //검색어 갖고오기
+  //검색어 연동
   const params = new URLSearchParams(location.search);
   const SEARCH_KEYWORD = decodeURIComponent(params.get("keyword") || "");
 
-  const [originData, setOriginData] = useState(mockData);
-  const [filteredData, setFilteredData] = useState(mockData);
-  const [sortOption, setSortOption] = useState<SortType>("latest");
+  const [originData] = useState(mockData);
+  const { filteredData, handleFilter, handleFilterOptions, filters } =
+    useFilter(originData);
+  const { handleSort, sortOptions, handleSortOption, sortData } =
+    useSort(filteredData);
+
+  useEffect(() => {
+    handleFilter();
+  }, [filters]);
+
+  useEffect(() => {
+    handleSort(filteredData);
+  }, [sortOptions, filteredData]);
 
   const isComplaintExist = !(filteredData.length == 0);
 
@@ -92,11 +103,12 @@ const Search = () => {
     <SearchContext.Provider
       value={{
         originData,
-        setOriginData,
-        filteredData,
-        setFilteredData,
-        sortOption,
-        setSortOption,
+        handleFilter,
+        filters,
+        handleFilterOptions,
+        handleSort,
+        sortOptions,
+        handleSortOption,
       }}
     >
       <SearchArea>
@@ -119,7 +131,7 @@ const Search = () => {
         <ContentContainer>
           <SortBar context={SearchContext} />
           {isComplaintExist ? (
-            filteredData.map((i, index) => <ContentList data={i} key={index} />)
+            sortData.map((i, index) => <ContentList data={i} key={index} />)
           ) : (
             <NoComplaints>조건에 맞는 게시물이 없습니다</NoComplaints>
           )}

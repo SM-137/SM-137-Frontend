@@ -1,54 +1,73 @@
 import { useState } from "react";
-import { SortType } from "../types/Type";
+import { DataType, SortType } from "../types/Type";
 
-export const useSort = (
-  setData: React.Dispatch<React.SetStateAction<any[]>>
-) => {
-  const [isClick, setIsClick] = useState({
+export interface SortOptionsProps {
+  latest: boolean;
+  scrap: boolean;
+  likes: boolean;
+}
+
+export const useSort = (filteredData: DataType[]) => {
+  const [sortData, setSortData] = useState<DataType[]>(filteredData);
+  const [sortOptions, setSortOptions] = useState({
     latest: true,
     scrap: false,
     likes: false,
   });
 
-  const handleSort = (type: SortType) => {
-    setIsClick(() => ({
+  const sortOptionsReset = () => {
+    setSortOptions(() => ({
       latest: false,
       scrap: false,
       likes: false,
+    }));
+  };
+
+  const handleSortOption = (type: SortType) => {
+    sortOptionsReset();
+    setSortOptions((prev) => ({
+      ...prev,
       [type]: true,
     }));
-    if (type === "scrap") {
-      scrapSort();
-      return;
-    }
-    if (type === "likes") {
-      likeSort();
-      return;
-    }
-    if (type === "latest") {
-      latestSort();
-      return;
-    }
   };
-  const scrapSort = () => {
-    setData((prev) => {
-      return [...prev].sort((a, b) => b.bookmarks - a.bookmarks);
-    });
+
+  const handleSort = (inputData: DataType[]) => {
+    if (sortOptions.scrap) {
+      return scrapSort(inputData);
+    }
+    if (sortOptions.likes) {
+      return likeSort(inputData);
+    }
+    if (sortOptions.latest) {
+      return latestSort(inputData);
+    }
+    return inputData;
   };
-  const likeSort = () => {
-    setData((prev) => {
-      return [...prev].sort((a, b) => b.likes - a.likes);
-    });
+
+  const scrapSort = (inputData: DataType[]) => {
+    return setSortData(
+      [...inputData].sort((a, b) => b.bookmarks - a.bookmarks)
+    );
   };
-  const latestSort = () => {
-    setData((prev) => {
-      return [...prev].sort((a, b) => {
+
+  const likeSort = (inputData: DataType[]) => {
+    return setSortData([...inputData].sort((a, b) => b.likes - a.likes));
+  };
+
+  const latestSort = (inputData: DataType[]) => {
+    return setSortData(
+      [...inputData].sort((a, b) => {
         const dateA = new Date(a.date).getTime();
         const dateB = new Date(b.date).getTime();
         return dateB - dateA;
-      });
-    });
+      })
+    );
   };
 
-  return { handleSort, isClick, latestSort };
+  return {
+    sortOptions,
+    handleSortOption,
+    handleSort,
+    sortData,
+  };
 };
