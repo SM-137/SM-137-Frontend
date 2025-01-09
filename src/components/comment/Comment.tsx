@@ -7,6 +7,7 @@ import {
 import { CommentType } from "../../types/Type";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import Interaction from "../interaction/Interaction";
+import { getFormatTime } from "../../utils/FormattingTime";
 
 interface CommentProps {
   data: CommentType;
@@ -44,6 +45,9 @@ const Time = styled.pre`
 const Comment = ({ data, index }: CommentProps) => {
   const COMMENT_COLOR = "var(--disabled-primary)";
   const ICON_WIDTH = "20px";
+
+  const date = new Date(data.date);
+  const formatTime = getFormatTime(date);
   return (
     <Container>
       <InfoContainer>
@@ -60,7 +64,7 @@ const Comment = ({ data, index }: CommentProps) => {
       {/*컨텐츠 + 시간*/}
       <ContentsContainer>
         <Contents>{data.content}</Contents>
-        <Time>{data.time}</Time>
+        <Time>{formatTime}</Time>
       </ContentsContainer>
     </Container>
   );

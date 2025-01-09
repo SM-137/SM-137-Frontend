@@ -45,7 +45,7 @@ const ContentList = ({ data }: ContentListProps) => {
       <StatusContainer>
         <InfoContainer>
           <StatusDisplay type={data.status} />
-          <CategoryTagGroup tagArray={data.category} />
+          <CategoryTagGroup hashtag={data.hashtag} />
         </InfoContainer>
         <InteractionGroup likes={data.likes} bookmarks={data.bookmarks} />
       </StatusContainer>

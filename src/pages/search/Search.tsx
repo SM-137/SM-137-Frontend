@@ -6,6 +6,18 @@ import ContentList from "../../components/content/ContentList";
 import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
 import SortBar from "../../components/sort-bar/SortBar";
+import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { DataType, SortType } from "../../types/Type";
+import { NoComplaints } from "../../styles/NoComplaints";
+
+interface SearchDataProps {
+  originData: DataType[];
+  setOriginData: Dispatch<SetStateAction<DataType[]>>;
+  filteredData: DataType[];
+  setFilteredData: Dispatch<SetStateAction<DataType[]>>;
+  sortOption: SortType;
+  setSortOption: Dispatch<SetStateAction<SortType>>;
+}
 
 const SearchArea = styled.div`
   position: absolute;
@@ -49,38 +61,71 @@ const AnimationContainer = styled(motion.div)``;
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
 `;
+
+export const SearchContext = createContext<SearchDataProps>({
+  originData: mockData,
+  setOriginData: () => {},
+  filteredData: mockData,
+  setFilteredData: () => {},
+  sortOption: "latest",
+  setSortOption: () => {},
+});
 
 const Search = () => {
   //검색어 갖고오기
   const params = new URLSearchParams(location.search);
   const SEARCH_KEYWORD = decodeURIComponent(params.get("keyword") || "");
 
-  return (
-    <SearchArea>
-      <Background>
-        <SearchTitleContainer>
-          <SearchIcon component={SearchRoundedIcon} />
-          <AnimationContainer
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.5 }}
-          >
-            <SearchKeyword>"{SEARCH_KEYWORD}"</SearchKeyword>
-          </AnimationContainer>
-          <Title>민원 검색 결과</Title>
-        </SearchTitleContainer>
-        <SearchBar />
-      </Background>
+  const [originData, setOriginData] = useState(mockData);
+  const [filteredData, setFilteredData] = useState(mockData);
+  const [sortOption, setSortOption] = useState<SortType>("latest");
 
-      <ContentContainer>
-        <SortBar />
-        {mockData.map((i, index) => (
-          <ContentList data={i} key={index} />
-        ))}
-      </ContentContainer>
-    </SearchArea>
+  const isComplaintExist = !(filteredData.length == 0);
+
+  //초기 정렬 : 최신순 (백엔드 상의 필요), useEffect구문 내부에 넣을 것
+  // const { latestSort } = useSort(setSearchData);
+
+  return (
+    <SearchContext.Provider
+      value={{
+        originData,
+        setOriginData,
+        filteredData,
+        setFilteredData,
+        sortOption,
+        setSortOption,
+      }}
+    >
+      <SearchArea>
+        <Background>
+          <SearchTitleContainer>
+            <SearchIcon component={SearchRoundedIcon} />
+            <AnimationContainer
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.5 }}
+            >
+              <SearchKeyword>"{SEARCH_KEYWORD}"</SearchKeyword>
+            </AnimationContainer>
+            <Title>민원 검색 결과</Title>
+          </SearchTitleContainer>
+          <SearchBar />
+        </Background>
+
+        <ContentContainer>
+          <SortBar context={SearchContext} />
+          {isComplaintExist ? (
+            filteredData.map((i, index) => <ContentList data={i} key={index} />)
+          ) : (
+            <NoComplaints>조건에 맞는 게시물이 없습니다</NoComplaints>
+          )}
+        </ContentContainer>
+      </SearchArea>
+    </SearchContext.Provider>
   );
 };
 

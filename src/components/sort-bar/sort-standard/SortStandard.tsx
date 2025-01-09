@@ -3,23 +3,25 @@ import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import ThumbUpOffAltRoundedIcon from "@mui/icons-material/ThumbUpOffAltRounded";
 import { SvgIcon, SvgIconProps } from "@mui/material";
+import { SortType } from "../../../types/Type";
 
 interface SortStandardProps {
-  type: "latest" | "scrap" | "likes";
+  type: SortType;
+  isClick: boolean;
+  handleClick: (type: SortType) => void;
 }
-const Container = styled.div`
+interface ContainerProps {
+  isClick: boolean;
+}
+const Container = styled.div<ContainerProps>`
   display: flex;
   gap: 0.5rem;
   cursor: pointer;
-  &:hover {
-    color: var(--gray6-black);
-    fill: var(--gray6-black);
-    & > svg {
-      fill: var(--gray6-black);
-    }
-    & > pre {
-      color: var(--gray6-black);
-    }
+  & > svg {
+    fill: ${(props) => props.isClick && "var(--light-primary)"};
+  }
+  & > pre {
+    color: ${(props) => props.isClick && "var(--light-primary)"};
   }
 `;
 const Icon = styled(SvgIcon)<SvgIconProps>`
@@ -31,7 +33,7 @@ const String = styled.pre`
   color: var(--gray5-lowText);
 `;
 
-const SortStandard = ({ type }: SortStandardProps) => {
+const SortStandard = ({ type, isClick, handleClick }: SortStandardProps) => {
   const match = {
     latest: {
       string: "최신순",
@@ -46,9 +48,8 @@ const SortStandard = ({ type }: SortStandardProps) => {
       icon: ThumbUpOffAltRoundedIcon,
     },
   };
-
   return (
-    <Container>
+    <Container isClick={isClick} onClick={() => handleClick(type)}>
       <Icon component={match[type].icon}></Icon>
       <String>{match[type].string}</String>
     </Container>
