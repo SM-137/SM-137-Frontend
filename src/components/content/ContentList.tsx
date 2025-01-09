@@ -7,6 +7,7 @@ import InteractionGroup from "../interaction/InteractionGroup";
 
 interface ContentListProps {
   data: DataType;
+  resetTrigger?: boolean;
 }
 
 const Container = styled.div`
@@ -38,7 +39,7 @@ const StatusContainer = styled.div`
   justify-content: space-between;
 `;
 
-const ContentList = ({ data }: ContentListProps) => {
+const ContentList = ({ data, resetTrigger }: ContentListProps) => {
   const ARTICLE_LINE = 2;
   return (
     <Container>
@@ -47,7 +48,11 @@ const ContentList = ({ data }: ContentListProps) => {
           <StatusDisplay type={data.status} />
           <CategoryTagGroup hashtag={data.hashtag} />
         </InfoContainer>
-        <InteractionGroup likes={data.likes} bookmarks={data.bookmarks} />
+        <InteractionGroup
+          likes={data.likes}
+          bookmarks={data.bookmarks}
+          resetTrigger={resetTrigger}
+        />
       </StatusContainer>
       <Title>{data.title}</Title>
       <Article line={ARTICLE_LINE}>{data.content}</Article>

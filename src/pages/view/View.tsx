@@ -78,18 +78,26 @@ export const ViewContext = createContext<ViewProps | undefined>(undefined);
 
 const View = () => {
   const [originData] = useState(mockData);
+  const [resetButton, setResetButton] = useState(false);
 
   const { filteredData, handleFilter, handleFilterOptions, filters } =
     useFilter(originData);
   const { handleSort, sortOptions, handleSortOption, sortData } =
     useSort(filteredData);
 
+  // 필터링이나 정렬이 변경되면 버튼 상태 리셋
+  const handleResetButtonState = () => {
+    setResetButton(true);
+  };
+
   useEffect(() => {
     handleFilter();
+    handleResetButtonState();
   }, [filters]);
 
   useEffect(() => {
     handleSort(filteredData);
+    handleResetButtonState();
   }, [sortOptions, filteredData]);
 
   const isComplaintExist = !(filteredData.length == 0);
@@ -121,7 +129,9 @@ const View = () => {
           <SortContainer>
             <SortBar context={ViewContext} />
             {isComplaintExist ? (
-              sortData.map((i, index) => <ContentList data={i} key={index} />)
+              sortData.map((i, index) => (
+                <ContentList data={i} key={index} resetTrigger={resetButton} />
+              ))
             ) : (
               <NoComplaints>조건에 맞는 게시물이 없습니다</NoComplaints>
             )}
