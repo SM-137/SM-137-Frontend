@@ -29,6 +29,7 @@ const SearchBar = styled.div`
   align-items: center;
   border-radius: 500px;
   background-color: white;
+  max-height: 30px;
   padding: 0.2rem 0.8rem;
 `;
 
@@ -68,6 +69,20 @@ const HashtagContainer = styled.div`
   gap: 0.5rem;
 `;
 
+const HashtagDeleteArea = styled.div`
+  border-radius: 20px;
+  display: inline;
+  cursor: pointer;
+`;
+const DeleteInfoMessage = styled.p`
+  color: var(--light-primary);
+`;
+const InfoHashtagContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
 const SearchFilterBar = () => {
   const [hashtagArray, setHashtagArray] = useState<string[]>([]);
   const [hashtagInput, setHashtagInput] = useState("");
@@ -78,8 +93,7 @@ const SearchFilterBar = () => {
 
   const handleHashtagEnter = () => {
     if (inputRef.current) {
-      validateHashtag();
-      setHashtagArray((prev) => [...prev, hashtagInput]);
+      if (validateHashtag()) setHashtagArray((prev) => [...prev, hashtagInput]);
       setHashtagInput("");
       inputRef.current.value = "";
     }
@@ -87,21 +101,27 @@ const SearchFilterBar = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && inputRef.current) {
-      validateHashtag();
-      setHashtagArray((prev) => [...prev, hashtagInput]);
-      setHashtagInput("");
-      inputRef.current.value = "";
+    if (e.key === "Enter" && e.nativeEvent.isComposing === false) {
+      if (validateHashtag()) {
+        validateHashtag();
+        setHashtagArray((prev) => [...prev, hashtagInput]);
+        setHashtagInput("");
+      }
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
     }
   };
 
   const validateHashtag = () => {
     if (hashtagInput.length === 0 || !hashtagInput) {
-      return;
+      return false;
     }
     if (hashtagArray.includes(hashtagInput)) {
-      return;
+      return false;
     }
+    //해시태그 글자수 제한
+    return true;
   };
 
   const handleHashtagDelete = (value: string) => {
@@ -125,14 +145,18 @@ const SearchFilterBar = () => {
         </SearchBar>
 
         {isHashtagSearchActive && (
-          <HashtagContainer>
-            {hashtagArray.map((i) => (
-              <CategoryTag
-                contents={i}
-                // onClick={() => handleHashtagDelete(i)}
-              />
-            ))}
-          </HashtagContainer>
+          <InfoHashtagContainer>
+            <HashtagContainer>
+              {hashtagArray.map((i) => (
+                <HashtagDeleteArea onClick={() => handleHashtagDelete(i)}>
+                  <CategoryTag contents={i} />
+                </HashtagDeleteArea>
+              ))}
+            </HashtagContainer>
+            <DeleteInfoMessage>
+              해시태그를 클릭하면 삭제됩니다
+            </DeleteInfoMessage>
+          </InfoHashtagContainer>
         )}
       </HashtagArea>
 
