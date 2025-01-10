@@ -1,7 +1,8 @@
 import FilterListIcon from "@mui/icons-material/FilterList";
 import styled from "@emotion/styled";
 import CategoryTag from "../category-tag/CategoryTag";
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { ViewContext } from "../../pages/view/View";
 
 //해시태그 input + 검색 결과
 const HashtagArea = styled.div`
@@ -66,18 +67,28 @@ const HashtagSearch = () => {
   const [hashtagArray, setHashtagArray] = useState<string[]>([]);
   const [hashtagInput, setHashtagInput] = useState("");
 
+  //필터링
+  const context = useContext(ViewContext);
+  if (!context) {
+    throw new Error("SubCategory context 호출 중 오류 발생");
+  }
+  useEffect(() => {
+    context.handleFilterOptions("hashtag", hashtagArray);
+  }, [hashtagArray]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHashtagInput(e.target.value);
   };
 
   const handleHashtagEnter = () => {
-    if (inputRef.current) {
-      if (validateHashtag()) setHashtagArray((prev) => [...prev, hashtagInput]);
+    if (inputRef.current && validateHashtag()) {
+      setHashtagArray((prev) => [...prev, hashtagInput]);
       setHashtagInput("");
       inputRef.current.value = "";
+      context.handleFilterOptions("hashtag", hashtagArray);
     }
   };
-
+  //키보드 입력
   const inputRef = useRef<HTMLInputElement>(null);
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && e.nativeEvent.isComposing === false) {
@@ -85,6 +96,7 @@ const HashtagSearch = () => {
         validateHashtag();
         setHashtagArray((prev) => [...prev, hashtagInput]);
         setHashtagInput("");
+        context.handleFilterOptions("hashtag", hashtagArray);
       }
       if (inputRef.current) {
         inputRef.current.value = "";
@@ -107,6 +119,7 @@ const HashtagSearch = () => {
     setHashtagArray((prev) => prev.filter((i) => i !== value));
   };
   const isHashtagSearchActive = hashtagArray.length !== 0;
+
   return (
     <HashtagArea>
       <SearchBar>
@@ -123,8 +136,11 @@ const HashtagSearch = () => {
       {isHashtagSearchActive && (
         <InfoHashtagContainer>
           <HashtagContainer>
-            {hashtagArray.map((i) => (
-              <HashtagDeleteArea onClick={() => handleHashtagDelete(i)}>
+            {hashtagArray.map((i, index) => (
+              <HashtagDeleteArea
+                key={index}
+                onClick={() => handleHashtagDelete(i)}
+              >
                 <CategoryTag contents={i} />
               </HashtagDeleteArea>
             ))}
