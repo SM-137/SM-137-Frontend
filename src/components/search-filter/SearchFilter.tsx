@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import StatusButtonGroup from "../status-button/StatusButtonGroup"; // StatusButtonGroup 경로에 맞게 수정
-import { useState } from "react";
+import { useRef, useState } from "react";
 import CategoryTag from "../category-tag/CategoryTag";
 
 const Container = styled.div`
@@ -77,9 +77,22 @@ const SearchFilterBar = () => {
   };
 
   const handleHashtagEnter = () => {
-    validateHashtag();
-    setHashtagArray((prev) => [...prev, hashtagInput]);
-    setHashtagInput("");
+    if (inputRef.current) {
+      validateHashtag();
+      setHashtagArray((prev) => [...prev, hashtagInput]);
+      setHashtagInput("");
+      inputRef.current.value = "";
+    }
+  };
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && inputRef.current) {
+      validateHashtag();
+      setHashtagArray((prev) => [...prev, hashtagInput]);
+      setHashtagInput("");
+      inputRef.current.value = "";
+    }
   };
 
   const validateHashtag = () => {
@@ -102,7 +115,12 @@ const SearchFilterBar = () => {
       <HashtagArea>
         <SearchBar>
           <SearchText>해시태그</SearchText>
-          <SearchInput placeholder="졸업" onChange={handleChange} />
+          <SearchInput
+            placeholder="졸업"
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            ref={inputRef}
+          />
           <FilterIcon onClick={handleHashtagEnter} />
         </SearchBar>
 
