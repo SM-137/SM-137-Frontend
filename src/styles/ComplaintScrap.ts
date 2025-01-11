@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon"; // 올바른 import 추가
+import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +17,6 @@ const TitleContainer = styled.div`
 `;
 
 const ComplaintIcon = styled(SvgIcon)<SvgIconProps>`
-  // SvgIcon 및 SvgIconProps 사용
   color: var(--disabled-primary);
   width: 2rem;
   height: 2rem;
@@ -40,7 +39,6 @@ const Border = styled.div`
   flex-wrap: wrap;
 `;
 
-// ComplaintGrid 스타일 정의
 const ComplaintGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
