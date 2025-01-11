@@ -22,6 +22,7 @@ export const router = createBrowserRouter([
         path: "mypage/my-complaint",
         element: <Complaint />,
       },
+
       {
         path: "complaint-detail",
         element: <Detail />,

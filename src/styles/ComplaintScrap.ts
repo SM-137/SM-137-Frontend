@@ -27,18 +27,6 @@ const Title = styled.h2`
   color: var(--gray6-black);
 `;
 
-const Border = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-top: 1px solid var(--gray3-border);
-  padding: 5rem;
-  transform: translateY(-5rem);
-  z-index: 0;
-  width: 100vw;
-  flex-wrap: wrap;
-`;
-
 const ComplaintGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -47,11 +35,4 @@ const ComplaintGrid = styled.div`
   align-items: center;
 `;
 
-export {
-  Container,
-  TitleContainer,
-  ComplaintIcon,
-  Title,
-  Border,
-  ComplaintGrid,
-};
+export { Container, TitleContainer, ComplaintIcon, Title, ComplaintGrid };

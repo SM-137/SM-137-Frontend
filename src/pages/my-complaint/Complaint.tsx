@@ -3,14 +3,26 @@ import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
 import ContactPageRoundedIcon from "@mui/icons-material/ContactPageRounded";
 import FilterBar from "./ComplaintFilterBar";
+import styled from "@emotion/styled";
 import {
   Container,
   TitleContainer,
   ComplaintIcon,
   Title,
-  Border,
   ComplaintGrid,
 } from "../../styles/ComplaintScrap";
+
+const Border = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid var(--gray3-border);
+  padding: 5rem;
+  transform: translateY(-5rem);
+  z-index: 0;
+  width: 100vw;
+  flex-wrap: wrap;
+`;
 
 const Complaint = () => {
   return (
