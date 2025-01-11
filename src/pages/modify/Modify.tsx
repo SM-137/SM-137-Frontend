@@ -14,6 +14,14 @@ const Container = styled.div`
   margin-top: 3rem;
 `;
 
+const HeaderContainer = styled.div`
+  background-color: var(--white);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const ModifyIcon = styled(SvgIcon)<SvgIconProps>`
   width: 2rem;
   height: 2rem;
@@ -40,13 +48,14 @@ const PillMark = styled.div`
 
 const Background = styled.div`
   background-color: var(--gray1-background);
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   margin-top: 2rem;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+  padding-top: 2rem;
 `;
 
 const ContentContainer = styled.div`
@@ -97,8 +106,10 @@ const WithdrawText = styled.p`
 const Modify = () => {
   return (
     <Container>
-      <ModifyIcon component={MoodRoundedIcon} />
-      <ModifyTitle>개인정보 수정</ModifyTitle>
+      <HeaderContainer>
+        <ModifyIcon component={MoodRoundedIcon} />
+        <ModifyTitle>개인정보 수정</ModifyTitle>
+      </HeaderContainer>
       <Background>
         <ContentContainer>
           <PillMark>재학생</PillMark>
