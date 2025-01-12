@@ -15,7 +15,7 @@ const FilterContainer = styled.div`
 const FilterBar = () => {
   return (
     <FilterContainer>
-      <StatusButtonGroup />
+      <StatusButtonGroup usage="filter" />
     </FilterContainer>
   );
 };

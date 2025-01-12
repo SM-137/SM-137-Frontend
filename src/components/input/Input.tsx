@@ -71,6 +71,7 @@ const Input = ({
         <InfoLabel>{label}</InfoLabel>
       </LabelContainer>
       <InfoInput
+        type={type}
         placeholder={placeholder}
         height={height}
         onChange={onChange}
