@@ -117,8 +117,17 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   const formatTime = getFormatTime(date);
 
   const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
-  const handleDelete = () => {
+  const [alertDelete, setAlertDelete] = useState(false);
+  const handleConfirmDelete = () => {
     handleModalOpen();
+  };
+  const handleDelete = () => {
+    //delete 로직
+    setAlertDelete(true);
+    handleModalClose();
+    setTimeout(() => {
+      setAlertDelete(false);
+    }, 1500);
   };
 
   const COPIED_COMMENT = "링크가 복사되었습니다";
@@ -137,7 +146,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
     }
     setTimeout(() => {
       setIsCopied(false);
-    }, 2000);
+    }, 1500);
   };
 
   return (
@@ -146,7 +155,12 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       <Modal
         isOpen={isModalOpen}
         handleClose={handleModalClose}
-        contents={<DeleteComment handleClose={handleModalClose} />}
+        contents={
+          <DeleteComment
+            handleClose={handleDelete}
+            handleCancel={handleModalClose}
+          />
+        }
       />
       {/* Header */}
       <Header>
@@ -189,7 +203,15 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
           <EditDeleteButtonContainer>
             <EditDeleteButton>수정</EditDeleteButton>
             <pre>|</pre>
-            <EditDeleteButton onClick={handleDelete}>삭제</EditDeleteButton>
+
+            {alertDelete && (
+              <AlertContainer>
+                <Alert content="삭제되었습니다" />
+              </AlertContainer>
+            )}
+            <EditDeleteButton onClick={handleConfirmDelete}>
+              삭제
+            </EditDeleteButton>
           </EditDeleteButtonContainer>
         ) : (
           <InfoComment>
