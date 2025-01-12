@@ -98,7 +98,7 @@ const Interaction = ({
 }: InteractionProps) => {
   const [isClick, setIsClick] = useState(false);
   //백엔드에 보내줄 데이터
-  const [value, setValue] = useState(count);
+  const [, setValue] = useState(count);
 
   const handleClick = () => {
     setIsClick((prev) => !prev);

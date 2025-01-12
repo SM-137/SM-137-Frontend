@@ -16,6 +16,9 @@ const DisplayText = styled.pre<{ color: string }>`
 `;
 
 const StatusDisplay = ({ type }: StatusDisplayProps) => {
+  if (!type || !buttonStyles[type]) {
+    return <div>Invalid status type</div>;
+  }
   const { color, Icon, text } = buttonStyles[type];
 
   return (

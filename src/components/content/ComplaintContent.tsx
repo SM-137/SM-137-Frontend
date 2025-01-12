@@ -13,6 +13,7 @@ import DeleteComment from "../modal/contents/DeleteComment";
 import Alert from "../alert/Alert";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -151,7 +152,20 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
 
   return (
     <Container>
-      {/* 모달 닫기 + 삭제 로직 동시에 보내줘야 함*/}
+      {/*공유 메타데이터 */}
+      <Helmet>
+        <title>숙명137 - 숙명여자대학교 민원 시스템</title>
+        <meta property="og:title" content={data.title} />
+        <meta property="og:description" content={data.content} />
+        {/*미리보기 사진 설정 필요 */}
+        {/* {data.src ? <meta property="og:image" content={data.imageUrl} /> : } */}
+        <meta
+          property="og:image"
+          content="/src/assets/icons/logo/logo.svg?react"
+        />
+        <meta property="og:url" content={sharedLink} />
+      </Helmet>
+
       <Modal
         isOpen={isModalOpen}
         handleClose={handleModalClose}
