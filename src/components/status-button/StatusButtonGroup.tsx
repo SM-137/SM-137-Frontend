@@ -10,11 +10,16 @@ const ButtonGroupContainer = styled.div`
   height: 29px;
 `;
 
-const StatusButtonGroup = () => {
-  const [selectedType, setSelectedType] = useState<StatusType>("inProgress"); // 초기 상태 설정
+interface StatusButtonGroupProps {
+  onStatusChange: (status: StatusType) => void;
+}
+
+const StatusButtonGroup = ({ onStatusChange }: StatusButtonGroupProps) => {
+  const [selectedType, setSelectedType] = useState<StatusType>("inProgress");
 
   const handleClick = (type: StatusType) => {
     setSelectedType(type);
+    onStatusChange(type);
   };
 
   return (

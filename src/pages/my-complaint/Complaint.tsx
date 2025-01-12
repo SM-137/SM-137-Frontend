@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import ContentBox from "../../components/content/ContentBox";
 import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
@@ -11,6 +12,7 @@ import {
   Title,
   ComplaintGrid,
 } from "../../styles/ComplaintScrap";
+import { StatusType } from "../../types/Type";
 
 const Border = styled.div`
   display: flex;
@@ -25,6 +27,10 @@ const Border = styled.div`
 `;
 
 const Complaint = () => {
+  const [selectedType, setSelectedType] = useState<StatusType>("inProgress");
+
+  const filteredData = mockData.filter((item) => item.status === selectedType);
+
   return (
     <Container>
       <TitleContainer>
@@ -32,11 +38,14 @@ const Complaint = () => {
         <Title>내 민원</Title>
       </TitleContainer>
 
-      <FilterBar />
+      <FilterBar
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+      />
 
       <Border>
         <ComplaintGrid>
-          {mockData.map((item, index) => (
+          {filteredData.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}

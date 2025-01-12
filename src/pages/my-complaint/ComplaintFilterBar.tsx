@@ -1,5 +1,11 @@
 import styled from "@emotion/styled";
 import StatusButtonGroup from "../../components/status-button/StatusButtonGroup";
+import { StatusType } from "../../types/Type";
+
+interface FilterBarProps {
+  selectedType: StatusType;
+  setSelectedType: (type: StatusType) => void;
+}
 
 const FilterContainer = styled.div`
   display: flex;
@@ -12,10 +18,10 @@ const FilterContainer = styled.div`
   z-index: 1;
 `;
 
-const FilterBar = () => {
+const FilterBar = ({ setSelectedType }: FilterBarProps) => {
   return (
     <FilterContainer>
-      <StatusButtonGroup />
+      <StatusButtonGroup onStatusChange={setSelectedType} />
     </FilterContainer>
   );
 };
