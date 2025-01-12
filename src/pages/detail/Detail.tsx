@@ -10,6 +10,8 @@ import {
 } from "../../styles/CommentTitleStyle";
 import CommentInput from "../../components/comment/CommentInput";
 import Answer from "../../components/answer/Answer";
+import { useState } from "react";
+import Alert from "../../components/alert/Alert";
 
 const Container = styled.div`
   position: absolute;
