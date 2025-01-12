@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import ContentBox from "../../components/content/ContentBox";
 import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
 import ContactPageRoundedIcon from "@mui/icons-material/ContactPageRounded";
-import FilterBar from "./ComplaintFilterBar";
 import styled from "@emotion/styled";
 import {
   Container,
@@ -12,7 +11,18 @@ import {
   Title,
   ComplaintGrid,
 } from "../../styles/ComplaintScrap";
-import { StatusType } from "../../types/Type";
+import { FiltersProps, useFilter } from "../../hooks/useFilter";
+import ComplaintFilterBar from "./ComplaintFilterBar";
+import { DataType } from "../../types/Type";
+
+interface MyComplaintProps {
+  originData: DataType[];
+  handleFilterOptions: <K extends keyof FiltersProps>(
+    option: K,
+    value: FiltersProps[K]
+  ) => void;
+  handleFilter: () => void;
+}
 
 const Border = styled.div`
   display: flex;
@@ -26,38 +36,48 @@ const Border = styled.div`
   flex-wrap: wrap;
 `;
 
-const Complaint = () => {
-  const [selectedType, setSelectedType] = useState<StatusType>("inProgress");
+export const MyComplaintContext = createContext<MyComplaintProps | undefined>(
+  undefined
+);
 
-  const filteredData = mockData.filter((item) => item.status === selectedType);
+const Complaint = () => {
+  const [originData] = useState(mockData);
+  const { filteredData, handleFilter, handleFilterOptions, filters } =
+    useFilter(originData);
+
+  useEffect(() => {
+    console.log("작동");
+    handleFilter();
+  }, [filters]);
 
   return (
-    <Container>
-      <TitleContainer>
-        <ComplaintIcon component={ContactPageRoundedIcon} />
-        <Title>내 민원</Title>
-      </TitleContainer>
+    <MyComplaintContext.Provider
+      value={{ originData, handleFilterOptions, handleFilter }}
+    >
+      <Container>
+        <TitleContainer>
+          <ComplaintIcon component={ContactPageRoundedIcon} />
+          <Title>내 민원</Title>
+        </TitleContainer>
 
-      <FilterBar
-        selectedType={selectedType}
-        setSelectedType={setSelectedType}
-      />
+        <ComplaintFilterBar />
 
-      <Border>
-        <ComplaintGrid>
-          {filteredData.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ContentBox data={item} type="small" />
-            </motion.div>
-          ))}
-        </ComplaintGrid>
-      </Border>
-    </Container>
+        <Border>
+          <ComplaintGrid>
+            {filteredData.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ContentBox data={item} type="small" />
+              </motion.div>
+            ))}
+          </ComplaintGrid>
+        </Border>
+      </Container>
+    </MyComplaintContext.Provider>
   );
 };
 
