@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import Emblem from "../../assets/emblem-1_DarkGray.png";
+import Emblem from "/public/assets/emblem-1_DarkGray.png";
 import HashtagCloud from "../../components/hashtag-cloud/HashtagCloud";
 import SearchBar from "../../components/search-bar/SearchBar";
 import QuickLink from "../../components/quick-link/QuickLink";

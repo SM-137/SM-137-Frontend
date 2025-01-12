@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { MyPageProps } from "../../types/Type";
-import Gmail from "../../assets/icons/gmail.png";
+import Gmail from "/public/assets/icons/gmail.png";
 import CategoryTag from "../../components/category-tag/CategoryTag";
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
