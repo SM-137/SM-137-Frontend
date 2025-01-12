@@ -77,6 +77,12 @@ p {
   font-size: 0.75rem;
   line-height: 1.35rem;
 }
+label {
+  font-family: "pretendardB";
+  font-size: 1rem;
+  line-height: 1.5rem;
+  letter-spacing: -0.02em;
+}
 /*svg파일 반응형*/
 @media (max-width: 768px) {
   #logo {

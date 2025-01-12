@@ -1,9 +1,11 @@
 import styled from "@emotion/styled";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
+import { useNavigate } from "react-router-dom";
 
 interface QuickLinkItemProps {
   icon: React.ComponentType<SvgIconProps>;
   text: string;
+  url: string;
 }
 
 const QuickLinkIconTextItem = styled.div`
@@ -39,11 +41,19 @@ const QuickLinkText = styled.span`
   white-space: normal;
 `;
 
-const QuickLinkItem = ({ icon: IconComponent, text }: QuickLinkItemProps) => (
-  <QuickLinkIconTextItem>
-    <QuickLinkIcon component={IconComponent} />
-    <QuickLinkText>{text}</QuickLinkText>
-  </QuickLinkIconTextItem>
-);
+const QuickLinkItem = ({
+  icon: IconComponent,
+  text,
+  url,
+}: QuickLinkItemProps) => {
+  const navigate = useNavigate();
+
+  return (
+    <QuickLinkIconTextItem onClick={() => navigate(url)}>
+      <QuickLinkIcon component={IconComponent} />
+      <QuickLinkText>{text}</QuickLinkText>
+    </QuickLinkIconTextItem>
+  );
+};
 
 export default QuickLinkItem;

@@ -8,6 +8,10 @@ interface CategoryProps {
   isClick: boolean;
 }
 
+interface UsageProps {
+  usage: "filter" | "normal";
+}
+
 const Wrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,7 +41,14 @@ const Category = styled.button<CategoryProps>`
   color: ${(props) => props.isClick && "var(--white)"};
   z-index: 100;
 `;
-
+const BackGround = styled.div`
+  background-color: var(--white);
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const Highlight = styled(motion.div)`
   position: absolute;
   width: 25%;
@@ -45,19 +56,21 @@ const Highlight = styled(motion.div)`
   background-color: var(--light-primary);
 `;
 
-const CategorySelect = () => {
+const CategorySelect = ({ usage }: UsageProps) => {
   const CATEGORY = ["facility", "degree", "career", "school"] as const;
   const CATEGORY_CONTENT = ["시설/설비", "대학원", "진로/취업", "학교생활"];
 
   const [category, setCategory] =
     useState<keyof typeof categoryName>("facility");
+
   const [isClick, setIsClick] = useState({
     facility: true,
     degree: false,
     career: false,
     school: false,
   });
-  const handleCategory = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+  const handleCategorySelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     const value = e.currentTarget.getAttribute("data-category")!;
     if (value) {
       setCategory(value as keyof typeof categoryName);
@@ -71,25 +84,29 @@ const CategorySelect = () => {
       });
     }
   };
+
   return (
     <Wrap>
       <CategoryContainer>
-        <Highlight
-          layoutId="highlight"
-          style={{ left: `${CATEGORY.indexOf(category) * 25}%` }}
-          transition={{ stiffness: 500 }}
-        />
-        {CATEGORY.map((i, index) => (
-          <Category
-            data-category={i}
-            onClick={handleCategory}
-            isClick={isClick[i]}
-          >
-            {CATEGORY_CONTENT[index]}
-          </Category>
-        ))}
+        <BackGround>
+          <Highlight
+            layoutId="highlight"
+            style={{ left: `${CATEGORY.indexOf(category) * 25}%` }}
+            transition={{ stiffness: 500 }}
+          />
+          {CATEGORY.map((i, index) => (
+            <Category
+              key={index}
+              data-category={i}
+              onClick={handleCategorySelect}
+              isClick={isClick[i]}
+            >
+              {CATEGORY_CONTENT[index]}
+            </Category>
+          ))}
+        </BackGround>
       </CategoryContainer>
-      <SubCategory category={category} />
+      <SubCategory category={category} usage={usage} />
     </Wrap>
   );
 };

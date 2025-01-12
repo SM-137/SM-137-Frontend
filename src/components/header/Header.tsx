@@ -5,8 +5,9 @@ import HeaderNotify from "./header-components/HeaderNotify";
 import { useHeaderContext } from "../../contexts/HeaderOpenContext";
 import HeaderMyPage from "./header-components/HeaderMyPage";
 import HeaderSideNav from "./header-components/HeaderSideNav";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { HOME_URL } from "../../utils/URL";
 
 interface BackgroundProps {
   $isDark: boolean;
@@ -39,21 +40,29 @@ const NavigatorSet = styled.div`
 `;
 
 const Header = () => {
-  const { isDark, handleDark } = useHeaderContext();
+  const { isDark, handleDark, handleLight } = useHeaderContext();
   const path = useLocation().pathname;
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (path === "/") {
       handleDark();
+      return;
     }
-  }, []);
+    handleLight();
+  }, [path]);
+
   return (
     <Background $isDark={isDark}>
       <HeaderContainer>
         {/*메뉴바 / 로고 */}
         <NavigatorSet>
           <HeaderSideNav />
-          {isDark ? <LogoLight /> : <Logo />}
+          {isDark ? (
+            <LogoLight onClick={() => navigate(HOME_URL)} />
+          ) : (
+            <Logo onClick={() => navigate(HOME_URL)} />
+          )}
         </NavigatorSet>
 
         {/*알람 / 마이페이지 */}

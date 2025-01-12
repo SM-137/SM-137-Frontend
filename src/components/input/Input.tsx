@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
 
 interface InfoInputProps {
-  height: string;
+  height?: string;
 }
 
 interface InputProps extends InfoInputProps {
   label: string;
   placeholder: string;
+  type?: string;
   isRequired?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -40,15 +41,29 @@ const RequiredMark = styled.span`
 
 const InfoInput = styled.input<InfoInputProps>`
   width: 85%;
-  height: ${(props) => props.height};
+  height: ${(props) => props.height || "35px"};
   padding: 5px 16px;
   border: 1px solid var(--gray3-border);
   border-radius: 4px;
   font-size: 14px;
+
+  &::placeholder {
+    color: var(--gray4-placeholder-low);
+  }
+
+  &:focus::placeholder {
+    opacity: 0;
+  }
 `;
 
-const Input = (inputProps: InputProps) => {
-  const { label, placeholder, height, isRequired, onChange } = inputProps;
+const Input = ({
+  label = "labelText",
+  placeholder = "placeholder",
+  type = "text",
+  height = "35px",
+  isRequired = false,
+  onChange,
+}: InputProps) => {
   return (
     <Container>
       <LabelContainer>
@@ -56,20 +71,13 @@ const Input = (inputProps: InputProps) => {
         <InfoLabel>{label}</InfoLabel>
       </LabelContainer>
       <InfoInput
+        type={type}
         placeholder={placeholder}
         height={height}
         onChange={onChange}
       />
     </Container>
   );
-};
-
-Input.defaultProps = {
-  label: "labelText",
-  placeholder: "placeholder",
-  width: "180px",
-  height: "35px",
-  isRequired: false,
 };
 
 export default Input;

@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
-import Emblem from "../../assets/emblem-1_DarkGray.png";
 import HashtagCloud from "../../components/hashtag-cloud/HashtagCloud";
 import SearchBar from "../../components/search-bar/SearchBar";
 import QuickLink from "../../components/quick-link/QuickLink";
 import HomeContentList from "./HomeContentList";
+import Emblem from "../../assets/emblem-1_DarkGray.png";
 
 const HomeContainer = styled.div`
   height: 100%;
