@@ -3,6 +3,7 @@ import { MyPageProps } from "../../types/Type";
 import CategoryTag from "../../components/category-tag/CategoryTag";
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
+import Gmail from "../../assets/icons/gmail.png";
 
 interface MyPageInfoProps {
   data: MyPageProps;
@@ -68,7 +69,7 @@ const MyPageInfo = ({ data }: MyPageInfoProps) => {
       <Sid>{data.sid}</Sid>
       <Major>{data.major}</Major>
       <Email>
-        <EmailIcon src="/src/assets/icons/gmail.png" alt="gmail icon" />
+        <EmailIcon src={Gmail} alt="gmail icon" />
         {data.email}
       </Email>
     </Container>

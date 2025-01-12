@@ -137,6 +137,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   const baseURL = window.location.origin;
   const contentURL = useLocation().pathname;
   const sharedLink = baseURL + contentURL;
+  const imageLink = baseURL + "assets/logo.svg?react";
 
   const copyToClipboard = async () => {
     try {
@@ -159,10 +160,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
         <meta property="og:description" content={data.content} />
         {/*미리보기 사진 설정 필요 */}
         {/* {data.src ? <meta property="og:image" content={data.imageUrl} /> : } */}
-        <meta
-          property="og:image"
-          content="/src/assets/icons/logo/logo.svg?react"
-        />
+        <meta property="og:image" content={imageLink} />
         <meta property="og:url" content={sharedLink} />
       </Helmet>
 
