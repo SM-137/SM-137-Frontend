@@ -3,6 +3,7 @@ export const HOME_URL = "/";
 export const MYPAGE_URL = "/mypage";
 export const MY_COMPLAINT_URL = "/mypage/my-complaint";
 export const MY_SCRAP_URL = "/mypage/my-scrap";
+export const COMPLAINT_APPLICATION_URL = "/complaint-request/1";
 
 export const searchUrl = (keyword: string) =>
   `/complaint-search?keyword=${keyword}`;

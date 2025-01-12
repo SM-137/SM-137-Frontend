@@ -20,6 +20,7 @@ const Background = styled.div`
   background-color: var(--gray1-background);
   border-radius: 8px;
 `;
+
 const Container = styled.div`
   display: inline-flex;
   flex-wrap: wrap;
@@ -37,40 +38,28 @@ const SubCategoryButton = styled.button<{ isClick: boolean }>`
 `;
 
 const SubCategory = (props: SubCategoryProps) => {
-  const { category, usage = "normal" } = props;
+  const { category, usage } = props;
   const subCategoryField = categoryName[category];
 
-  const context = useContext(ViewContext);
-  if (!context) {
-    throw new Error("SubCategory context 호출 중 오류 발생");
-  }
+  const context = usage === "filter" ? useContext(ViewContext) : null;
 
-  //필터링
   const [subCategory, setSubCategory] = useState<CategoryValue>();
   const handleSubCategorySelect = (value: CategoryValue) => {
     if (subCategory === value) {
-      //기존 선택지 해제
       setSubCategory(undefined);
-      context.handleFilterOptions("category", null);
+      context?.handleFilterOptions("category", null); 
       return;
     }
     setSubCategory(value);
-    context.handleFilterOptions("category", value);
+    context?.handleFilterOptions("category", value); 
   };
 
   const handleClick = (value: CategoryValue) => {
-    if (subCategory === value) {
-      setSubCategory(undefined);
-      //선택에 대한 로직
-    }
-    setSubCategory(value);
+    setSubCategory((prev) => (prev === value ? undefined : value));
   };
 
-  //필터링 로직 vs 일반 선택 로직
-  const setHandleFunction = (usage: "filter" | "normal") => {
-    return usage === "filter" ? handleSubCategorySelect : handleClick;
-  };
-  const handleClickHandler = setHandleFunction(usage);
+  const handleClickHandler =
+    usage === "filter" ? handleSubCategorySelect : handleClick;
 
   return (
     <Background>

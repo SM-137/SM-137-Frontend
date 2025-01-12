@@ -7,6 +7,10 @@ import Detail from "./pages/detail/Detail";
 import View from "./pages/view/View";
 import MyPage from "./pages/my-page/MyPage";
 import Search from "./pages/search/Search";
+import AcademicInfoStep from "./pages/application-step/AcademicInfoStep";
+import CategorySelectionStep from "./pages/application-step/CategorySelectionStep";
+import ComplaintsWritingStep from "./pages/application-step/ComplaintsWritingStep";
+import CompletedStep from "./pages/application-step/CompletedStep";
 
 export const router = createBrowserRouter(
   [
@@ -42,6 +46,27 @@ export const router = createBrowserRouter(
           path: "mypage/my-scrap",
           element: <Scrap />,
         },
+         {
+        path: "complaint-request",
+        children: [
+          {
+            path: "1",
+            element: <AcademicInfoStep />,
+          },
+          {
+            path: "2",
+            element: <CategorySelectionStep />,
+          },
+          {
+            path: "3",
+            element: <ComplaintsWritingStep />,
+          },
+          {
+            path: "4",
+            element: <CompletedStep />,
+          },
+        ],
+      },
       ],
     },
   ],
