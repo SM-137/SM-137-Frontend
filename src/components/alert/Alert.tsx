@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import { motion } from "framer-motion";
-import { Opacity } from "@mui/icons-material";
 
 interface AlertProps {
   content: string;
