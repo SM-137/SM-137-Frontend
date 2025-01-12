@@ -12,12 +12,12 @@ const FilterContainer = styled.div`
   z-index: 1;
 `;
 
-const FilterBar = () => {
+const ComplaintFilterBar = () => {
   return (
     <FilterContainer>
-      <StatusButtonGroup />
+      <StatusButtonGroup usage="filter" />
     </FilterContainer>
   );
 };
 
-export default FilterBar;
+export default ComplaintFilterBar;

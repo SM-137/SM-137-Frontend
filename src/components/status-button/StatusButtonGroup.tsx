@@ -3,6 +3,7 @@ import StatusButton from "./StatusButton";
 import styled from "@emotion/styled";
 import { StatusType } from "../../types/Type";
 import { ViewContext } from "../../pages/view/View";
+import { MyComplaintContext } from "../../pages/my-complaint/Complaint";
 
 const ButtonGroupContainer = styled.div`
   display: flex;
@@ -43,7 +44,6 @@ const StatusButtonGroup = ({ usage = "normal" }: UsageProps) => {
   };
 
   //필터링 로직
-
   const handleFilter = (type: StatusType) => {
     if (type === undefined) {
       return;
@@ -78,7 +78,8 @@ const StatusButtonGroup = ({ usage = "normal" }: UsageProps) => {
   };
   const handleClickHandler = setHandleFunction(usage);
 
-  const context = useContext(ViewContext);
+  const context = useContext(ViewContext) || useContext(MyComplaintContext);
+  console.log(context);
   useEffect(() => {
     if (usage === "filter") {
       if (!context) return;

@@ -12,40 +12,41 @@ import CategorySelectionStep from "./pages/application-step/CategorySelectionSte
 import ComplaintsWritingStep from "./pages/application-step/ComplaintsWritingStep";
 import CompletedStep from "./pages/application-step/CompletedStep";
 
-export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "",
-        element: <Home />,
-      },
-      {
-        path: "complaint-detail",
-        element: <Detail />,
-      },
-      {
-        path: "complaint-search",
-        element: <Search />,
-      },
-      {
-        path: "complaint-view",
-        element: <View />,
-      },
-      {
-        path: "mypage",
-        element: <MyPage />,
-      },
-      {
-        path: "mypage/my-complaint",
-        element: <Complaint />,
-      },
-      {
-        path: "mypage/my-scrap",
-        element: <Scrap />,
-      },
-      {
+export const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "",
+          element: <Home />,
+        },
+        {
+          path: "complaint-detail",
+          element: <Detail />,
+        },
+        {
+          path: "complaint-search",
+          element: <Search />,
+        },
+        {
+          path: "complaint-view",
+          element: <View />,
+        },
+        {
+          path: "mypage",
+          element: <MyPage />,
+        },
+        {
+          path: "mypage/my-complaint",
+          element: <Complaint />,
+        },
+        {
+          path: "mypage/my-scrap",
+          element: <Scrap />,
+        },
+         {
         path: "complaint-request",
         children: [
           {
@@ -66,6 +67,8 @@ export const router = createBrowserRouter([
           },
         ],
       },
-    ],
-  },
-]);
+      ],
+    },
+  ],
+  { basename: "/SM-137-Frontend" }
+);
