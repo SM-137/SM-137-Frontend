@@ -6,6 +6,7 @@ export interface FiltersProps {
   period: string | null;
   category: CategoryValue | null;
   status: StatusType[] | null;
+  hashtag: string[] | null;
 }
 
 export const useFilter = (originData: DataType[]) => {
@@ -14,7 +15,8 @@ export const useFilter = (originData: DataType[]) => {
     //필터 옵션 저장
     period: null,
     category: null,
-    status: [],
+    status: null,
+    hashtag: null,
   });
 
   const handleFilterOptions = <K extends keyof FiltersProps>(
@@ -37,6 +39,9 @@ export const useFilter = (originData: DataType[]) => {
     }
     if (filters.status) {
       result = handleStatus(result, filters.status);
+    }
+    if (filters.hashtag) {
+      result = handleHashtag(result, filters.hashtag);
     }
     setFilteredData(result);
   };
@@ -78,6 +83,14 @@ export const useFilter = (originData: DataType[]) => {
     //option이 선택된 경우에만 필터링
     if (!noStatusOption) {
       result = originData.filter((i) => status.includes(i.status));
+    }
+    return result;
+  };
+
+  const handleHashtag = (originData: DataType[], hashtag: string[]) => {
+    let result = originData;
+    for (let tag of hashtag) {
+      result = originData.filter((i) => i.hashtag.includes(tag));
     }
     return result;
   };
