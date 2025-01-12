@@ -5,7 +5,7 @@ const SpinnerGif = styled.img`
 `;
 
 const Loading = () => {
-  return <SpinnerGif src="/src/assets/icons/spinner.gif" alt="로딩 gif" />;
+  return <SpinnerGif src="/public/assets/icons/spinner.gif" alt="로딩 gif" />;
 };
 
 export default Loading;

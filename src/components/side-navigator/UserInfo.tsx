@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import SchoolLogo from "../../assets/symbol_Color.png";
+import SchoolLogo from "/public/assets/symbol_Color.png";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useHeaderContext } from "../../contexts/HeaderOpenContext";

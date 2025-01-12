@@ -10,6 +10,9 @@ import { getFormatTime } from "../../utils/FormattingTime";
 import { useModal } from "../../hooks/useModal";
 import Modal from "../modal/Modal";
 import DeleteComment from "../modal/contents/DeleteComment";
+import Alert from "../alert/Alert";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -102,6 +105,13 @@ const Category = styled.span`
   color: var(--light-primary);
 `;
 
+const AlertContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
 const ComplaintContent = ({ data }: ComplaintContentProps) => {
   const date = new Date(data.date);
   const formatTime = getFormatTime(date);
@@ -109,6 +119,25 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
   const handleDelete = () => {
     handleModalOpen();
+  };
+
+  const COPIED_COMMENT = "링크가 복사되었습니다";
+  const [isCopied, setIsCopied] = useState(false);
+  //복사할 URL 설정
+  const baseURL = window.location.origin;
+  const contentURL = useLocation().pathname;
+  const sharedLink = baseURL + contentURL;
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(sharedLink);
+      setIsCopied(true);
+    } catch (error) {
+      console.error(`링크복사 실패 : ${error}`);
+    }
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000);
   };
 
   return (
@@ -131,7 +160,14 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
         </HeaderContent>
         <InteractionContainer>
           <InteractionGroup likes={data.likes} bookmarks={data.bookmarks} />
-          <Icon component={ShareIcon} />
+
+          {/*공유 */}
+          {isCopied && (
+            <AlertContainer>
+              <Alert content={COPIED_COMMENT} />
+            </AlertContainer>
+          )}
+          <Icon component={ShareIcon} onClick={copyToClipboard} />
         </InteractionContainer>
       </Header>
 
