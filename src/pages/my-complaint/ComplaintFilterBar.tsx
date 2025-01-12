@@ -21,7 +21,7 @@ const FilterContainer = styled.div`
 const FilterBar = ({ setSelectedType }: FilterBarProps) => {
   return (
     <FilterContainer>
-      <StatusButtonGroup onStatusChange={setSelectedType} />
+      <StatusButtonGroup usage="filter" />
     </FilterContainer>
   );
 };

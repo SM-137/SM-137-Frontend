@@ -6,17 +6,23 @@ import SearchFilterBar from "../../components/search-filter/SearchFilter";
 import SortBar from "../../components/sort-bar/SortBar";
 import { mockData } from "../../mockData";
 import ContentList from "../../components/content/ContentList";
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { DataType, SortType } from "../../types/Type";
 import { NoComplaints } from "../../styles/NoComplaints";
+import { FiltersProps, useFilter } from "../../hooks/useFilter";
+import { SortOptionsProps, useSort } from "../../hooks/useSort";
 
 interface ViewProps {
   originData: DataType[];
-  setOriginData: Dispatch<SetStateAction<DataType[]>>;
-  filteredData: DataType[];
-  setFilteredData: Dispatch<SetStateAction<DataType[]>>;
-  sortOption: SortType;
-  setSortOption: Dispatch<SetStateAction<SortType>>;
+  filters: FiltersProps;
+  handleFilterOptions: <K extends keyof FiltersProps>(
+    option: K,
+    value: FiltersProps[K]
+  ) => void;
+  handleFilter: () => void;
+  handleSort: (inputData: DataType[]) => void;
+  sortOptions: SortOptionsProps;
+  handleSortOption: (type: SortType) => void;
 }
 
 const Container = styled.div`
@@ -68,19 +74,31 @@ const SortContainer = styled.div`
   width: 100%;
 `;
 
-export const ViewContext = createContext<ViewProps>({
-  originData: mockData,
-  setOriginData: () => {},
-  filteredData: mockData,
-  setFilteredData: () => {},
-  sortOption: "latest",
-  setSortOption: () => {},
-});
+export const ViewContext = createContext<ViewProps | undefined>(undefined);
 
 const View = () => {
-  const [originData, setOriginData] = useState(mockData);
-  const [filteredData, setFilteredData] = useState(mockData);
-  const [sortOption, setSortOption] = useState<SortType>("latest");
+  const [originData] = useState(mockData);
+  const [resetButton, setResetButton] = useState(false);
+
+  const { filteredData, handleFilter, handleFilterOptions, filters } =
+    useFilter(originData);
+  const { handleSort, sortOptions, handleSortOption, sortData } =
+    useSort(filteredData);
+
+  // 필터링이나 정렬이 변경되면 버튼 상태 리셋
+  const handleResetButtonState = () => {
+    setResetButton(true);
+  };
+
+  useEffect(() => {
+    handleFilter();
+    handleResetButtonState();
+  }, [filters]);
+
+  useEffect(() => {
+    handleSort(filteredData);
+    handleResetButtonState();
+  }, [sortOptions, filteredData]);
 
   const isComplaintExist = !(filteredData.length == 0);
 
@@ -88,11 +106,12 @@ const View = () => {
     <ViewContext.Provider
       value={{
         originData,
-        setOriginData,
-        filteredData,
-        setFilteredData,
-        sortOption,
-        setSortOption,
+        handleFilter,
+        filters,
+        handleFilterOptions,
+        handleSort,
+        sortOptions,
+        handleSortOption,
       }}
     >
       <Container>
@@ -101,7 +120,7 @@ const View = () => {
             <Icon component={SearchRoundedIcon} />
             <Title>전체 민원 조회</Title>
           </TitleContainer>
-          <CategorySelect />
+          <CategorySelect usage="filter" />
         </Background>
 
         <ContentsContainer>
@@ -110,8 +129,8 @@ const View = () => {
           <SortContainer>
             <SortBar context={ViewContext} />
             {isComplaintExist ? (
-              filteredData.map((i, index) => (
-                <ContentList data={i} key={index} />
+              sortData.map((i, index) => (
+                <ContentList data={i} key={index} resetTrigger={resetButton} />
               ))
             ) : (
               <NoComplaints>조건에 맞는 게시물이 없습니다</NoComplaints>

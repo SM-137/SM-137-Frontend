@@ -6,12 +6,13 @@ import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 interface InteractionProps {
   type: "thumbUp" | "scrap" | "likes";
   count: number;
+  resetTrigger?: boolean;
 }
 const Container = styled.div`
   display: inline-flex;
@@ -90,12 +91,26 @@ const getFill = (type: string) => {
   }
 };
 
-const Interaction = ({ type, count }: InteractionProps) => {
+const Interaction = ({
+  type,
+  count,
+  resetTrigger = false,
+}: InteractionProps) => {
   const [isClick, setIsClick] = useState(false);
+  //백엔드에 보내줄 데이터
+  const [, setValue] = useState(count);
 
   const handleClick = () => {
     setIsClick((prev) => !prev);
+    setValue((prev: number) => (isClick ? prev - 1 : prev + 1));
   };
+
+  useEffect(() => {
+    if (resetTrigger) {
+      setIsClick(false);
+      setValue(count);
+    }
+  }, [resetTrigger, count]);
 
   return (
     <Container>
@@ -114,7 +129,7 @@ const Interaction = ({ type, count }: InteractionProps) => {
       ) : (
         <UnClickIcon component={getIcon(type)} onClick={handleClick} />
       )}
-      <Value>{count}</Value>
+      <Value>{isClick ? count + 1 : count}</Value>
     </Container>
   );
 };

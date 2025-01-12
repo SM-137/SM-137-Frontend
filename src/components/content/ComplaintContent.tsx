@@ -10,6 +10,10 @@ import { getFormatTime } from "../../utils/FormattingTime";
 import { useModal } from "../../hooks/useModal";
 import Modal from "../modal/Modal";
 import DeleteComment from "../modal/contents/DeleteComment";
+import Alert from "../alert/Alert";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -102,22 +106,73 @@ const Category = styled.span`
   color: var(--light-primary);
 `;
 
+const AlertContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
 const ComplaintContent = ({ data }: ComplaintContentProps) => {
   const date = new Date(data.date);
   const formatTime = getFormatTime(date);
 
   const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
-  const handleDelete = () => {
+  const [alertDelete, setAlertDelete] = useState(false);
+  const handleConfirmDelete = () => {
     handleModalOpen();
+  };
+  const handleDelete = () => {
+    //delete 로직
+    setAlertDelete(true);
+    handleModalClose();
+    setTimeout(() => {
+      setAlertDelete(false);
+    }, 1500);
+  };
+
+  const COPIED_COMMENT = "링크가 복사되었습니다";
+  const [isCopied, setIsCopied] = useState(false);
+  //복사할 URL 설정
+  const baseURL = window.location.origin;
+  const contentURL = useLocation().pathname;
+  const sharedLink = baseURL + contentURL;
+  const imageLink = baseURL + "assets/logo.svg?react";
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(sharedLink);
+      setIsCopied(true);
+    } catch (error) {
+      console.error(`링크복사 실패 : ${error}`);
+    }
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 1500);
   };
 
   return (
     <Container>
-      {/* 모달 닫기 + 삭제 로직 동시에 보내줘야 함*/}
+      {/*공유 메타데이터 */}
+      <Helmet>
+        <title>숙명137 - 숙명여자대학교 민원 시스템</title>
+        <meta property="og:title" content={data.title} />
+        <meta property="og:description" content={data.content} />
+        {/*미리보기 사진 설정 필요 */}
+        {/* {data.src ? <meta property="og:image" content={data.imageUrl} /> : } */}
+        <meta property="og:image" content={imageLink} />
+        <meta property="og:url" content={sharedLink} />
+      </Helmet>
+
       <Modal
         isOpen={isModalOpen}
         handleClose={handleModalClose}
-        contents={<DeleteComment handleClose={handleModalClose} />}
+        contents={
+          <DeleteComment
+            handleClose={handleDelete}
+            handleCancel={handleModalClose}
+          />
+        }
       />
       {/* Header */}
       <Header>
@@ -131,7 +186,14 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
         </HeaderContent>
         <InteractionContainer>
           <InteractionGroup likes={data.likes} bookmarks={data.bookmarks} />
-          <Icon component={ShareIcon} />
+
+          {/*공유 */}
+          {isCopied && (
+            <AlertContainer>
+              <Alert content={COPIED_COMMENT} />
+            </AlertContainer>
+          )}
+          <Icon component={ShareIcon} onClick={copyToClipboard} />
         </InteractionContainer>
       </Header>
 
@@ -153,7 +215,15 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
           <EditDeleteButtonContainer>
             <EditDeleteButton>수정</EditDeleteButton>
             <pre>|</pre>
-            <EditDeleteButton onClick={handleDelete}>삭제</EditDeleteButton>
+
+            {alertDelete && (
+              <AlertContainer>
+                <Alert content="삭제되었습니다" />
+              </AlertContainer>
+            )}
+            <EditDeleteButton onClick={handleConfirmDelete}>
+              삭제
+            </EditDeleteButton>
           </EditDeleteButtonContainer>
         ) : (
           <InfoComment>

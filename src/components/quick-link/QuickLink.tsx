@@ -4,7 +4,7 @@ import AccountBoxRoundedIcon from "@mui/icons-material/AccountBoxRounded";
 import SmsRoundedIcon from "@mui/icons-material/SmsRounded";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import QuickLinkItem from "./QuickLinkItem";
-import { VIEW_URL } from "../../utils/URL";
+import { MY_COMPLAINT_URL, MY_SCRAP_URL, VIEW_URL } from "../../utils/URL";
 
 const QuickLinkWrapper = styled.div`
   display: inline-flex;
@@ -34,10 +34,14 @@ const QuickLink = () => {
           text="전체 민원 조회"
           url={VIEW_URL}
         />
-        <QuickLinkItem icon={AccountBoxRoundedIcon} text="내 민원" url="/" />
+        <QuickLinkItem
+          icon={AccountBoxRoundedIcon}
+          text="내 민원"
+          url={MY_COMPLAINT_URL}
+        />
       </QuickLinkDisplay>
       <QuickLinkDisplay>
-        <QuickLinkItem icon={SmsRoundedIcon} text="결과 조회" url="/" />
+        <QuickLinkItem icon={SmsRoundedIcon} text="스크랩" url={MY_SCRAP_URL} />
         <QuickLinkItem icon={CreateRoundedIcon} text="민원 신청" url="/" />
       </QuickLinkDisplay>
     </QuickLinkWrapper>

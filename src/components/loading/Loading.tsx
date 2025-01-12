@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
+import SpinnerGifFile from "../../assets/icons/spinner.gif";
 
 const SpinnerGif = styled.img`
   width: 100px;
 `;
 
 const Loading = () => {
-  return <SpinnerGif src="/src/assets/icons/spinner.gif" alt="로딩 gif" />;
+  return <SpinnerGif src={SpinnerGifFile} alt="로딩 gif" />;
 };
 
 export default Loading;

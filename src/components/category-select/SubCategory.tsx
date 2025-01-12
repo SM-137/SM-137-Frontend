@@ -1,13 +1,12 @@
 import styled from "@emotion/styled";
 import { categoryName } from "../../utils/SubCategoryContent";
 import { CategoryValue } from "../../types/Type";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ViewContext } from "../../pages/view/View";
-import { useFilter } from "../../hooks/useFilter";
-import { useSort } from "../../hooks/useSort";
 
 interface SubCategoryProps {
   category: keyof typeof categoryName;
+  usage: "filter" | "normal";
 }
 
 const Background = styled.div`
@@ -38,31 +37,40 @@ const SubCategoryButton = styled.button<{ isClick: boolean }>`
 `;
 
 const SubCategory = (props: SubCategoryProps) => {
-  const { category } = props;
+  const { category, usage = "normal" } = props;
   const subCategoryField = categoryName[category];
 
+  const context = useContext(ViewContext);
+  if (!context) {
+    throw new Error("SubCategory context 호출 중 오류 발생");
+  }
+
   //필터링
-  const { setFilteredData, originData, sortOption } = useContext(ViewContext);
-  const filter = useFilter(setFilteredData);
-  const sort = useSort(setFilteredData);
   const [subCategory, setSubCategory] = useState<CategoryValue>();
   const handleSubCategorySelect = (value: CategoryValue) => {
     if (subCategory === value) {
-      //초기화
+      //기존 선택지 해제
       setSubCategory(undefined);
-      setFilteredData(originData);
+      context.handleFilterOptions("category", null);
       return;
+    }
+    setSubCategory(value);
+    context.handleFilterOptions("category", value);
+  };
+
+  const handleClick = (value: CategoryValue) => {
+    if (subCategory === value) {
+      setSubCategory(undefined);
+      //선택에 대한 로직
     }
     setSubCategory(value);
   };
 
-  useEffect(() => {
-    if (subCategory) {
-      filter.handleCategory(originData, subCategory);
-      //필터링 이후 정렬 재정렬
-      sort.handleSort(sortOption);
-    }
-  }, [subCategory]);
+  //필터링 로직 vs 일반 선택 로직
+  const setHandleFunction = (usage: "filter" | "normal") => {
+    return usage === "filter" ? handleSubCategorySelect : handleClick;
+  };
+  const handleClickHandler = setHandleFunction(usage);
 
   return (
     <Background>
@@ -71,7 +79,7 @@ const SubCategory = (props: SubCategoryProps) => {
           <SubCategoryButton
             isClick={subCategory === item}
             key={index}
-            onClick={() => handleSubCategorySelect(item)}
+            onClick={() => handleClickHandler(item)}
           >
             {item}
           </SubCategoryButton>
