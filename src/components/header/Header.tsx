@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import Logo from "/public/assets/icons/logo/logo.svg?react";
-import LogoLight from "/public/assets/icons/logo/logo-light.svg?react";
+import Logo from "../../assets/icons/logo/logo.svg?react";
+import LogoLight from "../../assets/icons/logo/logo-light.svg?react";
 import HeaderNotify from "./header-components/HeaderNotify";
 import { useHeaderContext } from "../../contexts/HeaderOpenContext";
 import HeaderMyPage from "./header-components/HeaderMyPage";

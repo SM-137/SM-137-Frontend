@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import SchoolLogo from "/public/assets/symbol_Color.png";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useHeaderContext } from "../../contexts/HeaderOpenContext";
@@ -42,7 +41,7 @@ const UserInfo = () => {
       <IconContainer onClick={() => handleOpen("isSideNavOpen")}>
         <CrossIcon component={CloseRoundedIcon} />
       </IconContainer>
-      <Logo src={SchoolLogo} />
+      <Logo src="/src/assets/symbol_Color.png" />
       <Name>user1234</Name>
     </Info>
   );
