@@ -1,38 +1,30 @@
-import styled from "@emotion/styled";
+import { createContext, useEffect, useState } from "react";
 import ContentBox from "../../components/content/ContentBox";
 import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
-import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import ContactPageRoundedIcon from "@mui/icons-material/ContactPageRounded";
-import FilterBar from "./ComplaintFilterBar";
+import styled from "@emotion/styled";
+import {
+  Container,
+  TitleContainer,
+  ComplaintIcon,
+  Title,
+  ComplaintGrid,
+} from "../../styles/ComplaintScrap";
+import { FiltersProps, useFilter } from "../../hooks/useFilter";
+import ComplaintFilterBar from "./ComplaintFilterBar";
+import { DataType } from "../../types/Type";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  gap: 3rem;
-`;
+interface MyComplaintProps {
+  originData: DataType[];
+  handleFilterOptions: <K extends keyof FiltersProps>(
+    option: K,
+    value: FiltersProps[K]
+  ) => void;
+  handleFilter: () => void;
+}
 
-const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ComplaintIcon = styled(SvgIcon)<SvgIconProps>`
-  color: var(--disabled-primary);
-  width: 2rem;
-  height: 2rem;
-  margin-top: 2rem;
-`;
-
-const ComplaintTitle = styled.h2`
-  color: var(--gray6-black);
-`;
-
-const ComplaintBorder = styled.div`
+const Border = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,40 +36,48 @@ const ComplaintBorder = styled.div`
   flex-wrap: wrap;
 `;
 
-//complaint를 시작점부터 배치
-const ComplaintGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  justify-content: start;
-  align-items: center;
-`;
+export const MyComplaintContext = createContext<MyComplaintProps | undefined>(
+  undefined
+);
 
 const Complaint = () => {
+  const [originData] = useState(mockData);
+  const { filteredData, handleFilter, handleFilterOptions, filters } =
+    useFilter(originData);
+
+  useEffect(() => {
+    console.log("작동");
+    handleFilter();
+  }, [filters]);
+
   return (
-    <Container>
-      <TitleContainer>
-        <ComplaintIcon component={ContactPageRoundedIcon} />
-        <ComplaintTitle>내 민원</ComplaintTitle>
-      </TitleContainer>
+    <MyComplaintContext.Provider
+      value={{ originData, handleFilterOptions, handleFilter }}
+    >
+      <Container>
+        <TitleContainer>
+          <ComplaintIcon component={ContactPageRoundedIcon} />
+          <Title>내 민원</Title>
+        </TitleContainer>
 
-      <FilterBar />
+        <ComplaintFilterBar />
 
-      <ComplaintBorder>
-        <ComplaintGrid>
-          {mockData.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ContentBox data={item} type="small" />
-            </motion.div>
-          ))}
-        </ComplaintGrid>
-      </ComplaintBorder>
-    </Container>
+        <Border>
+          <ComplaintGrid>
+            {filteredData.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ContentBox data={item} type="small" />
+              </motion.div>
+            ))}
+          </ComplaintGrid>
+        </Border>
+      </Container>
+    </MyComplaintContext.Provider>
   );
 };
 
