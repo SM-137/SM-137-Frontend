@@ -1,59 +1,109 @@
 import styled from "@emotion/styled";
-import Logo from "../../assets/icons/logo/logo.svg?react";
-import Emblem from "../../assets/emblem-1_DarkGray.png";
-import LoginTitle from "./LoginTitle";
 import LoginForm from "./LoginForm";
+import Logo from "../../assets/icons/logo/logo-bubble.svg?react";
 
-const EmblemContainer = styled.img`
-  width: 700px;
-  height: 700px;
-  position: absolute;
-  top: -40%;
-  left: -15%;
-  opacity: 0.3;
-`;
-
-const Container = styled.div`
+const Background = styled.div`
+  width: 100%;
   background-color: var(--primary);
   height: 100vh;
+  position: relative;
   display: flex;
-  justify-content: space-between;
-  position: relative;
-`;
-
-const TitleSection = styled.div`
-  height: 100%;
-  align-content: end;
-  position: relative;
+  justify-content: center;
 `;
 
 const LoginSection = styled.div`
   background-color: var(--white);
-  height: 100%;
+  position: absolute;
+  right: 0;
   width: 40%;
-  border-top-left-radius: 52px;
+  min-width: 500px;
+  height: 100%;
+  border-top-left-radius: 48px;
+  display: flex;
+  justify-content: start;
+  box-shadow: -10px -10px 30px rgba(0, 0, 0, 0.1);
+`;
+
+const LoginSectionContainer = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  padding: 10rem 0;
 `;
 
 const LogoContainer = styled.div`
-  margin-top: 5rem;
   transform: translateX(-100px);
+`;
+
+const TitleSection = styled.div`
+  width: 60%;
+  white-space: nowrap;
+  height: 100vh;
+  max-width: 1000px;
+  display: flex;
+  transform: translateX(-200px);
+`;
+
+const TitleContainer = styled.div`
+  display: inline-flex;
+  justify-content: start;
+  flex-direction: column;
+  gap: 5rem;
+  margin-top: 35rem;
+`;
+const SubTitleContainer = styled.div`
+  display: inline-flex;
+  justify-content: end;
+  gap: 1rem;
+`;
+
+const SchoolName = styled.h1`
+  font-size: 120px;
+  color: var(--light-primary);
+`;
+const Title = styled.h1`
+  font-size: 120px;
+  color: var(--disabled-primary);
+`;
+const UsageTitle = styled.h1`
+  font-size: 60px;
+  color: var(--disabled-primary);
+`;
+
+const EmblemContainer = styled.div`
+  position: absolute;
+  top: -300px;
+  transform: translateX(-600px);
+`;
+const Emblem = styled.img`
+  width: 800px;
+  opacity: 0.2;
 `;
 
 const Login = () => {
   return (
-    <Container>
-      <TitleSection>
-        <LoginTitle />
-        <EmblemContainer src={Emblem} />
-      </TitleSection>
+    <Background>
+      <EmblemContainer>
+        <Emblem src="/src/assets/emblem-1_DarkGray.png" />
+      </EmblemContainer>
 
+      <TitleSection>
+        <TitleContainer>
+          <SchoolName>숙명여자대학교</SchoolName>
+          <SubTitleContainer>
+            <Title>민원 시스템</Title>
+            <UsageTitle>관리자용</UsageTitle>
+          </SubTitleContainer>
+        </TitleContainer>
+      </TitleSection>
       <LoginSection>
-        <LogoContainer>
-          <Logo width="550px" height="300px" />
-        </LogoContainer>
-        <LoginForm />
+        <LoginSectionContainer>
+          <LogoContainer>
+            <Logo width="500px" height="300px" />
+          </LogoContainer>
+          <LoginForm />
+        </LoginSectionContainer>
       </LoginSection>
-    </Container>
+    </Background>
   );
 };
 

@@ -65,7 +65,7 @@ const LoginForm = () => {
             <Input placeholder="비밀번호 입력" />
           </FieldBox>
         </FieldContainer>
-        <Button content="다음" type={"_100x123_Primary"} />
+        <Button content="로그인" type={"_100x123_Primary"} />
       </ButtonContainer>
     </Container>
   );
