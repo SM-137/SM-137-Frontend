@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import Logo from "../../assets/icons/logo/logo-active.svg?react"
-import Emblem from "../../assets/emblem-1_DarkGray.png"
-import Login from "./Login";
+import Logo from "../../assets/icons/logo/logo.svg?react";
+import Emblem from "../../assets/emblem-1_DarkGray.png";
 import LoginTitle from "./LoginTitle";
+import LoginForm from "./LoginForm";
 
 const EmblemContainer = styled.img`
   width: 700px;
@@ -39,23 +39,22 @@ const LogoContainer = styled.div`
   transform: translateX(-100px);
 `;
 
-
-const AdminLogin = () => {
+const Login = () => {
   return (
     <Container>
-
       <TitleSection>
-      <LoginTitle />
-      <EmblemContainer src={Emblem} />
+        <LoginTitle />
+        <EmblemContainer src={Emblem} />
       </TitleSection>
 
       <LoginSection>
-        <LogoContainer><Logo width="550px" height="300px" /></LogoContainer>
-        <Login />
+        <LogoContainer>
+          <Logo width="550px" height="300px" />
+        </LogoContainer>
+        <LoginForm />
       </LoginSection>
-
     </Container>
   );
 };
 
-export default AdminLogin;
+export default Login;
