@@ -11,6 +11,8 @@ import { DataType, SortType } from "../../types/Type";
 import { NoComplaints } from "../../styles/NoComplaints";
 import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import { SortOptionsProps, useSort } from "../../hooks/useSort";
+import { usePagination } from "../../hooks/usePagination";
+import Pagination from "../../components/Pagination";
 
 interface SearchDataProps {
   originData: DataType[];
@@ -96,8 +98,8 @@ const Search = () => {
 
   const isComplaintExist = !(filteredData.length == 0);
 
-  //초기 정렬 : 최신순 (백엔드 상의 필요), useEffect구문 내부에 넣을 것
-  // const { latestSort } = useSort(setSearchData);
+  const { currentPage, displayedData, totalPages, handlePageChange } =
+    usePagination<DataType>(sortData);
 
   return (
     <SearchContext.Provider
@@ -131,11 +133,18 @@ const Search = () => {
         <ContentContainer>
           <SortBar context={SearchContext} />
           {isComplaintExist ? (
-            sortData.map((i, index) => <ContentList data={i} key={index} />)
+            displayedData.map((i, index) => (
+              <ContentList data={i} key={index} />
+            ))
           ) : (
             <NoComplaints>조건에 맞는 게시물이 없습니다</NoComplaints>
           )}
         </ContentContainer>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </SearchArea>
     </SearchContext.Provider>
   );
