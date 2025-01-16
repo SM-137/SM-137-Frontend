@@ -13,8 +13,8 @@ import DeleteComment from "../modal/contents/DeleteComment";
 import Alert from "../alert/Alert";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import { BASE_NAME } from "../../utils/URL";
+import { Helmet } from "react-helmet-async";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -156,7 +156,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
     <Container>
       {/*공유 메타데이터 */}
       <Helmet>
-        <title>숙명137 - 숙명여자대학교 민원 시스템</title>
+        <title>숙명137</title>
         <meta property="og:title" content={data.title} />
         <meta property="og:description" content={data.content} />
         {/*미리보기 사진 설정 필요 */}
