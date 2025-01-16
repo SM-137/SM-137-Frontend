@@ -3,29 +3,28 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - develop  # main 브랜치에 푸시될 때마다 실행
+      - develop # main 브랜치에 푸시될 때마다 실행
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.17.0'  # 사용 중인 Node.js 버전
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.17.0" # 사용 중인 Node.js 버전
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Build project
-      run: npm run build  # 프로젝트 빌드 명령어
+      - name: Build project
+        run: npm run build # 프로젝트 빌드 명령어
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist  # 빌드 결과물 경로 (React의 경우 기본이 'build')
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: ./dist
