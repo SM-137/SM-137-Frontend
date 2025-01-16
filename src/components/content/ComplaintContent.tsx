@@ -138,7 +138,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   const baseURL = window.location.origin;
   const contentURL = useLocation().pathname;
   const sharedLink = baseURL + BASE_NAME + contentURL;
-  const imageLink = baseURL + "/assets/logo.svg?react";
+  const imageLink = baseURL + "/src/assests/preview.png";
 
   const copyToClipboard = async () => {
     try {
@@ -157,12 +157,11 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       {/*공유 메타데이터 */}
       <Helmet>
         <title>숙명137</title>
-        <meta property="og:title" content={data.title} />
-        <meta property="og:description" content={data.content} />
+        <meta property="og:title" content="테스트 제목" />
+        <meta property="og:description" content="테스트 컨텐츠" />
         {/*미리보기 사진 설정 필요 */}
         {/* {data.src ? <meta property="og:image" content={data.imageUrl} /> : } */}
         <meta property="og:image" content={imageLink} />
-        <meta property="og:url" content={sharedLink} />
       </Helmet>
 
       <Modal
