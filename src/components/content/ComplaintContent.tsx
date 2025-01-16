@@ -14,6 +14,7 @@ import Alert from "../alert/Alert";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { BASE_NAME } from "../../utils/URL";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -136,7 +137,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   //복사할 URL 설정
   const baseURL = window.location.origin;
   const contentURL = useLocation().pathname;
-  const sharedLink = baseURL + contentURL;
+  const sharedLink = baseURL + BASE_NAME + contentURL;
   const imageLink = baseURL + "assets/logo.svg?react";
 
   const copyToClipboard = async () => {
