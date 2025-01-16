@@ -108,8 +108,6 @@ const View = () => {
   const { currentPage, totalPages, displayedData, handlePageChange } =
     usePagination<DataType>(sortData);
 
-  console.log(sortData);
-
   return (
     <ViewContext.Provider
       value={{

@@ -47,11 +47,11 @@ const SubCategory = (props: SubCategoryProps) => {
   const handleSubCategorySelect = (value: CategoryValue) => {
     if (subCategory === value) {
       setSubCategory(undefined);
-      context?.handleFilterOptions("category", null); 
+      //백엔드에 null 전송 - originData 갖고오기
       return;
     }
     setSubCategory(value);
-    context?.handleFilterOptions("category", value); 
+    //백엔드에서 해당 value에 따른 data 갖고 오기
   };
 
   const handleClick = (value: CategoryValue) => {
