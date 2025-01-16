@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://sm-137.github.io/SM-137-Frontend/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -13,6 +12,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
+  "homepage": "https://sm-137.github.io/SM-137-Frontend/",
   "lint-staged": {
     "**/*.{tsx,ts,jsx,js}": [
       "prettier --write",
