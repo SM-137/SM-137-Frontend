@@ -138,7 +138,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   const baseURL = window.location.origin;
   const contentURL = useLocation().pathname;
   const sharedLink = baseURL + BASE_NAME + contentURL;
-  const imageLink = baseURL + "assets/logo.svg?react";
+  const imageLink = baseURL + "/assets/logo.svg?react";
 
   const copyToClipboard = async () => {
     try {
