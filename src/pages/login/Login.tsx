@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Logo from "../../assets/icons/logo/logo-bubble.svg?react";
-import GoogleLogin from "../../assets/google-login.svg?react";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 const Background = styled.div`
   width: 100%;
@@ -46,10 +46,10 @@ const TitleSection = styled.div`
 
 const TitleContainer = styled.div`
   display: inline-flex;
-  justify-content: start;
+  justify-content: end;
   flex-direction: column;
   gap: 5rem;
-  margin-top: 35rem;
+  max-height: 700px;
 `;
 const SchoolName = styled.h1`
   font-size: 120px;
@@ -81,12 +81,6 @@ const LoginInfoMessage = styled.h2`
   color: var(--gray6-header);
 `;
 
-const LoginButton = styled(GoogleLogin)`
-  cursor: pointer;
-  width: 300px;
-  height: auto;
-`;
-
 const Login = () => {
   const IMAGE_SRC = "/SM-137-Frontend/src/assets/emblem-1_DarkGray.png";
   return (
@@ -110,7 +104,12 @@ const Login = () => {
 
           <LoginContainer>
             <LoginInfoMessage>숙명 Gmail로 로그인</LoginInfoMessage>
-            <LoginButton />
+            <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID_TEST}>
+              <GoogleLogin
+                onSuccess={() => console.log("성공")}
+                onError={() => console.log("실패")}
+              />
+            </GoogleOAuthProvider>
           </LoginContainer>
         </LoginSectionContainer>
       </LoginSection>

@@ -12,12 +12,17 @@ import CategorySelectionStep from "./pages/application-step/CategorySelectionSte
 import CompletedStep from "./pages/application-step/CompletedStep";
 import ComplaintsWrittingStep from "./pages/application-step/CompaintsWrittingStep";
 import Login from "./pages/login/Login";
+import Redirect from "./pages/login/Redirect";
 
 export const router = createBrowserRouter(
   [
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/auth/callback",
+      element: <Redirect />,
     },
     {
       path: "/",
@@ -75,5 +80,5 @@ export const router = createBrowserRouter(
       ],
     },
   ],
-  { basename: "/SM-137-Frontend" }
+  { basename: "/SM-137-Frontend/" }
 );
