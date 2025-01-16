@@ -1,14 +1,14 @@
-import styled from "@emotion/styled"; 
+import styled from "@emotion/styled";
 import Layout from "./ApplicationStepLayout";
 import ComplaintsForm from "../../components/form/ComplaintsForm";
 import Button from "../../components/button/Button";
 
 const ContentWrapper = styled.div`
   background-color: var(--white);
-  border-radius: 8px; 
-  padding: 1.5rem; 
-  width: 100%; 
-  margin: 3rem auto 0; 
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 100%;
+  margin: 3rem auto 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,9 +16,9 @@ const ContentWrapper = styled.div`
 
 const MessageContainer = styled.div`
   display: flex;
-  margin-top: 2rem; 
+  margin-top: 2rem;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 `;
 
 const TitleMessage = styled.span`
@@ -31,7 +31,7 @@ const InfoMessage = styled.p`
   font-size: 14px;
   color: var(--error);
   text-align: center;
-  margin-top: 0.5rem; 
+  margin-top: 0.5rem;
 `;
 
 const ButtonGroup = styled.div`
@@ -41,8 +41,7 @@ const ButtonGroup = styled.div`
   gap: 1rem;
 `;
 
-const ComplaintsWritingStep = () => {
-
+const ComplaintWrittingStep = () => {
   return (
     <Layout>
       <ContentWrapper>
@@ -52,12 +51,12 @@ const ComplaintsWritingStep = () => {
         </MessageContainer>
         <ComplaintsForm />
         <ButtonGroup>
-          <Button content="이전" type="_120x40_Gray2"/>
-          <Button content="다음" type="_120x40_Primary"/>
+          <Button content="이전" type="_120x40_Gray2" />
+          <Button content="다음" type="_120x40_Primary" />
         </ButtonGroup>
       </ContentWrapper>
     </Layout>
   );
 };
 
-export default ComplaintsWritingStep;
+export default ComplaintWrittingStep;
