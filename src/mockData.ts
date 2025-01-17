@@ -134,6 +134,44 @@ export const mockData: DataType[] = [
     date: "2024-07-12T14:00:00.000Z", // 6개월 이내
     answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다.",
   },
+  {
+    id: 11,
+    title: "카페에서 음료 제공 시간 연장",
+    hashtag: ["시설", "식음료", "시간 연장"],
+    category: "공간",
+    status: "inProgress",
+    content:
+      "카페의 음료 제공 시간이 너무 일찍 종료됩니다. 더 늦게까지 음료를 제공해주시면 좋겠습니다.",
+    likes: 15,
+    bookmarks: 3,
+    date: "2024-07-10T11:15:00.000Z", // 6개월 이내
+    answer: "",
+  },
+  {
+    id: 12,
+    title: "교내 행사 관련 공지 요청",
+    hashtag: ["행사", "공지", "알림"],
+    category: "학생활동지원",
+    status: "completed",
+    content:
+      "다음 주 예정된 교내 행사에 대한 자세한 공지가 필요합니다. 참여자들에게 사전 안내를 부탁드립니다.",
+    likes: 6,
+    bookmarks: 3,
+    date: "2024-07-11T16:45:00.000Z", // 6개월 이내
+    answer: "",
+  },
+  {
+    id: 13,
+    title: "학생 회관 내부 청소 요청",
+    hashtag: ["시설", "청소", "학생 회관"],
+    category: "공간",
+    status: "pending",
+    content: "학생 회관 내부가 많이 지저분합니다. 청소를 해주실 수 있나요?",
+    likes: 2,
+    bookmarks: 3,
+    date: "2024-07-12T14:00:00.000Z", // 6개월 이내
+    answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다.",
+  },
 ];
 
 export const commentMockData: CommentType[] = [

@@ -11,6 +11,8 @@ import { DataType, SortType } from "../../types/Type";
 import { NoComplaints } from "../../styles/NoComplaints";
 import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import { SortOptionsProps, useSort } from "../../hooks/useSort";
+import Pagination from "../../components/Pagination";
+import { usePagination } from "../../hooks/usePagination";
 
 interface ViewProps {
   originData: DataType[];
@@ -34,6 +36,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  padding-bottom: 3rem;
 `;
 const Background = styled.div`
   width: 100%;
@@ -102,6 +105,9 @@ const View = () => {
 
   const isComplaintExist = !(filteredData.length == 0);
 
+  const { currentPage, totalPages, displayedData, handlePageChange } =
+    usePagination<DataType>(sortData);
+
   return (
     <ViewContext.Provider
       value={{
@@ -129,7 +135,7 @@ const View = () => {
           <SortContainer>
             <SortBar context={ViewContext} />
             {isComplaintExist ? (
-              sortData.map((i, index) => (
+              displayedData.map((i, index) => (
                 <ContentList data={i} key={index} resetTrigger={resetButton} />
               ))
             ) : (
@@ -137,6 +143,11 @@ const View = () => {
             )}
           </SortContainer>
         </ContentsContainer>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </Container>
     </ViewContext.Provider>
   );

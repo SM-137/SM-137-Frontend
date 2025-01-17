@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { categoryName } from "../../utils/SubCategoryContent";
 import { CategoryValue } from "../../types/Type";
-import { useContext, useState } from "react";
-import { ViewContext } from "../../pages/view/View";
+import { useState } from "react";
+// import { ViewContext } from "../../pages/view/View";
 
 interface SubCategoryProps {
   category: keyof typeof categoryName;
@@ -41,17 +41,17 @@ const SubCategory = (props: SubCategoryProps) => {
   const { category, usage } = props;
   const subCategoryField = categoryName[category];
 
-  const context = usage === "filter" ? useContext(ViewContext) : null;
+  // const context = usage === "filter" ? useContext(ViewContext) : null;
 
   const [subCategory, setSubCategory] = useState<CategoryValue>();
   const handleSubCategorySelect = (value: CategoryValue) => {
     if (subCategory === value) {
       setSubCategory(undefined);
-      context?.handleFilterOptions("category", null); 
+      //백엔드에 null 전송 - originData 갖고오기
       return;
     }
     setSubCategory(value);
-    context?.handleFilterOptions("category", value); 
+    //백엔드에서 해당 value에 따른 data 갖고 오기
   };
 
   const handleClick = (value: CategoryValue) => {
