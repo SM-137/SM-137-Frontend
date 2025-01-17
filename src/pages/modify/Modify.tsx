@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
 import MoodRoundedIcon from "@mui/icons-material/MoodRounded";
-import UserInfoForm from "../../components/form/UserInfoForm";
+import ModifyForm, { ModifyFormHandles } from "./ModifyForm";
 import Button from "../../components/button/Button";
 import { myPageInfo } from "../../mockData";
 import Gmail from "../../assets/gmail.png";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
+import { useRef } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -98,12 +99,17 @@ const WithdrawText = styled.p`
   margin-bottom: 1rem;
   cursor: pointer;
   transform: translate(9rem, -1.5rem);
-
-  &:hover {
-  }
 `;
 
 const Modify = () => {
+  const formRef = useRef<ModifyFormHandles>(null);
+
+  const handleNext = () => {
+    if (formRef.current?.validateForm()) {
+    } else {
+    }
+  };
+
   return (
     <Container>
       <HeaderContainer>
@@ -114,7 +120,7 @@ const Modify = () => {
         <ContentContainer>
           <PillMark>재학생</PillMark>
           <FormWrapper>
-            <UserInfoForm />
+            <ModifyForm ref={formRef} />
           </FormWrapper>
           <Email>
             <EmailIcon src={Gmail} alt="gmail icon" />
@@ -122,7 +128,7 @@ const Modify = () => {
           </Email>
         </ContentContainer>
         <WithdrawText>회원 탈퇴</WithdrawText>
-        <Button type="_120x40_Primary" content="다음" />
+        <Button type="_120x40_Primary" content="다음" onClick={handleNext} />
       </Background>
     </Container>
   );
