@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { categoryName } from "../../utils/SubCategoryContent";
 import { CategoryValue } from "../../types/Type";
-import { useContext, useState } from "react";
-import { ViewContext } from "../../pages/view/View";
+import { useState } from "react";
+// import { ViewContext } from "../../pages/view/View";
 
 interface SubCategoryProps {
   category: keyof typeof categoryName;
@@ -41,7 +41,7 @@ const SubCategory = (props: SubCategoryProps) => {
   const { category, usage } = props;
   const subCategoryField = categoryName[category];
 
-  const context = usage === "filter" ? useContext(ViewContext) : null;
+  // const context = usage === "filter" ? useContext(ViewContext) : null;
 
   const [subCategory, setSubCategory] = useState<CategoryValue>();
   const handleSubCategorySelect = (value: CategoryValue) => {
