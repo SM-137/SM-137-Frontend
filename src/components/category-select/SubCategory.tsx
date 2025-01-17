@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
 import { categoryName } from "../../utils/SubCategoryContent";
 import { CategoryValue } from "../../types/Type";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ViewContext } from "../../pages/view/View";
+import { complaintAll } from "../../services/complaintService";
 // import { ViewContext } from "../../pages/view/View";
 
 interface SubCategoryProps {
@@ -41,13 +43,12 @@ const SubCategory = (props: SubCategoryProps) => {
   const { category, usage } = props;
   const subCategoryField = categoryName[category];
 
-  // const context = usage === "filter" ? useContext(ViewContext) : null;
+  const context = usage === "filter" ? useContext(ViewContext) : null;
 
   const [subCategory, setSubCategory] = useState<CategoryValue>();
   const handleSubCategorySelect = (value: CategoryValue) => {
     if (subCategory === value) {
       setSubCategory(undefined);
-      //백엔드에 null 전송 - originData 갖고오기
       return;
     }
     setSubCategory(value);
@@ -60,6 +61,16 @@ const SubCategory = (props: SubCategoryProps) => {
 
   const handleClickHandler =
     usage === "filter" ? handleSubCategorySelect : handleClick;
+
+  useEffect(() => {
+    complaintAll(subCategory)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch(() => {
+        console.log("전체 민원 조회 데이터를 가져오는 중 오류 발생");
+      });
+  }, []);
 
   return (
     <Background>

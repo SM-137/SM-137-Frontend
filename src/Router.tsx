@@ -70,5 +70,5 @@ export const router = createBrowserRouter(
       ],
     },
   ],
-  { basename: "/SM-137-Frontend" }
+  { basename: "/SM-137-Frontend/" }
 );

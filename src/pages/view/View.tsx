@@ -6,7 +6,13 @@ import SearchFilterBar from "../../components/search-filter/SearchFilter";
 import SortBar from "../../components/sort-bar/SortBar";
 import { mockData } from "../../mockData";
 import ContentList from "../../components/content/ContentList";
-import { createContext, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { DataType, SortType } from "../../types/Type";
 import { NoComplaints } from "../../styles/NoComplaints";
 import { FiltersProps, useFilter } from "../../hooks/useFilter";
@@ -25,6 +31,7 @@ interface ViewProps {
   handleSort: (inputData: DataType[]) => void;
   sortOptions: SortOptionsProps;
   handleSortOption: (type: SortType) => void;
+  setCategoryData: Dispatch<SetStateAction<undefined>>;
 }
 
 const Container = styled.div`
@@ -87,6 +94,7 @@ const View = () => {
     useFilter(originData);
   const { handleSort, sortOptions, handleSortOption, sortData } =
     useSort(filteredData);
+  const [categoryData, setCategoryData] = useState();
 
   // 필터링이나 정렬이 변경되면 버튼 상태 리셋
   const handleResetButtonState = () => {
@@ -118,6 +126,7 @@ const View = () => {
         handleSort,
         sortOptions,
         handleSortOption,
+        setCategoryData,
       }}
     >
       <Container>
