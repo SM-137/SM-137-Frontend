@@ -59,4 +59,4 @@ const ComplaintsWrittingStep = () => {
   );
 };
 
-export default ComplaintWrittingStep;
+export default ComplaintsWrittingStep;

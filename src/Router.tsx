@@ -59,7 +59,7 @@ export const router = createBrowserRouter(
             },
             {
               path: "3",
-              element: <ComplaintWrittingStep />,
+              element: <ComplaintsWrittingStep />,
             },
             {
               path: "4",
