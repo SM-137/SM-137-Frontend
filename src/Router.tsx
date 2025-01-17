@@ -10,7 +10,7 @@ import Search from "./pages/search/Search";
 import AcademicInfoStep from "./pages/application-step/AcademicInfoStep";
 import CategorySelectionStep from "./pages/application-step/CategorySelectionStep";
 import CompletedStep from "./pages/application-step/CompletedStep";
-import ComplaintWrittingStep from "./pages/application-step/CompaintsWrittingStep";
+import ComplaintsWrittingStep from "./pages/application-step/CompaintsWrittingStep";
 
 export const router = createBrowserRouter(
   [

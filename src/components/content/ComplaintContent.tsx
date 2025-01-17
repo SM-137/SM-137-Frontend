@@ -13,7 +13,8 @@ import DeleteComment from "../modal/contents/DeleteComment";
 import Alert from "../alert/Alert";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { BASE_NAME } from "../../utils/URL";
+import { Helmet } from "react-helmet-async";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -136,8 +137,8 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   //복사할 URL 설정
   const baseURL = window.location.origin;
   const contentURL = useLocation().pathname;
-  const sharedLink = baseURL + contentURL;
-  const imageLink = baseURL + "assets/logo.svg?react";
+  const sharedLink = baseURL + BASE_NAME + contentURL;
+  const imageLink = baseURL + "/preview.png";
 
   const copyToClipboard = async () => {
     try {
@@ -155,13 +156,12 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
     <Container>
       {/*공유 메타데이터 */}
       <Helmet>
-        <title>숙명137 - 숙명여자대학교 민원 시스템</title>
-        <meta property="og:title" content={data.title} />
-        <meta property="og:description" content={data.content} />
+        <title>숙명137</title>
+        <meta property="og:title" content="테스트 제목" />
+        <meta property="og:description" content="테스트 컨텐츠" />
         {/*미리보기 사진 설정 필요 */}
         {/* {data.src ? <meta property="og:image" content={data.imageUrl} /> : } */}
         <meta property="og:image" content={imageLink} />
-        <meta property="og:url" content={sharedLink} />
       </Helmet>
 
       <Modal

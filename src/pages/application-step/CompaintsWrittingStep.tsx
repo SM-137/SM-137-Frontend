@@ -41,7 +41,7 @@ const ButtonGroup = styled.div`
   gap: 1rem;
 `;
 
-const ComplaintWrittingStep = () => {
+const ComplaintsWrittingStep = () => {
   return (
     <Layout>
       <ContentWrapper>
