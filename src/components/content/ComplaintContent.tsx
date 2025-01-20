@@ -11,10 +11,9 @@ import { useModal } from "../../hooks/useModal";
 import Modal from "../modal/Modal";
 import DeleteComment from "../modal/contents/DeleteComment";
 import Alert from "../alert/Alert";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { BASE_NAME } from "../../utils/URL";
-import { Helmet } from "react-helmet-async";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -151,16 +150,21 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       setIsCopied(false);
     }, 1500);
   };
+  useEffect(() => {
+    document.title = "동적 페이지 제목";
+    document
+      .querySelector("meta[property='og:title']")
+      ?.setAttribute("content", "동적 페이지 제목");
+    document
+      .querySelector("meta[property='og:description']")
+      ?.setAttribute("content", "동적 페이지 설명");
+    document
+      .querySelector("meta[property='og:image']")
+      ?.setAttribute("content", imageLink);
+  }, []);
 
   return (
     <Container>
-      {/*공유 메타데이터 */}
-      <Helmet>
-        <meta property="og:title" content="테스트 제목" />
-        <meta property="og:description" content="테스트 컨텐츠" />
-        <meta property="og:image" content={imageLink} />
-      </Helmet>
-
       <Modal
         isOpen={isModalOpen}
         handleClose={handleModalClose}
