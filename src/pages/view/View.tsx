@@ -94,7 +94,7 @@ const View = () => {
     useFilter(originData);
   const { handleSort, sortOptions, handleSortOption, sortData } =
     useSort(filteredData);
-  const [categoryData, setCategoryData] = useState();
+  const [, setCategoryData] = useState();
 
   // 필터링이나 정렬이 변경되면 버튼 상태 리셋
   const handleResetButtonState = () => {
