@@ -138,7 +138,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   const baseURL = window.location.origin;
   const contentURL = useLocation().pathname;
   const sharedLink = baseURL + BASE_NAME + contentURL;
-  const imageLink = baseURL + "/preview.png";
+  const imageLink = "https://sm-137.github.io/SM-137-Frontend/preview.png";
 
   const copyToClipboard = async () => {
     try {
@@ -156,11 +156,8 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
     <Container>
       {/*공유 메타데이터 */}
       <Helmet>
-        <title>숙명137</title>
         <meta property="og:title" content="테스트 제목" />
         <meta property="og:description" content="테스트 컨텐츠" />
-        {/*미리보기 사진 설정 필요 */}
-        {/* {data.src ? <meta property="og:image" content={data.imageUrl} /> : } */}
         <meta property="og:image" content={imageLink} />
       </Helmet>
 
