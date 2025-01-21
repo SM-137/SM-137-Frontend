@@ -20,6 +20,7 @@ import { SortOptionsProps, useSort } from "../../hooks/useSort";
 import Pagination from "../../components/Pagination";
 import { usePagination } from "../../hooks/usePagination";
 import { complaintAll } from "../../services/complaintService";
+import Loading from "../../components/loading/Loading";
 
 interface ViewProps {
   originData: DataType[];
@@ -90,6 +91,7 @@ export const ViewContext = createContext<ViewProps | undefined>(undefined);
 const View = () => {
   //데이터가 없을 경우 mockData가 보여짐
   const [originData, setOriginData] = useState(mockData);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [resetButton, setResetButton] = useState(false);
 
@@ -112,6 +114,7 @@ const View = () => {
           console.log("데이터가 없습니다");
           setOriginData(mockData);
         }
+        setIsLoading(false);
       })
       .catch(() => {
         console.log("전체 민원 조회 데이터를 가져오는 중 오류 발생");
@@ -160,7 +163,10 @@ const View = () => {
           {/*정렬 필터링 + 컨텐츠*/}
           <SortContainer>
             <SortBar context={ViewContext} />
-            {isComplaintExist ? (
+            {/*로딩 중일 경우 로딩 컴포넌트 렌더링 */}
+            {isLoading ? (
+              <Loading />
+            ) : isComplaintExist ? (
               displayedData.map((i, index) => (
                 <ContentList data={i} key={index} resetTrigger={resetButton} />
               ))
