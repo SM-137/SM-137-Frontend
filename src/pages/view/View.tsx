@@ -88,7 +88,9 @@ const SortContainer = styled.div`
 export const ViewContext = createContext<ViewProps | undefined>(undefined);
 
 const View = () => {
-  const [originData] = useState(mockData);
+  //데이터가 없을 경우 mockData가 보여짐
+  const [originData, setOriginData] = useState(mockData);
+
   const [resetButton, setResetButton] = useState(false);
 
   const { filteredData, handleFilter, handleFilterOptions, filters } =
@@ -101,6 +103,20 @@ const View = () => {
   const handleResetButtonState = () => {
     setResetButton(true);
   };
+
+  useEffect(() => {
+    complaintAll({ categoryName: filters.category })
+      .then((res) => {
+        setOriginData(res);
+        if (!res.data) {
+          console.log("데이터가 없습니다");
+          setOriginData(mockData);
+        }
+      })
+      .catch(() => {
+        console.log("전체 민원 조회 데이터를 가져오는 중 오류 발생");
+      });
+  }, [filters.category]);
 
   useEffect(() => {
     handleFilter();
@@ -116,18 +132,6 @@ const View = () => {
 
   const { currentPage, totalPages, displayedData, handlePageChange } =
     usePagination<DataType>(sortData);
-
-  useEffect(() => {
-    complaintAll({ categoryName: filters.category })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch(() => {
-        console.log("전체 민원 조회 데이터를 가져오는 중 오류 발생");
-      });
-  }, [filters.category]);
-
-  console.log(filters);
 
   return (
     <ViewContext.Provider
