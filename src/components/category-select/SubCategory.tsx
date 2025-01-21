@@ -61,14 +61,14 @@ const SubCategory = (props: SubCategoryProps) => {
     usage === "filter" ? handleSubCategorySelect : handleClick;
 
   useEffect(() => {
-    complaintAll(subCategory)
+    complaintAll({ categoryName: subCategory })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch(() => {
-        console.log("전체 민원 조회 데이터를 가져오는 중 오류 발생");
+        // console.log("전체 민원 조회 데이터를 가져오는 중 오류 발생");
       });
-  }, []);
+  }, [subCategory]);
 
   return (
     <Background>

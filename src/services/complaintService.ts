@@ -114,9 +114,12 @@ import apiClient from "./apiClient";
 //     throw error;
 //   }
 // };
-export const complaintAll = async (categoryOption: string | undefined) => {
+
+interface categoryProps {
+  categoryName: string | undefined;
+}
+export const complaintAll = async (categoryOption: categoryProps) => {
   try {
-    console.log(categoryOption);
     const response = await apiClient.post(
       `api/complaints/category`,
       categoryOption
