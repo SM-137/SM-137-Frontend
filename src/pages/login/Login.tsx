@@ -83,6 +83,8 @@ const LoginInfoMessage = styled.h2`
 
 const Login = () => {
   const IMAGE_SRC = "/SM-137-Frontend/src/assets/emblem-1_DarkGray.png";
+  //백엔드로 credential 전송 및 jwt 토큰 받기
+
   return (
     <Background>
       <EmblemContainer>
@@ -106,7 +108,7 @@ const Login = () => {
             <LoginInfoMessage>숙명 Gmail로 로그인</LoginInfoMessage>
             <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID_TEST}>
               <GoogleLogin
-                onSuccess={() => console.log("성공")}
+                onSuccess={(res) => console.log(res)}
                 onError={() => console.log("실패")}
               />
             </GoogleOAuthProvider>
