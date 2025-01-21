@@ -19,6 +19,7 @@ import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import { SortOptionsProps, useSort } from "../../hooks/useSort";
 import Pagination from "../../components/Pagination";
 import { usePagination } from "../../hooks/usePagination";
+import { complaintAll } from "../../services/complaintService";
 
 interface ViewProps {
   originData: DataType[];
@@ -115,6 +116,18 @@ const View = () => {
 
   const { currentPage, totalPages, displayedData, handlePageChange } =
     usePagination<DataType>(sortData);
+
+  useEffect(() => {
+    complaintAll({ categoryName: filters.category })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch(() => {
+        console.log("전체 민원 조회 데이터를 가져오는 중 오류 발생");
+      });
+  }, [filters.category]);
+
+  console.log(filters);
 
   return (
     <ViewContext.Provider

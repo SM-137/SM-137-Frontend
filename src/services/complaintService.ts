@@ -116,7 +116,7 @@ import apiClient from "./apiClient";
 // };
 
 interface categoryProps {
-  categoryName: string | undefined;
+  categoryName: string | null | undefined;
 }
 export const complaintAll = async (categoryOption: categoryProps) => {
   try {

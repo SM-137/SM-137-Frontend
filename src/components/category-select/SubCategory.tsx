@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { categoryName } from "../../utils/SubCategoryContent";
 import { CategoryValue } from "../../types/Type";
-import { useEffect, useState } from "react";
-import { complaintAll } from "../../services/complaintService";
+import { useContext, useState } from "react";
+import { ViewContext } from "../../pages/view/View";
 
 interface SubCategoryProps {
   category: keyof typeof categoryName;
@@ -41,7 +41,7 @@ const SubCategory = (props: SubCategoryProps) => {
   const { category, usage } = props;
   const subCategoryField = categoryName[category];
 
-  // const context = usage === "filter" ? useContext(ViewContext) : null;
+  const context = usage === "filter" ? useContext(ViewContext) : null;
 
   const [subCategory, setSubCategory] = useState<CategoryValue>();
   const handleSubCategorySelect = (value: CategoryValue) => {
@@ -50,7 +50,7 @@ const SubCategory = (props: SubCategoryProps) => {
       return;
     }
     setSubCategory(value);
-    //백엔드에서 해당 value에 따른 data 갖고 오기
+    context?.handleFilterOptions("category", value);
   };
 
   const handleClick = (value: CategoryValue) => {
@@ -59,16 +59,6 @@ const SubCategory = (props: SubCategoryProps) => {
 
   const handleClickHandler =
     usage === "filter" ? handleSubCategorySelect : handleClick;
-
-  useEffect(() => {
-    complaintAll({ categoryName: subCategory })
-      .then((res) => {
-        // console.log(res);
-      })
-      .catch(() => {
-        // console.log("전체 민원 조회 데이터를 가져오는 중 오류 발생");
-      });
-  }, [subCategory]);
 
   return (
     <Background>
