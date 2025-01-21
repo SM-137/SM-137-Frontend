@@ -47,11 +47,10 @@ const SubCategory = (props: SubCategoryProps) => {
   const handleSubCategorySelect = (value: CategoryValue) => {
     if (subCategory === value) {
       setSubCategory(undefined);
-      context?.handleFilterOptions("category", null); 
       return;
     }
     setSubCategory(value);
-    context?.handleFilterOptions("category", value); 
+    context?.handleFilterOptions("category", value);
   };
 
   const handleClick = (value: CategoryValue) => {

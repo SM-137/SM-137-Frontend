@@ -1,0 +1,37 @@
+{
+  "_chunk-XhNS7_By.js": {
+    "file": "assets/chunks/chunk-XhNS7_By.js",
+    "name": "getCurrentUrl"
+  },
+  "node_modules/vike/dist/esm/client/client-routing-runtime/entry.js": {
+    "file": "assets/entries/entry-client-routing.B_H6CoQb.js",
+    "name": "entries/entry-client-routing",
+    "src": "node_modules/vike/dist/esm/client/client-routing-runtime/entry.js",
+    "isEntry": true,
+    "imports": [
+      "_chunk-XhNS7_By.js"
+    ],
+    "dynamicImports": [
+      "src/pages/detail/Detail.page.tsx"
+    ]
+  },
+  "node_modules/vike/dist/esm/client/server-routing-runtime/entry.js": {
+    "file": "assets/entries/entry-server-routing.DWqiBHZl.js",
+    "name": "entries/entry-server-routing",
+    "src": "node_modules/vike/dist/esm/client/server-routing-runtime/entry.js",
+    "isEntry": true,
+    "imports": [
+      "_chunk-XhNS7_By.js"
+    ],
+    "dynamicImports": [
+      "src/pages/detail/Detail.page.tsx"
+    ]
+  },
+  "src/pages/detail/Detail.page.tsx": {
+    "file": "assets/entries/src_pages_detail_Detail.page.DHAguQqq.js",
+    "name": "entries/src/pages/detail/Detail.page",
+    "src": "src/pages/detail/Detail.page.tsx",
+    "isEntry": true,
+    "isDynamicEntry": true
+  }
+}

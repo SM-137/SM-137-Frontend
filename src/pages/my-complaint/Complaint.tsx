@@ -46,7 +46,6 @@ const Complaint = () => {
     useFilter(originData);
 
   useEffect(() => {
-    console.log("작동");
     handleFilter();
   }, [filters]);
 

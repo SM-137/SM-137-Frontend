@@ -1,5 +1,7 @@
 // import apiClient from "./apiClient";
 
+import apiClient from "./apiClient";
+
 // export const complaintWrite = async (data) => {
 //   try {
 //     const response = await apiClient.post(
@@ -112,13 +114,20 @@
 //     throw error;
 //   }
 // };
-// export const complaintAll = async () => {
-//   try {
-//     const response = await apiClient.get(`api/complaints/category`, data);
-//     console.log(response); // 백엔드에서 전달된 데이터 확인
-//     return response.data;
-//   } catch (error) {
-//     console.error("전체 조회 중 에러 발생 :", error);
-//     throw error;
-//   }
-// };
+
+interface categoryProps {
+  categoryName: string | null | undefined;
+}
+export const complaintAll = async (categoryOption: categoryProps) => {
+  try {
+    const response = await apiClient.post(
+      `api/complaints/category`,
+      categoryOption
+    );
+    console.log(response); // 백엔드에서 전달된 데이터 확인
+    return response.data;
+  } catch (error) {
+    console.error("전체 조회 중 에러 발생 :", error);
+    throw error;
+  }
+};

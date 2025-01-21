@@ -6,11 +6,21 @@ import SearchFilterBar from "../../components/search-filter/SearchFilter";
 import SortBar from "../../components/sort-bar/SortBar";
 import { mockData } from "../../mockData";
 import ContentList from "../../components/content/ContentList";
-import { createContext, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { DataType, SortType } from "../../types/Type";
 import { NoComplaints } from "../../styles/NoComplaints";
 import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import { SortOptionsProps, useSort } from "../../hooks/useSort";
+import Pagination from "../../components/Pagination";
+import { usePagination } from "../../hooks/usePagination";
+import { complaintAll } from "../../services/complaintService";
+import Loading from "../../components/loading/Loading";
 
 interface ViewProps {
   originData: DataType[];
@@ -23,6 +33,7 @@ interface ViewProps {
   handleSort: (inputData: DataType[]) => void;
   sortOptions: SortOptionsProps;
   handleSortOption: (type: SortType) => void;
+  setCategoryData: Dispatch<SetStateAction<undefined>>;
 }
 
 const Container = styled.div`
@@ -34,6 +45,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  padding-bottom: 3rem;
 `;
 const Background = styled.div`
   width: 100%;
@@ -77,18 +89,37 @@ const SortContainer = styled.div`
 export const ViewContext = createContext<ViewProps | undefined>(undefined);
 
 const View = () => {
-  const [originData] = useState(mockData);
+  //데이터가 없을 경우 mockData가 보여짐
+  const [originData, setOriginData] = useState(mockData);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [resetButton, setResetButton] = useState(false);
 
   const { filteredData, handleFilter, handleFilterOptions, filters } =
     useFilter(originData);
   const { handleSort, sortOptions, handleSortOption, sortData } =
     useSort(filteredData);
+  const [, setCategoryData] = useState();
 
   // 필터링이나 정렬이 변경되면 버튼 상태 리셋
   const handleResetButtonState = () => {
     setResetButton(true);
   };
+
+  useEffect(() => {
+    complaintAll({ categoryName: filters.category })
+      .then((res) => {
+        setOriginData(res);
+        if (!res.data) {
+          console.log("데이터가 없습니다");
+          setOriginData(mockData);
+        }
+        setIsLoading(false);
+      })
+      .catch(() => {
+        console.log("전체 민원 조회 데이터를 가져오는 중 오류 발생");
+      });
+  }, [filters.category]);
 
   useEffect(() => {
     handleFilter();
@@ -102,6 +133,9 @@ const View = () => {
 
   const isComplaintExist = !(filteredData.length == 0);
 
+  const { currentPage, totalPages, displayedData, handlePageChange } =
+    usePagination<DataType>(sortData);
+
   return (
     <ViewContext.Provider
       value={{
@@ -112,6 +146,7 @@ const View = () => {
         handleSort,
         sortOptions,
         handleSortOption,
+        setCategoryData,
       }}
     >
       <Container>
@@ -128,8 +163,11 @@ const View = () => {
           {/*정렬 필터링 + 컨텐츠*/}
           <SortContainer>
             <SortBar context={ViewContext} />
-            {isComplaintExist ? (
-              sortData.map((i, index) => (
+            {/*로딩 중일 경우 로딩 컴포넌트 렌더링 */}
+            {isLoading ? (
+              <Loading />
+            ) : isComplaintExist ? (
+              displayedData.map((i, index) => (
                 <ContentList data={i} key={index} resetTrigger={resetButton} />
               ))
             ) : (
@@ -137,6 +175,11 @@ const View = () => {
             )}
           </SortContainer>
         </ContentsContainer>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </Container>
     </ViewContext.Provider>
   );

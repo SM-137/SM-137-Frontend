@@ -79,7 +79,7 @@ const StatusButtonGroup = ({ usage = "normal" }: UsageProps) => {
   const handleClickHandler = setHandleFunction(usage);
 
   const context = useContext(ViewContext) || useContext(MyComplaintContext);
-  console.log(context);
+
   useEffect(() => {
     if (usage === "filter") {
       if (!context) return;

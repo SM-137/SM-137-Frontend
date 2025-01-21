@@ -11,9 +11,9 @@ import { useModal } from "../../hooks/useModal";
 import Modal from "../modal/Modal";
 import DeleteComment from "../modal/contents/DeleteComment";
 import Alert from "../alert/Alert";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { BASE_NAME } from "../../utils/URL";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -136,8 +136,8 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   //복사할 URL 설정
   const baseURL = window.location.origin;
   const contentURL = useLocation().pathname;
-  const sharedLink = baseURL + contentURL;
-  const imageLink = baseURL + "assets/logo.svg?react";
+  const sharedLink = baseURL + BASE_NAME + contentURL;
+  const imageLink = "https://sm-137.github.io/SM-137-Frontend/preview.png";
 
   const copyToClipboard = async () => {
     try {
@@ -150,20 +150,21 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       setIsCopied(false);
     }, 1500);
   };
+  useEffect(() => {
+    document.title = "동적 페이지 제목";
+    document
+      .querySelector("meta[property='og:title']")
+      ?.setAttribute("content", "동적 페이지 제목");
+    document
+      .querySelector("meta[property='og:description']")
+      ?.setAttribute("content", "동적 페이지 설명");
+    document
+      .querySelector("meta[property='og:image']")
+      ?.setAttribute("content", imageLink);
+  }, []);
 
   return (
     <Container>
-      {/*공유 메타데이터 */}
-      <Helmet>
-        <title>숙명137 - 숙명여자대학교 민원 시스템</title>
-        <meta property="og:title" content={data.title} />
-        <meta property="og:description" content={data.content} />
-        {/*미리보기 사진 설정 필요 */}
-        {/* {data.src ? <meta property="og:image" content={data.imageUrl} /> : } */}
-        <meta property="og:image" content={imageLink} />
-        <meta property="og:url" content={sharedLink} />
-      </Helmet>
-
       <Modal
         isOpen={isModalOpen}
         handleClose={handleModalClose}

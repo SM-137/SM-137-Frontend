@@ -34,9 +34,6 @@ export const useFilter = (originData: DataType[]) => {
     if (filters.period) {
       result = handlePeriod(result, filters.period);
     }
-    if (filters.category) {
-      result = handleCategory(result, filters.category);
-    }
     if (filters.status) {
       result = handleStatus(result, filters.status);
     }
@@ -62,18 +59,6 @@ export const useFilter = (originData: DataType[]) => {
       const date = new Date(i.date).getTime();
       return date > lastDate;
     });
-    return result;
-  };
-
-  const handleCategory = (
-    originData: DataType[],
-    subCategory: CategoryValue
-  ) => {
-    //subCategory를 선택했을 때만 필터링
-    let result = originData;
-    if (subCategory) {
-      result = originData.filter((i) => i.category === subCategory);
-    }
     return result;
   };
 
