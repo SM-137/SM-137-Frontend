@@ -16,6 +16,9 @@ export const googleRedirect = async () => {
     }
     const decodeToken = jwtDecode(token);
     console.log(decodeToken);
+
+    document.cookie = `jwtToken=${token}; path=/; max-age=3600; secure; SameSite=Lax`;
+
     return token;
   } catch (error) {
     console.error("JWT 토큰 받아오는 중 오류 발생 :", error);

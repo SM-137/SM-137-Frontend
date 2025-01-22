@@ -74,6 +74,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({ onFileChange }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     const files = e.target.files;
     if (files && files[0]) {
       setSelectedFile(files[0]);
@@ -92,11 +93,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({ onFileChange }) => {
         <FileInputLabel>첨부파일</FileInputLabel>
       </FileLabelContainer>
       <FileInputWrapper>
-        <HiddenFileInput
-          type="file"
-          id="file"
-          onChange={handleFileChange}
-        />
+        <HiddenFileInput type="file" id="file" onChange={handleFileChange} />
         <Button
           content="첨부파일"
           type="_100x35_Gray2"

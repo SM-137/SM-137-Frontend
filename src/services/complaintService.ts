@@ -1,20 +1,39 @@
-// import apiClient from "./apiClient";
-
+import { ApplyContentProps } from "../types/Type";
 import apiClient from "./apiClient";
 
-// export const complaintWrite = async (data) => {
-//   try {
-//     const response = await apiClient.post(
-//       import.meta.env.COMPLAINT_WRITE,
-//       data
-//     );
-//     console.log(response); // 백엔드에서 전달된 데이터 확인
-//     return response.data;
-//   } catch (error) {
-//     console.error("민원 작성 중 에러 발생 :", error);
-//     throw error;
-//   }
-// };
+export const complaintWrite = async (data: ApplyContentProps) => {
+  try {
+    const formData = new FormData();
+    const requestDto = {
+      title: data.title,
+      contentProb: data.contentProb,
+      contentDir: data.contentDir,
+      contentExpect: data.contentExpect,
+      categoryName: data.categoryName,
+      tagName: data.tagName,
+    };
+    formData.append("requestDto", JSON.stringify(requestDto));
+    if (data.attachments) {
+      formData.append("attachments", data.attachments);
+    }
+
+    console.log("FormData 확인:");
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    const response = await apiClient.post("api/complaints", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(response); // 백엔드에서 전달된 데이터 확인
+    return response.data;
+  } catch (error) {
+    console.error("민원 작성 중 에러 발생 :", error);
+    throw error;
+  }
+};
 
 // export const complaintModify = async (complaintId, data) => {
 //   try {
