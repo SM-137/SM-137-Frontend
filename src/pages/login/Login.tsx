@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import Logo from "../../assets/icons/logo/logo-bubble.svg?react";
 import { googleLogin } from "../../services/userService";
+import GoogleLoginSvg from "../../assets/google-login.svg?react";
 
 const Background = styled.div`
   width: 100%;
@@ -77,8 +78,11 @@ const LoginContainer = styled.div`
   gap: 1rem;
 `;
 
-const LoginInfoMessage = styled.h2`
-  color: var(--gray6-header);
+const LoginButton = styled(GoogleLoginSvg)`
+  cursor: pointer;
+  width: 250px;
+  height: 80px;
+  display: inline-flex;
 `;
 
 const Login = () => {
@@ -104,8 +108,7 @@ const Login = () => {
           </LogoContainer>
 
           <LoginContainer>
-            <LoginInfoMessage>숙명 Gmail로 로그인</LoginInfoMessage>
-            <button onClick={googleLogin}>로그인 버튼</button>
+            <LoginButton onClick={googleLogin} />
           </LoginContainer>
         </LoginSectionContainer>
       </LoginSection>
