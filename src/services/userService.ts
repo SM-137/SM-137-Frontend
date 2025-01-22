@@ -7,7 +7,6 @@ export const googleLogin = () => {
 };
 export const googleRedirect = async () => {
   try {
-    //jwt 토큰 확인 필요
     const urlParams = new URLSearchParams(window.location.search);
     console.log(urlParams);
     const token = urlParams.get("token");
