@@ -1,13 +1,8 @@
 import apiClient from "./apiClient";
 
-export const login = async () => {
-  try {
-    const response = await apiClient.get("/google/login");
-    return response.data;
-  } catch (error) {
-    console.error("로그인 중 에러 발생 :", error);
-    throw error;
-  }
+export const googleLogin = () => {
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  window.location.href = `${baseUrl}/oauth2/authorization/google`;
 };
 // //path, post 데이터에 대해 타입 정의 필요
 // export const modify = async (data ) => {
