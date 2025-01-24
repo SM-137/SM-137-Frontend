@@ -1,5 +1,4 @@
 export const BASE_NAME = "/SM-137-Frontend";
-export const BASE_URL = "https://sm-137.github.io/SM-137-Frontend/";
 
 export const VIEW_URL = "/complaint-view";
 export const HOME_URL = "/";
