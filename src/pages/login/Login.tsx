@@ -86,7 +86,8 @@ const LoginButton = styled(GoogleLoginSvg)`
 `;
 
 const Login = () => {
-  const IMAGE_SRC = "/assets/emblem-1_DarkGray.png";
+  const IMAGE_SRC =
+    "https://sm137.netlify.app/assets/emblem-1_DarkGray-Cv6FiteB.png";
 
   return (
     <Background>
