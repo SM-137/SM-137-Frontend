@@ -48,3 +48,14 @@ export type SortType = "latest" | "scrap" | "likes";
 export type CategoryValue =
   | (typeof categoryName)[keyof typeof categoryName][number]
   | undefined;
+
+//백엔드 연도
+export interface ApplyContentProps {
+  title: string;
+  contentProb: string;
+  contentDir: string;
+  contentExpect: string;
+  categoryName: string;
+  tagName: string;
+  attachments: File | null;
+}

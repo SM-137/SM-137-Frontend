@@ -11,12 +11,22 @@ import AcademicInfoStep from "./pages/application-step/AcademicInfoStep";
 import CategorySelectionStep from "./pages/application-step/CategorySelectionStep";
 import CompletedStep from "./pages/application-step/CompletedStep";
 import ComplaintsWrittingStep from "./pages/application-step/CompaintsWrittingStep";
+import Login from "./pages/login/Login";
+import Redirect from "./pages/login/Redirect";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
+          {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/auth/callback",
+      element: <Redirect />,
+    },
       {
         path: "",
         element: <Home />,
