@@ -45,23 +45,23 @@ const buttonStyles = {
   inProgress: {
     Icon: PlayIcon,
     color: "var(--light-primary)",
-    text: "진행"
+    text: "진행",
   },
   pending: {
     Icon: PauseIcon,
     color: "var(--info-dark)",
-    text: "대기"
+    text: "대기",
   },
   rejected: {
     Icon: CancelIcon,
     color: "var(--error-light)",
-    text: "반려"
+    text: "반려",
   },
   completed: {
     Icon: CheckIcon,
-    color: "var(--succeess)",
-    text: "완료"
-  }
+    color: "var(--light-primary)",
+    text: "완료",
+  },
 };
 styled.button`
   display: inline-flex;
@@ -70,7 +70,8 @@ styled.button`
   padding: 0.2rem 0.4rem;
   border-radius: 20px;
   background-color: var(--white);
-  border: ${(props) => props.isSelected ? `2px solid ${props.borderColor}` : "none"};
+  border: ${(props) =>
+    props.isSelected ? `2px solid ${props.borderColor}` : "none"};
 `;
 styled.pre`
   color: ${(props) => props.color};
@@ -89,10 +90,12 @@ const StatusDisplay = ({ type }) => {
     return /* @__PURE__ */ jsx("div", { children: "Invalid status type" });
   }
   const { color, Icon: Icon2, text } = buttonStyles[type];
-  return /* @__PURE__ */ jsxs(DisplayContainer, { children: [
-    /* @__PURE__ */ jsx(Icon2, {}),
-    /* @__PURE__ */ jsx(DisplayText, { color, children: text })
-  ] });
+  return /* @__PURE__ */ jsxs(DisplayContainer, {
+    children: [
+      /* @__PURE__ */ jsx(Icon2, {}),
+      /* @__PURE__ */ jsx(DisplayText, { color, children: text }),
+    ],
+  });
 };
 const Container$9 = styled.div`
   display: inline-flex;
@@ -108,16 +111,24 @@ const Contents$2 = styled.p``;
 const CategoryTag = ({
   contents = "내용",
   background = "var(--gray2-subbtn)",
-  color = "var(--gray5-lowText)"
+  color = "var(--gray5-lowText)",
 }) => {
-  return /* @__PURE__ */ jsx(Container$9, { color, background, children: /* @__PURE__ */ jsx(Contents$2, { children: contents }) });
+  return /* @__PURE__ */ jsx(Container$9, {
+    color,
+    background,
+    children: /* @__PURE__ */ jsx(Contents$2, { children: contents }),
+  });
 };
 const GroupContainer = styled.div`
   display: flex;
   gap: 0.5rem;
 `;
 const CategoryTagGroup = ({ hashtag }) => {
-  return /* @__PURE__ */ jsx(GroupContainer, { children: hashtag.map((tagItem, index) => /* @__PURE__ */ jsx(CategoryTag, { contents: tagItem }, index)) });
+  return /* @__PURE__ */ jsx(GroupContainer, {
+    children: hashtag.map((tagItem, index) =>
+      /* @__PURE__ */ jsx(CategoryTag, { contents: tagItem }, index)
+    ),
+  });
 };
 const Container$8 = styled.div`
   display: inline-flex;
@@ -156,9 +167,9 @@ const clickVariants = {
       duration: 0.1,
       type: "spring",
       stiffness: 400,
-      damping: 20
-    }
-  }
+      damping: 20,
+    },
+  },
 };
 const getIcon = (type) => {
   if (type === "thumbUp") {
@@ -193,16 +204,12 @@ const getFill = (type) => {
     return "var(--error-light)";
   }
 };
-const Interaction = ({
-  type,
-  count,
-  resetTrigger = false
-}) => {
+const Interaction = ({ type, count, resetTrigger = false }) => {
   const [isClick, setIsClick] = useState(false);
   const [, setValue] = useState(count);
   const handleClick = () => {
     setIsClick((prev) => !prev);
-    setValue((prev) => isClick ? prev - 1 : prev + 1);
+    setValue((prev) => (isClick ? prev - 1 : prev + 1));
   };
   useEffect(() => {
     if (resetTrigger) {
@@ -210,25 +217,26 @@ const Interaction = ({
       setValue(count);
     }
   }, [resetTrigger, count]);
-  return /* @__PURE__ */ jsxs(Container$8, { children: [
-    isClick ? /* @__PURE__ */ jsx(
-      IconWrapper,
-      {
-        variants: clickVariants,
-        initial: "start",
-        animate: "clicking",
-        children: /* @__PURE__ */ jsx(
-          ClickIcon,
-          {
-            component: getClickIcon(type),
+  return /* @__PURE__ */ jsxs(Container$8, {
+    children: [
+      isClick
+        ? /* @__PURE__ */ jsx(IconWrapper, {
+            variants: clickVariants,
+            initial: "start",
+            animate: "clicking",
+            children: /* @__PURE__ */ jsx(ClickIcon, {
+              component: getClickIcon(type),
+              onClick: handleClick,
+              sx: { fill: getFill(type) },
+            }),
+          })
+        : /* @__PURE__ */ jsx(UnClickIcon, {
+            component: getIcon(type),
             onClick: handleClick,
-            sx: { fill: getFill(type) }
-          }
-        )
-      }
-    ) : /* @__PURE__ */ jsx(UnClickIcon, { component: getIcon(type), onClick: handleClick }),
-    /* @__PURE__ */ jsx(Value, { children: isClick ? count + 1 : count })
-  ] });
+          }),
+      /* @__PURE__ */ jsx(Value, { children: isClick ? count + 1 : count }),
+    ],
+  });
 };
 const Container$7 = styled.div`
   display: flex;
@@ -237,15 +245,21 @@ const Container$7 = styled.div`
   max-width: 100px;
   gap: 1rem;
 `;
-const InteractionGroup = ({
-  likes,
-  bookmarks,
-  resetTrigger
-}) => {
-  return /* @__PURE__ */ jsxs(Container$7, { children: [
-    /* @__PURE__ */ jsx(Interaction, { type: "thumbUp", count: likes, resetTrigger }),
-    /* @__PURE__ */ jsx(Interaction, { type: "scrap", count: bookmarks, resetTrigger })
-  ] });
+const InteractionGroup = ({ likes, bookmarks, resetTrigger }) => {
+  return /* @__PURE__ */ jsxs(Container$7, {
+    children: [
+      /* @__PURE__ */ jsx(Interaction, {
+        type: "thumbUp",
+        count: likes,
+        resetTrigger,
+      }),
+      /* @__PURE__ */ jsx(Interaction, {
+        type: "scrap",
+        count: bookmarks,
+        resetTrigger,
+      }),
+    ],
+  });
 };
 const Title$1 = styled.span``;
 const Article = styled.div`
@@ -298,7 +312,7 @@ const useModal = () => {
   return {
     isModalOpen,
     handleModalClose,
-    handleModalOpen
+    handleModalOpen,
   };
 };
 const ModalWrapper = styled.div`
@@ -347,10 +361,12 @@ const ModalBackdrop = styled.div`
 `;
 const Modal = ({ isOpen, handleClose, contents }) => {
   if (!isOpen) return null;
-  return /* @__PURE__ */ jsxs(ModalWrapper, { children: [
-    /* @__PURE__ */ jsx(ModalBackdrop, { onClick: handleClose }),
-    /* @__PURE__ */ jsx(ModalContent, { children: contents })
-  ] });
+  return /* @__PURE__ */ jsxs(ModalWrapper, {
+    children: [
+      /* @__PURE__ */ jsx(ModalBackdrop, { onClick: handleClose }),
+      /* @__PURE__ */ jsx(ModalContent, { children: contents }),
+    ],
+  });
 };
 const buttonType = {
   /*default type */
@@ -361,7 +377,7 @@ const buttonType = {
     backGround: "var(--light-primary)",
     hoverBackGround: "var(--primary)",
     color: "var(--white)",
-    borderRadius: "4px"
+    borderRadius: "4px",
   },
   _100x123_Primary: {
     width: "100px",
@@ -370,7 +386,7 @@ const buttonType = {
     backGround: "var(--light-primary)",
     hoverBackGround: "var(--primary)",
     color: "var(--white)",
-    borderRadius: "4px"
+    borderRadius: "4px",
   },
   _120x40_Gray2: {
     width: "120px",
@@ -379,7 +395,7 @@ const buttonType = {
     backGround: "var(--gray2-subbtn)",
     hoverBackGround: "var(--gray3-border)",
     color: "var(--gray5-lowText)",
-    borderRadius: "4px"
+    borderRadius: "4px",
   },
   _100x35_Gray2: {
     width: "100px",
@@ -388,7 +404,7 @@ const buttonType = {
     backGround: "var(--gray2-subbtn)",
     hoverBackGround: "var(--gray3-border)",
     color: "var(--gray5-lowText)",
-    borderRadius: "4px"
+    borderRadius: "4px",
   },
   _100x35_Primary: {
     width: "100px",
@@ -397,8 +413,8 @@ const buttonType = {
     backGround: "var(--light-primary)",
     hoverBackGround: "var(--primary)",
     color: "var(--white)",
-    borderRadius: "4px"
-  }
+    borderRadius: "4px",
+  },
 };
 const DEFAULT_CONTENT = "버튼 내용";
 const DEFAULT_TYPE = "_120x40_Primary";
@@ -423,7 +439,7 @@ const ButtonContents = styled.div`
 const Button = ({
   content = DEFAULT_CONTENT,
   type = DEFAULT_TYPE,
-  onClick
+  onClick,
   // onClick props 추가
 }) => {
   const buttonStyle = buttonType[type];
@@ -434,21 +450,18 @@ const Button = ({
     backGround,
     color,
     hoverBackGround,
-    borderRadius
+    borderRadius,
   } = buttonStyle;
-  return /* @__PURE__ */ jsx(
-    ButtonContainer$1,
-    {
-      width,
-      height,
-      padding,
-      backGround,
-      hoverBackGround,
-      borderRadius,
-      onClick,
-      children: /* @__PURE__ */ jsx(ButtonContents, { color, children: content })
-    }
-  );
+  return /* @__PURE__ */ jsx(ButtonContainer$1, {
+    width,
+    height,
+    padding,
+    backGround,
+    hoverBackGround,
+    borderRadius,
+    onClick,
+    children: /* @__PURE__ */ jsx(ButtonContents, { color, children: content }),
+  });
 };
 const Container$6 = styled.div`
   display: flex;
@@ -466,13 +479,25 @@ const ButtonContainer = styled.div`
 `;
 const DeleteComment = ({ handleClose, handleCancel }) => {
   const DELETE_COMMENT = "해당 게시물을 삭제하시겠습니까?";
-  return /* @__PURE__ */ jsxs(Container$6, { children: [
-    /* @__PURE__ */ jsx(Comment$1, { children: DELETE_COMMENT }),
-    /* @__PURE__ */ jsxs(ButtonContainer, { children: [
-      /* @__PURE__ */ jsx(Button, { type: "_100x35_Gray2", content: "취소", onClick: handleCancel }),
-      /* @__PURE__ */ jsx(Button, { type: "_100x35_Primary", content: "삭제", onClick: handleClose })
-    ] })
-  ] });
+  return /* @__PURE__ */ jsxs(Container$6, {
+    children: [
+      /* @__PURE__ */ jsx(Comment$1, { children: DELETE_COMMENT }),
+      /* @__PURE__ */ jsxs(ButtonContainer, {
+        children: [
+          /* @__PURE__ */ jsx(Button, {
+            type: "_100x35_Gray2",
+            content: "취소",
+            onClick: handleCancel,
+          }),
+          /* @__PURE__ */ jsx(Button, {
+            type: "_100x35_Primary",
+            content: "삭제",
+            onClick: handleClose,
+          }),
+        ],
+      }),
+    ],
+  });
 };
 const Container$5 = styled(motion.div)`
   display: inline-flex;
@@ -498,15 +523,20 @@ const showVariants = {
       duration: 0.1,
       type: "spring",
       stiffness: 300,
-      damping: 20
-    }
-  }
+      damping: 20,
+    },
+  },
 };
 const Alert = ({ content = "메세지를 입력해 주세요" }) => {
-  return /* @__PURE__ */ jsxs(Container$5, { variants: showVariants, initial: "start", animate: "clicking", children: [
-    /* @__PURE__ */ jsx(Icon$3, { component: CheckCircleRoundedIcon }),
-    content
-  ] });
+  return /* @__PURE__ */ jsxs(Container$5, {
+    variants: showVariants,
+    initial: "start",
+    animate: "clicking",
+    children: [
+      /* @__PURE__ */ jsx(Icon$3, { component: CheckCircleRoundedIcon }),
+      content,
+    ],
+  });
 };
 const BASE_NAME = "/SM-137-Frontend";
 const Container$4 = styled.div`
@@ -622,55 +652,107 @@ const ComplaintContent = ({ data }) => {
       setIsCopied(false);
     }, 1500);
   };
-  return /* @__PURE__ */ jsxs(Container$4, { children: [
-    /* @__PURE__ */ jsxs(Helmet, { children: [
-      /* @__PURE__ */ jsx("meta", { property: "og:title", content: "테스트 제목" }),
-      /* @__PURE__ */ jsx("meta", { property: "og:description", content: "테스트 컨텐츠" }),
-      /* @__PURE__ */ jsx("meta", { property: "og:image", content: imageLink })
-    ] }),
-    /* @__PURE__ */ jsx(
-      Modal,
-      {
+  return /* @__PURE__ */ jsxs(Container$4, {
+    children: [
+      /* @__PURE__ */ jsxs(Helmet, {
+        children: [
+          /* @__PURE__ */ jsx("meta", {
+            property: "og:title",
+            content: "테스트 제목",
+          }),
+          /* @__PURE__ */ jsx("meta", {
+            property: "og:description",
+            content: "테스트 컨텐츠",
+          }),
+          /* @__PURE__ */ jsx("meta", {
+            property: "og:image",
+            content: imageLink,
+          }),
+        ],
+      }),
+      /* @__PURE__ */ jsx(Modal, {
         isOpen: isModalOpen,
         handleClose: handleModalClose,
-        contents: /* @__PURE__ */ jsx(
-          DeleteComment,
-          {
-            handleClose: handleDelete,
-            handleCancel: handleModalClose
-          }
-        )
-      }
-    ),
-    /* @__PURE__ */ jsxs(Header, { children: [
-      /* @__PURE__ */ jsxs(HeaderContent, { children: [
-        /* @__PURE__ */ jsx(StatusDisplay, { type: data.status }),
-        /* @__PURE__ */ jsx(CategoryContainer, { children: data.hashtag.map((hashtag, index) => /* @__PURE__ */ jsx(CategoryTagGroup, { hashtag: [hashtag] }, index)) })
-      ] }),
-      /* @__PURE__ */ jsxs(InteractionContainer, { children: [
-        /* @__PURE__ */ jsx(InteractionGroup, { likes: data.likes, bookmarks: data.bookmarks }),
-        isCopied && /* @__PURE__ */ jsx(AlertContainer, { children: /* @__PURE__ */ jsx(Alert, { content: COPIED_COMMENT }) }),
-        /* @__PURE__ */ jsx(Icon$2, { component: ShareIcon, onClick: copyToClipboard })
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxs(ComplaintNumber, { children: [
-      /* @__PURE__ */ jsx(Category, { children: data.category }),
-      "민원번호 : 00910"
-    ] }),
-    /* @__PURE__ */ jsxs("div", { children: [
-      /* @__PURE__ */ jsx(Title$1, { children: data.title }),
-      /* @__PURE__ */ jsx(Article, { line: 0, children: data.content })
-    ] }),
-    /* @__PURE__ */ jsxs(Footer, { children: [
-      !data.answer ? /* @__PURE__ */ jsxs(EditDeleteButtonContainer, { children: [
-        /* @__PURE__ */ jsx(EditDeleteButton, { children: "수정" }),
-        /* @__PURE__ */ jsx("pre", { children: "|" }),
-        alertDelete && /* @__PURE__ */ jsx(AlertContainer, { children: /* @__PURE__ */ jsx(Alert, { content: "삭제되었습니다" }) }),
-        /* @__PURE__ */ jsx(EditDeleteButton, { onClick: handleConfirmDelete, children: "삭제" })
-      ] }) : /* @__PURE__ */ jsx(InfoComment, { children: "답변이 달린 이후에는 수정 및 삭제가 불가능합니다" }),
-      /* @__PURE__ */ jsx(DateSection, { children: formatTime })
-    ] })
-  ] });
+        contents: /* @__PURE__ */ jsx(DeleteComment, {
+          handleClose: handleDelete,
+          handleCancel: handleModalClose,
+        }),
+      }),
+      /* @__PURE__ */ jsxs(Header, {
+        children: [
+          /* @__PURE__ */ jsxs(HeaderContent, {
+            children: [
+              /* @__PURE__ */ jsx(StatusDisplay, { type: data.status }),
+              /* @__PURE__ */ jsx(CategoryContainer, {
+                children: data.hashtag.map((hashtag, index) =>
+                  /* @__PURE__ */ jsx(
+                    CategoryTagGroup,
+                    { hashtag: [hashtag] },
+                    index
+                  )
+                ),
+              }),
+            ],
+          }),
+          /* @__PURE__ */ jsxs(InteractionContainer, {
+            children: [
+              /* @__PURE__ */ jsx(InteractionGroup, {
+                likes: data.likes,
+                bookmarks: data.bookmarks,
+              }),
+              isCopied &&
+                /* @__PURE__ */ jsx(AlertContainer, {
+                  children: /* @__PURE__ */ jsx(Alert, {
+                    content: COPIED_COMMENT,
+                  }),
+                }),
+              /* @__PURE__ */ jsx(Icon$2, {
+                component: ShareIcon,
+                onClick: copyToClipboard,
+              }),
+            ],
+          }),
+        ],
+      }),
+      /* @__PURE__ */ jsxs(ComplaintNumber, {
+        children: [
+          /* @__PURE__ */ jsx(Category, { children: data.category }),
+          "민원번호 : 00910",
+        ],
+      }),
+      /* @__PURE__ */ jsxs("div", {
+        children: [
+          /* @__PURE__ */ jsx(Title$1, { children: data.title }),
+          /* @__PURE__ */ jsx(Article, { line: 0, children: data.content }),
+        ],
+      }),
+      /* @__PURE__ */ jsxs(Footer, {
+        children: [
+          !data.answer
+            ? /* @__PURE__ */ jsxs(EditDeleteButtonContainer, {
+                children: [
+                  /* @__PURE__ */ jsx(EditDeleteButton, { children: "수정" }),
+                  /* @__PURE__ */ jsx("pre", { children: "|" }),
+                  alertDelete &&
+                    /* @__PURE__ */ jsx(AlertContainer, {
+                      children: /* @__PURE__ */ jsx(Alert, {
+                        content: "삭제되었습니다",
+                      }),
+                    }),
+                  /* @__PURE__ */ jsx(EditDeleteButton, {
+                    onClick: handleConfirmDelete,
+                    children: "삭제",
+                  }),
+                ],
+              })
+            : /* @__PURE__ */ jsx(InfoComment, {
+                children: "답변이 달린 이후에는 수정 및 삭제가 불가능합니다",
+              }),
+          /* @__PURE__ */ jsx(DateSection, { children: formatTime }),
+        ],
+      }),
+    ],
+  });
 };
 const mockData = [
   {
@@ -679,12 +761,13 @@ const mockData = [
     hashtag: ["시설", "설비", "냉난방"],
     category: "공간",
     status: "inProgress",
-    content: "안녕하세요, 저는 저녁 시간대에 수업을 듣고 있는 학생입니다. 최근 들어 강의실 내부가 너무 덥거나 추운 경우가 많아 학습 환경이 다소 불편한데, 저녁 수업시간에도 냉난방을 틀어주실 수 있을까요?",
+    content:
+      "안녕하세요, 저는 저녁 시간대에 수업을 듣고 있는 학생입니다. 최근 들어 강의실 내부가 너무 덥거나 추운 경우가 많아 학습 환경이 다소 불편한데, 저녁 수업시간에도 냉난방을 틀어주실 수 있을까요?",
     likes: 10,
     bookmarks: 0,
     date: "2025-01-06T10:15:00.000Z",
     // 1개월 이내
-    answer: ""
+    answer: "",
   },
   {
     id: 2,
@@ -692,12 +775,13 @@ const mockData = [
     hashtag: ["시설", "도서관", "조용한 환경"],
     category: "도서관",
     status: "rejected",
-    content: "도서관 열람실에서 시끄러운 소음이 계속 발생하고 있어 집중이 잘 되지 않습니다. 조용한 환경을 유지할 수 있도록 조치를 부탁드립니다.",
+    content:
+      "도서관 열람실에서 시끄러운 소음이 계속 발생하고 있어 집중이 잘 되지 않습니다. 조용한 환경을 유지할 수 있도록 조치를 부탁드립니다.",
     likes: 8,
     bookmarks: 1,
     date: "2024-12-03T09:00:00.000Z",
     // 1개월 이내
-    answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다."
+    answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다.",
   },
   {
     id: 3,
@@ -705,12 +789,13 @@ const mockData = [
     hashtag: ["수업", "자료", "도서관"],
     category: "도서관",
     status: "inProgress",
-    content: "이번 수업에 사용된 자료를 공유해주실 수 있을까요? 수업 중에 놓친 부분이 있어서 자료가 필요합니다.",
+    content:
+      "이번 수업에 사용된 자료를 공유해주실 수 있을까요? 수업 중에 놓친 부분이 있어서 자료가 필요합니다.",
     likes: 12,
     bookmarks: 10,
     date: "2024-12-04T17:45:00.000Z",
     // 1개월 이내
-    answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다."
+    answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다.",
   },
   {
     id: 4,
@@ -718,12 +803,13 @@ const mockData = [
     hashtag: ["시설", "설비", "엘리베이터"],
     category: "공간",
     status: "pending",
-    content: "엘리베이터가 자주 멈추고 고장 나는 것 같습니다. 점검을 요청드립니다.",
+    content:
+      "엘리베이터가 자주 멈추고 고장 나는 것 같습니다. 점검을 요청드립니다.",
     likes: 0,
     bookmarks: 5,
     date: "2024-10-05T14:30:00.000Z",
     // 3개월 이내
-    answer: ""
+    answer: "",
   },
   {
     id: 5,
@@ -736,7 +822,7 @@ const mockData = [
     bookmarks: 1,
     date: "2024-10-01T13:00:00.000Z",
     // 3개월 이내
-    answer: ""
+    answer: "",
   },
   {
     id: 6,
@@ -744,12 +830,13 @@ const mockData = [
     hashtag: ["시설", "주차", "공간 추가"],
     category: "공간",
     status: "pending",
-    content: "캠퍼스 내 주차 공간이 부족하여 주차가 어려운 경우가 많습니다. 주차 공간을 추가로 마련해주시기 바랍니다.",
+    content:
+      "캠퍼스 내 주차 공간이 부족하여 주차가 어려운 경우가 많습니다. 주차 공간을 추가로 마련해주시기 바랍니다.",
     likes: 1,
     bookmarks: 5,
     date: "2024-10-03T12:30:00.000Z",
     // 3개월 이내
-    answer: ""
+    answer: "",
   },
   {
     id: 7,
@@ -757,12 +844,13 @@ const mockData = [
     hashtag: ["수업", "경력개발", "변경"],
     category: "학사",
     status: "completed",
-    content: "다음 주 수업 시간이 갑자기 변경되어 불편합니다. 가능한 한 예고 없이 일정 변경을 자제해주시기 바랍니다.",
+    content:
+      "다음 주 수업 시간이 갑자기 변경되어 불편합니다. 가능한 한 예고 없이 일정 변경을 자제해주시기 바랍니다.",
     likes: 24,
     bookmarks: 4,
     date: "2024-07-05T10:00:00.000Z",
     // 6개월 이내
-    answer: ""
+    answer: "",
   },
   {
     id: 8,
@@ -770,12 +858,13 @@ const mockData = [
     hashtag: ["시설", "식음료", "시간 연장"],
     category: "공간",
     status: "inProgress",
-    content: "카페의 음료 제공 시간이 너무 일찍 종료됩니다. 더 늦게까지 음료를 제공해주시면 좋겠습니다.",
+    content:
+      "카페의 음료 제공 시간이 너무 일찍 종료됩니다. 더 늦게까지 음료를 제공해주시면 좋겠습니다.",
     likes: 15,
     bookmarks: 3,
     date: "2024-07-10T11:15:00.000Z",
     // 6개월 이내
-    answer: ""
+    answer: "",
   },
   {
     id: 9,
@@ -783,12 +872,13 @@ const mockData = [
     hashtag: ["행사", "공지", "알림"],
     category: "학생활동지원",
     status: "completed",
-    content: "다음 주 예정된 교내 행사에 대한 자세한 공지가 필요합니다. 참여자들에게 사전 안내를 부탁드립니다.",
+    content:
+      "다음 주 예정된 교내 행사에 대한 자세한 공지가 필요합니다. 참여자들에게 사전 안내를 부탁드립니다.",
     likes: 6,
     bookmarks: 3,
     date: "2024-07-11T16:45:00.000Z",
     // 6개월 이내
-    answer: ""
+    answer: "",
   },
   {
     id: 10,
@@ -801,7 +891,7 @@ const mockData = [
     bookmarks: 3,
     date: "2024-07-12T14:00:00.000Z",
     // 6개월 이내
-    answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다."
+    answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다.",
   },
   {
     id: 11,
@@ -809,12 +899,13 @@ const mockData = [
     hashtag: ["시설", "식음료", "시간 연장"],
     category: "공간",
     status: "inProgress",
-    content: "카페의 음료 제공 시간이 너무 일찍 종료됩니다. 더 늦게까지 음료를 제공해주시면 좋겠습니다.",
+    content:
+      "카페의 음료 제공 시간이 너무 일찍 종료됩니다. 더 늦게까지 음료를 제공해주시면 좋겠습니다.",
     likes: 15,
     bookmarks: 3,
     date: "2024-07-10T11:15:00.000Z",
     // 6개월 이내
-    answer: ""
+    answer: "",
   },
   {
     id: 12,
@@ -822,12 +913,13 @@ const mockData = [
     hashtag: ["행사", "공지", "알림"],
     category: "학생활동지원",
     status: "completed",
-    content: "다음 주 예정된 교내 행사에 대한 자세한 공지가 필요합니다. 참여자들에게 사전 안내를 부탁드립니다.",
+    content:
+      "다음 주 예정된 교내 행사에 대한 자세한 공지가 필요합니다. 참여자들에게 사전 안내를 부탁드립니다.",
     likes: 6,
     bookmarks: 3,
     date: "2024-07-11T16:45:00.000Z",
     // 6개월 이내
-    answer: ""
+    answer: "",
   },
   {
     id: 13,
@@ -840,28 +932,31 @@ const mockData = [
     bookmarks: 3,
     date: "2024-07-12T14:00:00.000Z",
     // 6개월 이내
-    answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다."
-  }
+    answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다.",
+  },
 ];
 const commentMockData = [
   {
-    content: "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
+    content:
+      "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
     likes: 3,
-    date: "2025-01-06T23:15:00.000Z"
+    date: "2025-01-06T23:15:00.000Z",
     // 1개월 이내
   },
   {
-    content: "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
+    content:
+      "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
     date: "2024-07-11T16:45:00.000Z",
     // 1개월 이내
-    likes: 3
+    likes: 3,
   },
   {
-    content: "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
+    content:
+      "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
     date: "2024-07-11T16:45:00.000Z",
     // 1개월 이내
-    likes: 10
-  }
+    likes: 10,
+  },
 ];
 const CommentTitleContainer = styled.div`
   display: flex;
@@ -902,28 +997,33 @@ const Comment = ({ data, index }) => {
   const ICON_WIDTH = "20px";
   const date = new Date(data.date);
   const formatTime = getFormatTime(date);
-  return /* @__PURE__ */ jsxs(Container$3, { children: [
-    /* @__PURE__ */ jsxs(InfoContainer, { children: [
-      /* @__PURE__ */ jsxs(CommentTitleContainer, { children: [
-        /* @__PURE__ */ jsx(
-          Icon$1,
-          {
-            component: CommentRoundedIcon,
-            sx: { fill: COMMENT_COLOR, width: ICON_WIDTH }
-          }
-        ),
-        /* @__PURE__ */ jsxs(CommentTitle, { children: [
-          "댓글",
-          index
-        ] })
-      ] }),
-      /* @__PURE__ */ jsx(Interaction, { type: "likes", count: data.likes })
-    ] }),
-    /* @__PURE__ */ jsxs(ContentsContainer, { children: [
-      /* @__PURE__ */ jsx(Contents$1, { children: data.content }),
-      /* @__PURE__ */ jsx(Time, { children: formatTime })
-    ] })
-  ] });
+  return /* @__PURE__ */ jsxs(Container$3, {
+    children: [
+      /* @__PURE__ */ jsxs(InfoContainer, {
+        children: [
+          /* @__PURE__ */ jsxs(CommentTitleContainer, {
+            children: [
+              /* @__PURE__ */ jsx(Icon$1, {
+                component: CommentRoundedIcon,
+                sx: { fill: COMMENT_COLOR, width: ICON_WIDTH },
+              }),
+              /* @__PURE__ */ jsxs(CommentTitle, { children: ["댓글", index] }),
+            ],
+          }),
+          /* @__PURE__ */ jsx(Interaction, {
+            type: "likes",
+            count: data.likes,
+          }),
+        ],
+      }),
+      /* @__PURE__ */ jsxs(ContentsContainer, {
+        children: [
+          /* @__PURE__ */ jsx(Contents$1, { children: data.content }),
+          /* @__PURE__ */ jsx(Time, { children: formatTime }),
+        ],
+      }),
+    ],
+  });
 };
 const Container$2 = styled.div`
   width: 100%;
@@ -958,19 +1058,22 @@ const InputComment = styled.input`
 const CommentInput = () => {
   const ICON_WIDTH = "20px";
   const FILL = "var(--disabled-primary)";
-  return /* @__PURE__ */ jsxs(Container$2, { children: [
-    /* @__PURE__ */ jsxs(InputContainer$1, { children: [
-      /* @__PURE__ */ jsx(
-        Icon$1,
-        {
-          component: CommentRoundedIcon,
-          sx: { width: ICON_WIDTH, fill: FILL }
-        }
-      ),
-      /* @__PURE__ */ jsx(InputComment, { placeholder: "댓글을 입력해 주세요" })
-    ] }),
-    /* @__PURE__ */ jsx(Button, { type: "_100x35_Primary", content: "등록" })
-  ] });
+  return /* @__PURE__ */ jsxs(Container$2, {
+    children: [
+      /* @__PURE__ */ jsxs(InputContainer$1, {
+        children: [
+          /* @__PURE__ */ jsx(Icon$1, {
+            component: CommentRoundedIcon,
+            sx: { width: ICON_WIDTH, fill: FILL },
+          }),
+          /* @__PURE__ */ jsx(InputComment, {
+            placeholder: "댓글을 입력해 주세요",
+          }),
+        ],
+      }),
+      /* @__PURE__ */ jsx(Button, { type: "_100x35_Primary", content: "등록" }),
+    ],
+  });
 };
 const Container$1 = styled.div`
   width: 100%;
@@ -1006,18 +1109,27 @@ const animationVariants = {
     transition: {
       type: "tween",
       maxHeight: { duration: 4, ease: "easeOut" },
-      opacity: { duration: 0.7, ease: "easeOut" }
-    }
-  }
+      opacity: { duration: 0.7, ease: "easeOut" },
+    },
+  },
 };
 const Answer = ({ data }) => {
-  return /* @__PURE__ */ jsxs(Container$1, { children: [
-    /* @__PURE__ */ jsxs(TitleContainer, { children: [
-      /* @__PURE__ */ jsx(Icon, { component: HowToRegRoundedIcon }),
-      /* @__PURE__ */ jsx(Title, { children: "관리자 답변" })
-    ] }),
-    /* @__PURE__ */ jsx(Contents, { variants: animationVariants, initial: "start", animate: "opening", children: data })
-  ] });
+  return /* @__PURE__ */ jsxs(Container$1, {
+    children: [
+      /* @__PURE__ */ jsxs(TitleContainer, {
+        children: [
+          /* @__PURE__ */ jsx(Icon, { component: HowToRegRoundedIcon }),
+          /* @__PURE__ */ jsx(Title, { children: "관리자 답변" }),
+        ],
+      }),
+      /* @__PURE__ */ jsx(Contents, {
+        variants: animationVariants,
+        initial: "start",
+        animate: "opening",
+        children: data,
+      }),
+    ],
+  });
 };
 const Container = styled.div`
   position: absolute;
@@ -1069,28 +1181,43 @@ const Detail = () => {
   const TITLE_COLOR = "var(--gray6-black)";
   const ICON_WIDTH = "24px";
   const INDEX_OFFSET = 1;
-  return /* @__PURE__ */ jsxs(Container, { children: [
-    /* @__PURE__ */ jsx(ComplaintContent, { data: MOCK_DATA }),
-    isAnswered && /* @__PURE__ */ jsx(AnswerContainer, { children: /* @__PURE__ */ jsx(Answer, { data: MOCK_DATA.answer }) }),
-    /* @__PURE__ */ jsx(Background, { children: /* @__PURE__ */ jsxs(CommentContainer, { children: [
-      /* @__PURE__ */ jsxs(CommentTitleContainer, { children: [
-        /* @__PURE__ */ jsx(
-          Icon$1,
-          {
-            sx: { fill: TITLE_COLOR, width: ICON_WIDTH },
-            component: CommentRoundedIcon
-          }
-        ),
-        /* @__PURE__ */ jsxs(CommentTitle, { children: [
-          "댓글 ",
-          COUNT
-        ] })
-      ] }),
-      commentMockData.map((i, index) => /* @__PURE__ */ jsx(Comment, { data: i, index: index + INDEX_OFFSET }, index))
-    ] }) }),
-    /* @__PURE__ */ jsx(InputBackground, { children: /* @__PURE__ */ jsx(InputContainer, { children: /* @__PURE__ */ jsx(CommentInput, {}) }) })
-  ] });
+  return /* @__PURE__ */ jsxs(Container, {
+    children: [
+      /* @__PURE__ */ jsx(ComplaintContent, { data: MOCK_DATA }),
+      isAnswered &&
+        /* @__PURE__ */ jsx(AnswerContainer, {
+          children: /* @__PURE__ */ jsx(Answer, { data: MOCK_DATA.answer }),
+        }),
+      /* @__PURE__ */ jsx(Background, {
+        children: /* @__PURE__ */ jsxs(CommentContainer, {
+          children: [
+            /* @__PURE__ */ jsxs(CommentTitleContainer, {
+              children: [
+                /* @__PURE__ */ jsx(Icon$1, {
+                  sx: { fill: TITLE_COLOR, width: ICON_WIDTH },
+                  component: CommentRoundedIcon,
+                }),
+                /* @__PURE__ */ jsxs(CommentTitle, {
+                  children: ["댓글 ", COUNT],
+                }),
+              ],
+            }),
+            commentMockData.map((i, index) =>
+              /* @__PURE__ */ jsx(
+                Comment,
+                { data: i, index: index + INDEX_OFFSET },
+                index
+              )
+            ),
+          ],
+        }),
+      }),
+      /* @__PURE__ */ jsx(InputBackground, {
+        children: /* @__PURE__ */ jsx(InputContainer, {
+          children: /* @__PURE__ */ jsx(CommentInput, {}),
+        }),
+      }),
+    ],
+  });
 };
-export {
-  Detail as default
-};
+export { Detail as default };

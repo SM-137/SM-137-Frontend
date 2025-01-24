@@ -55,8 +55,13 @@ export const buttonStyles = {
   },
   DONE: {
     Icon: CheckIcon,
-    color: "var(--succeess)",
+    color: "var(--success)",
     text: "완료",
+  },
+  DEFAULT: {
+    Icon: PlayIcon,
+    color: "var(--white)",
+    text: "알 수 없음",
   },
 };
 
@@ -87,7 +92,7 @@ const StatusButton = ({
   isSelected = false,
   onClick,
 }: StatusButtonProps) => {
-  const { color, Icon, text } = buttonStyles[type];
+  const { color, Icon, text } = buttonStyles[type] || buttonStyles.DEFAULT;
 
   return (
     <ButtonContainer
