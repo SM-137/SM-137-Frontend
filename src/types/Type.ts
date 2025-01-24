@@ -59,3 +59,14 @@ export interface ApplyContentProps {
   tagName: string;
   attachments: File | null;
 }
+
+export interface ContentType {
+  complaintId: number;
+  tag: string;
+  category: string;
+  complaintStatus: string;
+  complaintTitle: string;
+  contentPropb: string;
+  likeCount: number;
+  scrapCount: number;
+}

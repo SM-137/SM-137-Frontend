@@ -151,3 +151,13 @@ export const complaintAll = async (categoryOption: categoryProps) => {
     throw error;
   }
 };
+
+export const complaintHome = async () => {
+  try {
+    const response = await apiClient.get("api/complaints/all");
+    return response.data;
+  } catch (error) {
+    console.error("홈화면 complaint 조회 중 에러 발생 :", error);
+    throw error;
+  }
+};

@@ -3,9 +3,11 @@ import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import ContentBox from "../../components/content/ContentBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
+import { complaintHome } from "../../services/complaintService";
+import Loading from "../../components/loading/Loading";
 
 const Title = styled.h2`
   width: 100%;
@@ -70,8 +72,17 @@ const HomeContentList = () => {
   //애니메이션 트리거
   const [animateKey, setAnimateKey] = useState(0);
   //최근 주목받은 민원
+  const [homeComplaint, setHomeComplaint] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    complaintHome()
+      .then((res) => setHomeComplaint(res.data))
+      .catch((error) => console.log(error));
+    setIsLoading(false);
+  }, []);
+
   const [currentIndex, setCurrentIndex] = useState(FIRST_PAGE_INDEX);
-  const data = mockData.slice(currentIndex, currentIndex + 2);
+  const data = homeComplaint.slice(currentIndex, currentIndex + 2);
   const nextPage = () => {
     setAnimateKey((prev) => prev + 1);
     if (currentIndex + 2 < mockData.length) {
@@ -91,26 +102,30 @@ const HomeContentList = () => {
   return (
     <ContentContainer>
       <Title>최근 주목받은 민원</Title>
-      <ContentBoxContainer>
-        <ArrowIconLeft
-          component={ArrowBackIosNewRoundedIcon}
-          onClick={prevPage}
-        />
-        <ArrowIconRight
-          component={ArrowForwardIosRoundedIcon}
-          onClick={nextPage}
-        />
-        <AnimationContainer
-          key={animateKey}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 20 }}
-        >
-          {data.map((i, index) => (
-            <ContentBox key={index} type="large" data={i} />
-          ))}
-        </AnimationContainer>
-      </ContentBoxContainer>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <ContentBoxContainer>
+          <ArrowIconLeft
+            component={ArrowBackIosNewRoundedIcon}
+            onClick={prevPage}
+          />
+          <ArrowIconRight
+            component={ArrowForwardIosRoundedIcon}
+            onClick={nextPage}
+          />
+          <AnimationContainer
+            key={animateKey}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+          >
+            {data.map((i, index) => (
+              <ContentBox key={index} type="large" data={i} />
+            ))}
+          </AnimationContainer>
+        </ContentBoxContainer>
+      )}
     </ContentContainer>
   );
 };

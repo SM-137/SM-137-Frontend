@@ -3,11 +3,11 @@ import StatusDisplay from "../status-button/StatusDisplay";
 import CategoryTagGroup from "../category-tag/CategoryTagGroup";
 import { Article, Title } from "../../styles/ContentStyle";
 import InteractionGroup from "../interaction/InteractionGroup";
-import { DataType } from "../../types/Type";
+import { ContentType } from "../../types/Type";
 
 interface ContenteBoxProps {
   type: keyof typeof boxType;
-  data: DataType;
+  data: ContentType;
 }
 interface ContainerProps {
   width: string;
@@ -68,12 +68,12 @@ const ContentBox = ({ type = "small", data }: ContenteBoxProps) => {
   return (
     <Container width={boxStyle.width} height={boxStyle.height}>
       <StatusContainer flex={boxStyle.flex}>
-        <StatusDisplay type={data.status} />
-        <InteractionGroup likes={data.likes} bookmarks={data.bookmarks} />
+        <StatusDisplay type={data.complaintStatus} />
+        <InteractionGroup likes={data.likeCount} bookmarks={data.scrapCount} />
       </StatusContainer>
-      <CategoryTagGroup hashtag={data.hashtag} />
-      <Title>{data.title}</Title>
-      <Article line={ARTICLE_LINE}>{data.content}</Article>
+      <CategoryTagGroup hashtag={data.tag} />
+      <Title>{data.complaintTitle}</Title>
+      <Article line={ARTICLE_LINE}>{data.contentProb}</Article>
     </Container>
   );
 };
