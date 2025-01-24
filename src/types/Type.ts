@@ -1,6 +1,6 @@
 import { categoryName } from "../utils/SubCategoryContent";
 
-export type StatusType =
+export type StatusTypeExample =
   | "inProgress"
   | "pending"
   | "rejected"
@@ -59,3 +59,17 @@ export interface ApplyContentProps {
   tagName: string;
   attachments: File | null;
 }
+
+export interface ContentType {
+  complaintId: number;
+  tag: string;
+  category: string;
+  complaintStatus: StatusType;
+  complaintTitle: string;
+  contentProb: string;
+  likeCount: number;
+  scrapCount: number;
+  date: Date;
+}
+
+export type StatusType = "WAITING" | "IN_PROGRESS" | "RETURN" | "DONE";

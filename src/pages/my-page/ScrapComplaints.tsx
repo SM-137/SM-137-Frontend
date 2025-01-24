@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import ContentBox from "../../components/content/ContentBox";
-import { mockData } from "../../mockData";
+import { sampleData } from "../../mockData";
 import {
   ContentBoxContainer,
   ContentContainer,
@@ -28,7 +28,7 @@ const WidthContainer = styled.div`
 `;
 const ScrapComplaints = () => {
   //임시
-  const data = mockData.slice(0, 2);
+  const data = sampleData.slice(0, 2);
   return (
     <ContentContainer>
       <Background>

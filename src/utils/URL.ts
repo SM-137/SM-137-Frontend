@@ -9,3 +9,6 @@ export const COMPLAINT_APPLICATION_URL = "/complaint-request/1";
 
 export const searchUrl = (keyword: string) =>
   `/complaint-search?keyword=${keyword}`;
+
+export const complaintDetailUrl = (complaintId: number) => `
+/complaint-detail?complaintId=${complaintId}`;

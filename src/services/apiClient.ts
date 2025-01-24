@@ -11,9 +11,9 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const token = getJwtTokenFromCookie(); // 쿠키에서 토큰 가져오기
+    const token = getJwtTokenFromCookie();
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // 헤더에 토큰 추가
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },

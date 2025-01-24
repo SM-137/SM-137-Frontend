@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import ContentBox from "../../components/content/ContentBox";
-import { mockData } from "../../mockData";
 import {
   ContentBoxContainer,
   ContentContainer,
@@ -8,6 +7,7 @@ import {
   ViewMore,
   Title,
 } from "../../styles/ContentViewStyle";
+import { sampleData } from "../../mockData";
 
 const Container = styled(ContentContainer)`
   //색이 칠해진 부분을 피하기 위함
@@ -20,7 +20,7 @@ const Container = styled(ContentContainer)`
 
 const MyComplaints = () => {
   //임시 데이터
-  const data = mockData.slice(0, 2);
+  const data = sampleData.slice(0, 2);
   return (
     <Container>
       <TitleContainer>

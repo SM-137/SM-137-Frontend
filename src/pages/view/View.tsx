@@ -4,7 +4,6 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import CategorySelect from "../../components/category-select/CategorySelect";
 import SearchFilterBar from "../../components/search-filter/SearchFilter";
 import SortBar from "../../components/sort-bar/SortBar";
-import { mockData } from "../../mockData";
 import ContentList from "../../components/content/ContentList";
 import {
   createContext,
@@ -13,7 +12,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { DataType, SortType } from "../../types/Type";
+import { ContentType, SortType } from "../../types/Type";
 import { NoComplaints } from "../../styles/NoComplaints";
 import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import { SortOptionsProps, useSort } from "../../hooks/useSort";
@@ -23,14 +22,14 @@ import { complaintAll } from "../../services/complaintService";
 import Loading from "../../components/loading/Loading";
 
 interface ViewProps {
-  originData: DataType[];
+  originData: ContentType[];
   filters: FiltersProps;
   handleFilterOptions: <K extends keyof FiltersProps>(
     option: K,
     value: FiltersProps[K]
   ) => void;
   handleFilter: () => void;
-  handleSort: (inputData: DataType[]) => void;
+  handleSort: (inputData: ContentType[]) => void;
   sortOptions: SortOptionsProps;
   handleSortOption: (type: SortType) => void;
   setCategoryData: Dispatch<SetStateAction<undefined>>;
@@ -89,8 +88,7 @@ const SortContainer = styled.div`
 export const ViewContext = createContext<ViewProps | undefined>(undefined);
 
 const View = () => {
-  //데이터가 없을 경우 mockData가 보여짐
-  const [originData, setOriginData] = useState(mockData);
+  const [originData, setOriginData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const [resetButton, setResetButton] = useState(false);
@@ -109,10 +107,10 @@ const View = () => {
   useEffect(() => {
     complaintAll({ categoryName: filters.category })
       .then((res) => {
-        setOriginData(res);
+        setOriginData(res.data);
         if (!res.data) {
           console.log("데이터가 없습니다");
-          setOriginData(mockData);
+          setOriginData([]);
         }
         setIsLoading(false);
       })
@@ -134,7 +132,7 @@ const View = () => {
   const isComplaintExist = !(filteredData.length == 0);
 
   const { currentPage, totalPages, displayedData, handlePageChange } =
-    usePagination<DataType>(sortData);
+    usePagination<ContentType>(sortData);
 
   return (
     <ViewContext.Provider
