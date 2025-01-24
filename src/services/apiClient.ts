@@ -2,7 +2,7 @@ import axios from "axios";
 import { getJwtTokenFromCookie } from "../utils/Cookie";
 
 const apiClient = axios.create({
-  baseURL: "/api",
+  baseURL: "/base",
   headers: {
     "Content-Type": "application/json",
   },
