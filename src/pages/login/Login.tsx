@@ -86,7 +86,7 @@ const LoginButton = styled(GoogleLoginSvg)`
 `;
 
 const Login = () => {
-  const IMAGE_SRC = "/src/assets/emblem-1_DarkGray.png";
+  const IMAGE_SRC = "/assets/emblem-1_DarkGray.png";
 
   return (
     <Background>
