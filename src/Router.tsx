@@ -13,6 +13,7 @@ import CompletedStep from "./pages/application-step/CompletedStep";
 import ComplaintsWrittingStep from "./pages/application-step/CompaintsWrittingStep";
 import Login from "./pages/login/Login";
 import Redirect from "./pages/login/Redirect";
+import PrivateRoute from "./components/PrivateRoute";
 
 export const router = createBrowserRouter(
   [
@@ -26,7 +27,11 @@ export const router = createBrowserRouter(
     },
     {
       path: "/",
-      element: <Layout />,
+      element: (
+        <PrivateRoute>
+          <Layout />
+        </PrivateRoute>
+      ),
       children: [
         {
           path: "",
