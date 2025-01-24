@@ -71,7 +71,7 @@ const ContentBox = ({ type = "small", data }: ContenteBoxProps) => {
         <StatusDisplay type={data.complaintStatus} />
         <InteractionGroup likes={data.likeCount} bookmarks={data.scrapCount} />
       </StatusContainer>
-      <CategoryTagGroup hashtag={data.tag} />
+      <CategoryTagGroup hashtag={[data.tag]} />
       <Title>{data.complaintTitle}</Title>
       <Article line={ARTICLE_LINE}>{data.contentProb}</Article>
     </Container>

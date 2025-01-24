@@ -64,9 +64,9 @@ export interface ContentType {
   complaintId: number;
   tag: string;
   category: string;
-  complaintStatus: string;
+  complaintStatus: StatusType;
   complaintTitle: string;
-  contentPropb: string;
+  contentProb: string;
   likeCount: number;
   scrapCount: number;
 }
