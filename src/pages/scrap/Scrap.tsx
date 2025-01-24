@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import ContentBox from "../../components/content/ContentBox";
-import { mockData } from "../../mockData";
+import { sampleData } from "../../mockData";
 import {
   Container,
   TitleContainer,
@@ -24,7 +24,7 @@ const Border = styled.div`
 `;
 
 const Scrap = () => {
-  const scrapData = mockData.filter((item) => item.bookmarks > 0);
+  const scrapData = sampleData.filter((item) => item.scrapCount > 0);
 
   return (
     <Container>
