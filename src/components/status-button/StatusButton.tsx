@@ -38,22 +38,22 @@ const CancelIcon = styled(cancel)`
 
 // 상태별 스타일
 export const buttonStyles = {
-  inProgress: {
+  IN_PROGRESS: {
     Icon: PlayIcon,
     color: "var(--light-primary)",
     text: "진행",
   },
-  pending: {
+  WAITING: {
     Icon: PauseIcon,
     color: "var(--info-dark)",
     text: "대기",
   },
-  rejected: {
+  RETURN: {
     Icon: CancelIcon,
     color: "var(--error-light)",
     text: "반려",
   },
-  completed: {
+  DONE: {
     Icon: CheckIcon,
     color: "var(--succeess)",
     text: "완료",
@@ -83,7 +83,7 @@ const ButtonText = styled.pre<{ color: string }>`
 
 // 단일 버튼 컴포넌트
 const StatusButton = ({
-  type = "inProgress",
+  type = "WAITING",
   isSelected = false,
   onClick,
 }: StatusButtonProps) => {

@@ -1,6 +1,6 @@
 import { categoryName } from "../utils/SubCategoryContent";
 
-export type StatusType =
+export type StatusTypeExample =
   | "inProgress"
   | "pending"
   | "rejected"
@@ -70,3 +70,5 @@ export interface ContentType {
   likeCount: number;
   scrapCount: number;
 }
+
+export type StatusType = "WAITING" | "IN_PROGRESS" | "RETURN" | "DONE";
