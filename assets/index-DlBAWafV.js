@@ -1908,7 +1908,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   width: 250px;
   height: 80px;
   display: inline-flex;
-`,qy=()=>h.jsxs(bB,{children:[h.jsx(DB,{children:h.jsx(jB,{src:"/src/assets/emblem-1_DarkGray.png"})}),h.jsx(AB,{children:h.jsxs(_B,{children:[h.jsx(OB,{children:"숙명여자대학교"}),h.jsx(MB,{children:"민원 시스템"})]})}),h.jsx(kB,{children:h.jsxs(PB,{children:[h.jsx(RB,{children:h.jsx(EB,{width:"500px",height:"300px"})}),h.jsx(LB,{children:h.jsx(NB,{onClick:XN})})]})})]}),IB=b.div`
+`,qy=()=>h.jsxs(bB,{children:[h.jsx(DB,{children:h.jsx(jB,{src:"/assets/emblem-1_DarkGray.png"})}),h.jsx(AB,{children:h.jsxs(_B,{children:[h.jsx(OB,{children:"숙명여자대학교"}),h.jsx(MB,{children:"민원 시스템"})]})}),h.jsx(kB,{children:h.jsxs(PB,{children:[h.jsx(RB,{children:h.jsx(EB,{width:"500px",height:"300px"})}),h.jsx(LB,{children:h.jsx(NB,{onClick:XN})})]})})]}),IB=b.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
