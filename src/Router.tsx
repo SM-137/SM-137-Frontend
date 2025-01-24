@@ -32,6 +32,14 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+          {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/auth/callback",
+      element: <Redirect />,
+    },
       {
         path: "",
         element: <Home />,
