@@ -125,9 +125,9 @@ export const complaintWrite = async (data: ApplyContentProps) => {
 export const complaintSearch = async (keyword: string) => {
   try {
     const response = await apiClient.get(
-      `complaints/search?keyword=${keyword}`
+      `api/complaints/search?keyword=${keyword}`
     );
-    console.log(response); // 백엔드에서 전달된 데이터 확인
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error("민원 검색 에러 발생 :", error);

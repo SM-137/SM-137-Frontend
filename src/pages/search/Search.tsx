@@ -13,6 +13,7 @@ import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import { SortOptionsProps, useSort } from "../../hooks/useSort";
 import { usePagination } from "../../hooks/usePagination";
 import Pagination from "../../components/Pagination";
+import { complaintSearch } from "../../services/complaintService";
 
 interface SearchDataProps {
   originData: DataType[];
@@ -81,6 +82,11 @@ const Search = () => {
   //검색어 연동
   const params = new URLSearchParams(location.search);
   const SEARCH_KEYWORD = decodeURIComponent(params.get("keyword") || "");
+  useEffect(() => {
+    complaintSearch(SEARCH_KEYWORD)
+      .then((res) => console.log(res.data))
+      .catch((error) => console.error(error));
+  }, []);
 
   const [originData] = useState(mockData);
   const { filteredData, handleFilter, handleFilterOptions, filters } =
