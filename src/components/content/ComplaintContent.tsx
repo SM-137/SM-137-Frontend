@@ -13,7 +13,6 @@ import DeleteComment from "../modal/contents/DeleteComment";
 import Alert from "../alert/Alert";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { BASE_NAME } from "../../utils/URL";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -136,8 +135,8 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   //복사할 URL 설정
   const baseURL = window.location.origin;
   const contentURL = useLocation().pathname;
-  const sharedLink = baseURL + BASE_NAME + contentURL;
-  const imageLink = "https://sm-137.github.io/SM-137-Frontend/preview.png";
+  const sharedLink = baseURL + contentURL;
+  const imageLink = "https://sm137.netlify.app/preview.png";
 
   const copyToClipboard = async () => {
     try {
