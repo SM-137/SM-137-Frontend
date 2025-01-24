@@ -4,6 +4,8 @@ import CategoryTagGroup from "../category-tag/CategoryTagGroup";
 import { Article, Title } from "../../styles/ContentStyle";
 import { ContentType } from "../../types/Type";
 import InteractionGroup from "../interaction/InteractionGroup";
+import { useNavigate } from "react-router-dom";
+import { complaintDetailUrl } from "../../utils/URL";
 
 interface ContentListProps {
   data: ContentType;
@@ -41,8 +43,10 @@ const StatusContainer = styled.div`
 
 const ContentList = ({ data, resetTrigger }: ContentListProps) => {
   const ARTICLE_LINE = 2;
+  const CONTENT_DETAIL_URL = complaintDetailUrl(data.complaintId);
+  const navigate = useNavigate();
   return (
-    <Container>
+    <Container onClick={() => navigate(CONTENT_DETAIL_URL)}>
       <StatusContainer>
         <InfoContainer>
           <StatusDisplay type={data.complaintStatus} />

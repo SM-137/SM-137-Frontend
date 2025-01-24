@@ -4,6 +4,8 @@ import CategoryTagGroup from "../category-tag/CategoryTagGroup";
 import { Article, Title } from "../../styles/ContentStyle";
 import InteractionGroup from "../interaction/InteractionGroup";
 import { ContentType } from "../../types/Type";
+import { complaintDetailUrl } from "../../utils/URL";
+import { useNavigate } from "react-router-dom";
 
 interface ContenteBoxProps {
   type: keyof typeof boxType;
@@ -64,9 +66,15 @@ const StatusContainer = styled.div<{ flex: string }>`
 const ContentBox = ({ type = "small", data }: ContenteBoxProps) => {
   const boxStyle = boxType[type];
   const ARTICLE_LINE = 2;
+  const CONTENT_DETAIL_URL = complaintDetailUrl(data.complaintId);
+  const navigate = useNavigate();
 
   return (
-    <Container width={boxStyle.width} height={boxStyle.height}>
+    <Container
+      width={boxStyle.width}
+      height={boxStyle.height}
+      onClick={() => navigate(CONTENT_DETAIL_URL)}
+    >
       <StatusContainer flex={boxStyle.flex}>
         <StatusDisplay type={data.complaintStatus} />
         <InteractionGroup likes={data.likeCount} bookmarks={data.scrapCount} />
