@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CategoryValue, DataType, StatusType } from "../types/Type";
+import { CategoryValue, ContentType, StatusType } from "../types/Type";
 import { matchingMonth } from "../utils/MatchingOption";
 
 export interface FiltersProps {
@@ -9,8 +9,8 @@ export interface FiltersProps {
   hashtag: string[] | null;
 }
 
-export const useFilter = (originData: DataType[]) => {
-  const [filteredData, setFilteredData] = useState<DataType[]>(originData);
+export const useFilter = (originData: ContentType[]) => {
+  const [filteredData, setFilteredData] = useState<ContentType[]>(originData);
   const [filters, setFilters] = useState<FiltersProps>({
     //필터 옵션 저장
     period: null,
@@ -30,7 +30,7 @@ export const useFilter = (originData: DataType[]) => {
   };
 
   const handleFilter = () => {
-    let result: DataType[] = originData;
+    let result: ContentType[] = originData;
     if (filters.period) {
       result = handlePeriod(result, filters.period);
     }
@@ -50,7 +50,7 @@ export const useFilter = (originData: DataType[]) => {
     return lastDate;
   };
 
-  const handlePeriod = (originData: DataType[], dateOption: string) => {
+  const handlePeriod = (originData: ContentType[], dateOption: string) => {
     if (dateOption === "전체") {
       return originData;
     }
@@ -62,20 +62,20 @@ export const useFilter = (originData: DataType[]) => {
     return result;
   };
 
-  const handleStatus = (originData: DataType[], status: StatusType[]) => {
+  const handleStatus = (originData: ContentType[], status: StatusType[]) => {
     let result = originData;
     const noStatusOption = status.length === 0;
     //option이 선택된 경우에만 필터링
     if (!noStatusOption) {
-      result = originData.filter((i) => status.includes(i.status));
+      result = originData.filter((i) => status.includes(i.complaintStatus));
     }
     return result;
   };
 
-  const handleHashtag = (originData: DataType[], hashtag: string[]) => {
+  const handleHashtag = (originData: ContentType[], hashtag: string[]) => {
     let result = originData;
     for (let tag of hashtag) {
-      result = originData.filter((i) => i.hashtag.includes(tag));
+      result = originData.filter((i) => i.tag.includes(tag));
     }
     return result;
   };

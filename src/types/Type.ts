@@ -69,6 +69,7 @@ export interface ContentType {
   contentProb: string;
   likeCount: number;
   scrapCount: number;
+  date: Date;
 }
 
 export type StatusType = "WAITING" | "IN_PROGRESS" | "RETURN" | "DONE";
