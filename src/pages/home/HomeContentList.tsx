@@ -3,9 +3,11 @@ import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import ContentBox from "../../components/content/ContentBox";
-import { useState } from "react";
-import { mockData } from "../../mockData";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { complaintHome } from "../../services/complaintService";
+import Loading from "../../components/loading/Loading";
+import { ContentType } from "../../types/Type";
 
 const Title = styled.h2`
   width: 100%;
@@ -65,16 +67,28 @@ const ArrowIconRight = styled(ArrowIconLeft)`
 `;
 
 const HomeContentList = () => {
-  const FIRST_PAGE_INDEX = 0;
-  const LAST_PAGE_INDEX = 4;
   //애니메이션 트리거
   const [animateKey, setAnimateKey] = useState(0);
   //최근 주목받은 민원
+  const [homeComplaint, setHomeComplaint] = useState<ContentType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    complaintHome()
+      .then((res) => setHomeComplaint(res.data))
+      .catch((error) => console.log(error));
+    setIsLoading(false);
+  }, []);
+
+  const FIRST_PAGE_INDEX = 0;
+  //추천 개수
+  const RECOMMEND_COUNT = 4;
   const [currentIndex, setCurrentIndex] = useState(FIRST_PAGE_INDEX);
-  const data = mockData.slice(currentIndex, currentIndex + 2);
+  const data = homeComplaint.slice(0, RECOMMEND_COUNT);
+  const complaintList = data.slice(currentIndex, currentIndex + 2);
+
   const nextPage = () => {
     setAnimateKey((prev) => prev + 1);
-    if (currentIndex + 2 < mockData.length) {
+    if (currentIndex + 2 < data.length) {
       setCurrentIndex(currentIndex + 2);
       return;
     }
@@ -86,31 +100,39 @@ const HomeContentList = () => {
       setCurrentIndex(currentIndex - 2);
       return;
     }
-    setCurrentIndex(LAST_PAGE_INDEX);
+    if (data.length >= RECOMMEND_COUNT) {
+      setCurrentIndex(RECOMMEND_COUNT - 2);
+      return;
+    }
+    setCurrentIndex(FIRST_PAGE_INDEX);
   };
   return (
     <ContentContainer>
       <Title>최근 주목받은 민원</Title>
-      <ContentBoxContainer>
-        <ArrowIconLeft
-          component={ArrowBackIosNewRoundedIcon}
-          onClick={prevPage}
-        />
-        <ArrowIconRight
-          component={ArrowForwardIosRoundedIcon}
-          onClick={nextPage}
-        />
-        <AnimationContainer
-          key={animateKey}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 20 }}
-        >
-          {data.map((i, index) => (
-            <ContentBox key={index} type="large" data={i} />
-          ))}
-        </AnimationContainer>
-      </ContentBoxContainer>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <ContentBoxContainer>
+          <ArrowIconLeft
+            component={ArrowBackIosNewRoundedIcon}
+            onClick={prevPage}
+          />
+          <ArrowIconRight
+            component={ArrowForwardIosRoundedIcon}
+            onClick={nextPage}
+          />
+          <AnimationContainer
+            key={animateKey}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+          >
+            {complaintList.map((i, index) => (
+              <ContentBox key={index} type="large" data={i} />
+            ))}
+          </AnimationContainer>
+        </ContentBoxContainer>
+      )}
     </ContentContainer>
   );
 };

@@ -3,9 +3,29 @@ import { SvgIcon, SvgIconProps } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import SearchBar from "../../components/search-bar/SearchBar";
 import ContentList from "../../components/content/ContentList";
-import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
 import SortBar from "../../components/sort-bar/SortBar";
+import { createContext, useEffect, useState } from "react";
+import { ContentType, SortType } from "../../types/Type";
+import { NoComplaints } from "../../styles/NoComplaints";
+import { FiltersProps, useFilter } from "../../hooks/useFilter";
+import { SortOptionsProps, useSort } from "../../hooks/useSort";
+import { usePagination } from "../../hooks/usePagination";
+import Pagination from "../../components/Pagination";
+import { complaintSearch } from "../../services/complaintService";
+
+interface SearchDataProps {
+  originData: ContentType[];
+  filters: FiltersProps;
+  handleFilterOptions: <K extends keyof FiltersProps>(
+    option: K,
+    value: FiltersProps[K]
+  ) => void;
+  handleFilter: () => void;
+  handleSort: (inputData: ContentType[]) => void;
+  sortOptions: SortOptionsProps;
+  handleSortOption: (type: SortType) => void;
+}
 
 const SearchArea = styled.div`
   position: absolute;
@@ -49,36 +69,89 @@ const AnimationContainer = styled(motion.div)``;
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
 `;
 
-const Search = () => {
-  //검색어 임시
-  const SEARCH_KEYWORD = "도서관 냉난방";
-  return (
-    <SearchArea>
-      <Background>
-        <SearchTitleContainer>
-          <SearchIcon component={SearchRoundedIcon} />
-          <AnimationContainer
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.5 }}
-          >
-            <SearchKeyword>"{SEARCH_KEYWORD}"</SearchKeyword>
-          </AnimationContainer>
-          <Title>민원 검색 결과</Title>
-        </SearchTitleContainer>
-        <SearchBar />
-      </Background>
+export const SearchContext = createContext<SearchDataProps | undefined>(
+  undefined
+);
 
-      <ContentContainer>
-        <SortBar />
-        {mockData.map((i, index) => (
-          <ContentList data={i} key={index} />
-        ))}
-      </ContentContainer>
-    </SearchArea>
+const Search = () => {
+  //검색어 연동
+  const params = new URLSearchParams(location.search);
+  const SEARCH_KEYWORD = decodeURIComponent(params.get("keyword") || "");
+  useEffect(() => {
+    complaintSearch(SEARCH_KEYWORD)
+      .then((res) => console.log(res.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+  const [originData] = useState([]);
+  const { filteredData, handleFilter, handleFilterOptions, filters } =
+    useFilter(originData);
+  const { handleSort, sortOptions, handleSortOption, sortData } =
+    useSort(filteredData);
+
+  useEffect(() => {
+    handleFilter();
+  }, [filters]);
+
+  useEffect(() => {
+    handleSort(filteredData);
+  }, [sortOptions, filteredData]);
+
+  const isComplaintExist = !(filteredData.length == 0);
+
+  const { currentPage, displayedData, totalPages, handlePageChange } =
+    usePagination<ContentType>(sortData);
+
+  return (
+    <SearchContext.Provider
+      value={{
+        originData,
+        handleFilter,
+        filters,
+        handleFilterOptions,
+        handleSort,
+        sortOptions,
+        handleSortOption,
+      }}
+    >
+      <SearchArea>
+        <Background>
+          <SearchTitleContainer>
+            <SearchIcon component={SearchRoundedIcon} />
+            <AnimationContainer
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.5 }}
+            >
+              <SearchKeyword>"{SEARCH_KEYWORD}"</SearchKeyword>
+            </AnimationContainer>
+            <Title>민원 검색 결과</Title>
+          </SearchTitleContainer>
+          <SearchBar />
+        </Background>
+
+        <ContentContainer>
+          <SortBar context={SearchContext} />
+          {isComplaintExist ? (
+            displayedData.map((i, index) => (
+              <ContentList data={i} key={index} />
+            ))
+          ) : (
+            <NoComplaints>조건에 맞는 게시물이 없습니다</NoComplaints>
+          )}
+        </ContentContainer>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      </SearchArea>
+    </SearchContext.Provider>
   );
 };
 

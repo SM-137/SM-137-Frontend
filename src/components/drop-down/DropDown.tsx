@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 
-interface DropDownProps {
-  options: string[];
-}
 interface OptionProps {
   isOpen: boolean;
+}
+interface SortBarProps {
+  context: React.Context<any>;
 }
 const DropBox = styled.ul<OptionProps>`
   -webkit-appearance: none;
@@ -58,19 +58,19 @@ const DropDownIcon = styled(SvgIcon)<SvgIconProps>`
   right: 0;
 `;
 
-const DropDown = ({ options }: DropDownProps) => {
+const DropDown = ({ context }: SortBarProps) => {
+  const OPTIONS = ["전체", "1개월", "3개월", "6개월"];
   const [isOpen, setIsOpen] = useState(false);
-  const [data, setData] = useState(options[0]);
+  const [data, setData] = useState(OPTIONS[0]);
+
+  const parentContext = useContext(context);
+  if (!parentContext) {
+    throw new Error("Dropdown에서 context호출 중 오류 발생");
+  }
 
   const handleOpenClose = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsOpen((prev) => !prev);
-  };
-
-  const handleClick = (option: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setData(option);
-    setIsOpen(false);
   };
 
   const dropDownRef = useRef<HTMLUListElement>(null);
@@ -87,12 +87,19 @@ const DropDown = ({ options }: DropDownProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleClick = (option: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setData(option);
+    setIsOpen(false);
+    parentContext.handleFilterOptions("period", option);
+  };
+
   return (
     <DropBox isOpen={isOpen} onClick={handleOpenClose} ref={dropDownRef}>
       {data}
       <OptionContainer isOpen={isOpen}>
         {isOpen &&
-          options.map((i, index) => (
+          OPTIONS.map((i, index) => (
             <Options key={index} onClick={(e) => handleClick(i, e)}>
               {i}
             </Options>

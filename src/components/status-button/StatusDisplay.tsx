@@ -16,7 +16,7 @@ const DisplayText = styled.pre<{ color: string }>`
 `;
 
 const StatusDisplay = ({ type }: StatusDisplayProps) => {
-  const { color, Icon, text } = buttonStyles[type];
+  const { color, Icon, text } = buttonStyles[type] || buttonStyles.DEFAULT;
 
   return (
     <DisplayContainer>
