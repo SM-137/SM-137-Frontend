@@ -14,6 +14,7 @@ import ComplaintsWrittingStep from "./pages/application-step/CompaintsWrittingSt
 import Login from "./pages/login/Login";
 import Redirect from "./pages/login/Redirect";
 import PrivateRoute from "./components/PrivateRoute";
+import Modify from "./pages/modify/Modify";
 
 export const router = createBrowserRouter(
   [
@@ -70,6 +71,10 @@ export const router = createBrowserRouter(
           element: <Scrap />,
         },
         {
+          path: "my-modify",
+          element: <Modify />,
+        },
+        {
           path: "complaint-request",
           children: [
             {
@@ -93,5 +98,5 @@ export const router = createBrowserRouter(
       ],
     },
   ],
-  { basename: "/SM-137-Frontend/" }
+  { basename: "/SM-137-Frontend" }
 );
