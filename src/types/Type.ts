@@ -73,3 +73,11 @@ export interface ContentType {
 }
 
 export type StatusType = "WAITING" | "IN_PROGRESS" | "RETURN" | "DONE";
+
+export interface MyPageProps {
+  state: string;
+  name: string;
+  sid: number;
+  major: string;
+  email: string;
+}
