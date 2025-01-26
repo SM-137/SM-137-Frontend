@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Input from "../input/Input";
 import TextArea from "../input/TextArea";
@@ -13,7 +13,6 @@ const FormContainer = styled.form`
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding: 3rem;
   border-radius: 8px;
 `;
 
@@ -35,7 +34,7 @@ interface FormDataProps {
 }
 
 const ComplaintsForm = () => {
-  const { formData, updateField, handleFileChange } = useForm<FormDataProps>({
+  const { formData, updateField } = useForm<FormDataProps>({
     title: "",
     contentProb: "",
     contentDir: "",
@@ -45,18 +44,22 @@ const ComplaintsForm = () => {
     tagName: "",
   });
 
-  //해시태그 등의 값은 다른 페이지에서 받아와야 합니다.
+  const [selectedFile, setSelectedFile] = useState<File | null>(null); // 첨부파일 상태
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    //카테고리와 해시태그는 임시로 입력
+    
+    // 카테고리와 해시태그는 임시로 입력
     const sendData = {
       ...formData,
+      attachments: selectedFile,  // 선택된 파일을 전송 데이터에 추가
       categoryName: "시설",
       tagName: "해시태그",
     };
+
     complaintWrite(sendData)
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
+      .then((res) => console.log("응답 데이터:", res))
+      .catch((error) => console.error("에러 발생:", error));
   };
 
   return (
@@ -93,8 +96,7 @@ const ComplaintsForm = () => {
           onChange={(e) => updateField("contentExpect", e.target.value)}
         />
       </FormInputGroup>
-      <FileUploadField onFileChange={handleFileChange("attachments")} />
-      <button type="submit">제출</button>
+      <FileUploadField onFileChange={setSelectedFile} />
     </FormContainer>
   );
 };
