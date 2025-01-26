@@ -29,6 +29,25 @@ const ProgressLine = styled.div`
   }
 `;
 
+const ActiveLine = styled.div<{ step: number }>`
+  position: absolute;
+  top: 15px;
+  left: 38px;
+  width: ${({ step }) => (step - 1) * 33}% + 10px;
+  height: 4px;
+  background-color: var(--light-primary);
+  z-index: 1;
+  transition: width 0.3s ease-in-out;
+
+  @media (max-width: 768px) {
+    height: 3px;
+  }
+
+  @media (max-width: 480px) {
+    height: 2px;
+  }
+`;
+
 const TotalProgressBar = styled.div`
   display: flex;
   align-items: center;
@@ -45,21 +64,26 @@ const TotalProgressBar = styled.div`
   }
 `;
 
-const ProgressBar = () => (
+interface ProgressBarProps {
+  activeStep: number; 
+}
+
+const ProgressBar = ({ activeStep }: ProgressBarProps) => (
   <TotalProgressBar>
     <ProgressLine />
+    <ActiveLine step={activeStep} />
     <IconWithText
       icon={PermIdentityRoundedIcon}
       text="학적정보 확인"
-      isActive={true}
+      isActive={activeStep >= 1}
     />
     <IconWithText
       icon={CategoryRoundedIcon}
       text="카테고리 선택"
-      isActive={false}
+      isActive={activeStep >= 2}
     />
-    <IconWithText icon={EditRoundedIcon} text="민원 작성" isActive={false} />
-    <IconWithText icon={SendRoundedIcon} text="제출 완료" isActive={false} />
+    <IconWithText icon={EditRoundedIcon} text="민원 작성" isActive={activeStep >= 3} />
+    <IconWithText icon={SendRoundedIcon} text="제출 완료" isActive={activeStep >= 4} />
   </TotalProgressBar>
 );
 
