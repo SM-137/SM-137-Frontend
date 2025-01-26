@@ -1,14 +1,15 @@
 import styled from "@emotion/styled"; 
+import { useNavigate } from "react-router-dom";
 import Layout from "./ApplicationStepLayout";
 import AcademicInfoForm from "../../components/form/AcademicInfoForm";
 import Button from "../../components/button/Button";
 
 const ContentWrapper = styled.div`
   background-color: var(--white);
-  border-radius: 8px; 
-  padding: 1.5rem; 
-  width: 100%; 
-  margin: 3rem auto 0; 
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 100%;
+  margin: 3rem auto 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,15 +35,21 @@ const ButtonGroup = styled.div`
 `;
 
 const AcademicInfoStep = () => {
+  const navigate = useNavigate();  
+
+  const handleNext = () => {
+    navigate("../2", { replace: true });
+  };
+
   return (
-    <Layout>
+    <Layout activeStep={1}>
       <ContentWrapper>
         <FormTitleContainer>
           <FormTitle>학번, 학과/학부를 확인해 주세요</FormTitle>
         </FormTitleContainer>
         <AcademicInfoForm /> 
         <ButtonGroup>
-          <Button content="다음" type="_120x40_Primary" />
+          <Button content="다음" type="_120x40_Primary" onClick={handleNext} />
         </ButtonGroup>
       </ContentWrapper>
     </Layout>
