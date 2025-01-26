@@ -4,12 +4,15 @@ import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
-import { useState } from "react";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 interface InteractionProps {
-  type: "thumbUp" | "scrap";
+  type: "thumbUp" | "scrap" | "likes";
   count: number;
+  resetTrigger?: boolean;
 }
 const Container = styled.div`
   display: inline-flex;
@@ -61,6 +64,9 @@ const getIcon = (type: string) => {
   if (type === "scrap") {
     return BookmarkBorderRoundedIcon;
   }
+  if (type === "likes") {
+    return FavoriteBorderRoundedIcon;
+  }
 };
 const getClickIcon = (type: string) => {
   if (type === "thumbUp") {
@@ -68,6 +74,9 @@ const getClickIcon = (type: string) => {
   }
   if (type === "scrap") {
     return BookmarkRoundedIcon;
+  }
+  if (type === "likes") {
+    return FavoriteRoundedIcon;
   }
 };
 const getFill = (type: string) => {
@@ -77,17 +86,31 @@ const getFill = (type: string) => {
   if (type === "scrap") {
     return "var(--info-dark)";
   }
+  if (type === "likes") {
+    return "var(--error-light)";
+  }
 };
 
-const Interaction = ({ type, count }: InteractionProps) => {
+const Interaction = ({
+  type,
+  count,
+  resetTrigger = false,
+}: InteractionProps) => {
   const [isClick, setIsClick] = useState(false);
-  //초기값 : 백엔드에서 가져온 likes, bookmarks 값
-  const [value, setValue] = useState(count);
+  //백엔드에 보내줄 데이터
+  const [, setValue] = useState(count);
 
   const handleClick = () => {
     setIsClick((prev) => !prev);
     setValue((prev: number) => (isClick ? prev - 1 : prev + 1));
   };
+
+  useEffect(() => {
+    if (resetTrigger) {
+      setIsClick(false);
+      setValue(count);
+    }
+  }, [resetTrigger, count]);
 
   return (
     <Container>
@@ -106,7 +129,7 @@ const Interaction = ({ type, count }: InteractionProps) => {
       ) : (
         <UnClickIcon component={getIcon(type)} onClick={handleClick} />
       )}
-      <Value>{value}</Value> {/* count 대신 상태 값 표시 */}
+      <Value>{isClick ? count + 1 : count}</Value>
     </Container>
   );
 };

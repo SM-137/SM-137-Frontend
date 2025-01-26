@@ -8,6 +8,7 @@ interface InfoInputProps {
 interface InputProps extends InfoInputProps {
   label: string;
   placeholder: string;
+  type?: string;
   isRequired?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string; // value props 추가
@@ -48,11 +49,25 @@ const InfoInput = styled.input<InfoInputProps>`
     props.hasError ? "1px solid red" : "1px solid var(--gray3-border)"};
   border-radius: 4px;
   font-size: 14px;
+
+  &::placeholder {
+    color: var(--gray4-placeholder-low);
+  }
+
+  &:focus::placeholder {
+    opacity: 0;
+  }
 `;
 
-const Input = (inputProps: InputProps) => {
-  const { label, placeholder, height, isRequired, onChange, hasError, value } =
-    inputProps;
+const Input = ({
+  label = "labelText",
+  placeholder = "placeholder",
+  type = "text",
+  height = "35px",
+  isRequired = false,
+  onChange,
+  hasError,
+}: InputProps) => {
   return (
     <Container>
       <LabelContainer>
@@ -60,22 +75,14 @@ const Input = (inputProps: InputProps) => {
         <InfoLabel>{label}</InfoLabel>
       </LabelContainer>
       <InfoInput
+        type={type}
         placeholder={placeholder}
         height={height}
         onChange={onChange}
-        value={value}
         hasError={hasError}
       />
     </Container>
   );
-};
-
-Input.defaultProps = {
-  label: "labelText",
-  placeholder: "placeholder",
-  height: "35px",
-  isRequired: false,
-  hasError: false,
 };
 
 export default Input;

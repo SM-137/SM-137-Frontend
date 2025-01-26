@@ -2,16 +2,16 @@ import styled from "@emotion/styled";
 import CategoryTag from "./CategoryTag";
 
 interface CategoryTagGroupProps {
-  tagArray: string[];
+  hashtag: string[];
 }
 const GroupContainer = styled.div`
   display: flex;
   gap: 0.5rem;
 `;
-const CategoryTagGroup = ({ tagArray }: CategoryTagGroupProps) => {
+const CategoryTagGroup = ({ hashtag }: CategoryTagGroupProps) => {
   return (
     <GroupContainer>
-      {tagArray.map((tagItem, index) => (
+      {hashtag.map((tagItem, index) => (
         <CategoryTag key={index} contents={tagItem} />
       ))}
     </GroupContainer>

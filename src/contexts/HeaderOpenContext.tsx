@@ -18,6 +18,7 @@ interface HeaderOpenContextProps {
   };
   handleOpen: (menu: keyof IsOpenProps) => void;
   handleDark: () => void;
+  handleLight: () => void;
   handleClose: (
     e: MouseEvent,
     ref: React.RefObject<HTMLDivElement | null>,
@@ -39,6 +40,7 @@ const defaultProps = {
   },
   handleOpen: () => {},
   handleDark: () => {},
+  handleLight: () => {},
   handleClose: () => {},
 };
 
@@ -49,6 +51,9 @@ const HeaderOpenProvider = ({ children }: HeaderOpenProviderProps) => {
   const [isDark, setIsDark] = useState(false);
   const handleDark = () => {
     setIsDark(true);
+  };
+  const handleLight = () => {
+    setIsDark(false);
   };
 
   //네비게이터 / 말풍선 열기
@@ -88,6 +93,7 @@ const HeaderOpenProvider = ({ children }: HeaderOpenProviderProps) => {
     isDark,
     handleOpen,
     handleDark,
+    handleLight,
     refs: {
       myPageRef,
       notifyRef,
