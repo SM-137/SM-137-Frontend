@@ -2,11 +2,13 @@ import styled from "@emotion/styled";
 import StatusDisplay from "../status-button/StatusDisplay";
 import CategoryTagGroup from "../category-tag/CategoryTagGroup";
 import { Article, Title } from "../../styles/ContentStyle";
-import { DataType } from "../../types/Type";
+import { ContentType } from "../../types/Type";
 import InteractionGroup from "../interaction/InteractionGroup";
+import { useNavigate } from "react-router-dom";
+import { complaintDetailUrl } from "../../utils/URL";
 
 interface ContentListProps {
-  data: DataType;
+  data: ContentType;
   resetTrigger?: boolean;
 }
 
@@ -41,21 +43,23 @@ const StatusContainer = styled.div`
 
 const ContentList = ({ data, resetTrigger }: ContentListProps) => {
   const ARTICLE_LINE = 2;
+  const CONTENT_DETAIL_URL = complaintDetailUrl(data.complaintId);
+  const navigate = useNavigate();
   return (
-    <Container>
+    <Container onClick={() => navigate(CONTENT_DETAIL_URL)}>
       <StatusContainer>
         <InfoContainer>
-          <StatusDisplay type={data.status} />
-          <CategoryTagGroup hashtag={data.hashtag} />
+          <StatusDisplay type={data.complaintStatus} />
+          <CategoryTagGroup hashtag={[data.tag]} />
         </InfoContainer>
         <InteractionGroup
-          likes={data.likes}
-          bookmarks={data.bookmarks}
+          likes={data.likeCount}
+          bookmarks={data.scrapCount}
           resetTrigger={resetTrigger}
         />
       </StatusContainer>
-      <Title>{data.title}</Title>
-      <Article line={ARTICLE_LINE}>{data.content}</Article>
+      <Title>{data.complaintTitle}</Title>
+      <Article line={ARTICLE_LINE}>{data.contentProb}</Article>
     </Container>
   );
 };

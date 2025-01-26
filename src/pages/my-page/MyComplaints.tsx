@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import ContentBox from "../../components/content/ContentBox";
-import { mockData } from "../../mockData";
 import {
   ContentBoxContainer,
   ContentContainer,
@@ -8,8 +7,8 @@ import {
   Title,
 } from "../../styles/ContentViewStyle";
 import { useNavigate } from "react-router-dom";
-
 import { MY_COMPLAINT_URL } from "../../utils/URL";
+import { sampleData } from "../../mockData";
 
 const Container = styled(ContentContainer)`
   margin-top: 60px;
@@ -25,7 +24,7 @@ const ViewMore = styled.div`
 
 const MyComplaints = () => {
   const navigate = useNavigate();
-  const data = mockData.slice(0, 2);
+  const data = sampleData.slice(0, 2);
 
   return (
     <Container>

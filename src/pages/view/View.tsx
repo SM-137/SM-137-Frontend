@@ -4,7 +4,6 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import CategorySelect from "../../components/category-select/CategorySelect";
 import SearchFilterBar from "../../components/search-filter/SearchFilter";
 import SortBar from "../../components/sort-bar/SortBar";
-import { mockData } from "../../mockData";
 import ContentList from "../../components/content/ContentList";
 import {
   createContext,
@@ -13,22 +12,24 @@ import {
   useEffect,
   useState,
 } from "react";
-import { DataType, SortType } from "../../types/Type";
+import { ContentType, SortType } from "../../types/Type";
 import { NoComplaints } from "../../styles/NoComplaints";
 import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import { SortOptionsProps, useSort } from "../../hooks/useSort";
 import Pagination from "../../components/Pagination";
 import { usePagination } from "../../hooks/usePagination";
+import { complaintAll } from "../../services/complaintService";
+import Loading from "../../components/loading/Loading";
 
 interface ViewProps {
-  originData: DataType[];
+  originData: ContentType[];
   filters: FiltersProps;
   handleFilterOptions: <K extends keyof FiltersProps>(
     option: K,
     value: FiltersProps[K]
   ) => void;
   handleFilter: () => void;
-  handleSort: (inputData: DataType[]) => void;
+  handleSort: (inputData: ContentType[]) => void;
   sortOptions: SortOptionsProps;
   handleSortOption: (type: SortType) => void;
   setCategoryData: Dispatch<SetStateAction<undefined>>;
@@ -87,19 +88,36 @@ const SortContainer = styled.div`
 export const ViewContext = createContext<ViewProps | undefined>(undefined);
 
 const View = () => {
-  const [originData] = useState(mockData);
+  const [originData, setOriginData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [resetButton, setResetButton] = useState(false);
 
   const { filteredData, handleFilter, handleFilterOptions, filters } =
     useFilter(originData);
   const { handleSort, sortOptions, handleSortOption, sortData } =
     useSort(filteredData);
-  const [categoryData, setCategoryData] = useState();
+  const [, setCategoryData] = useState();
 
   // 필터링이나 정렬이 변경되면 버튼 상태 리셋
   const handleResetButtonState = () => {
     setResetButton(true);
   };
+
+  useEffect(() => {
+    complaintAll({ categoryName: filters.category })
+      .then((res) => {
+        setOriginData(res.data);
+        if (!res.data) {
+          console.log("데이터가 없습니다");
+          setOriginData([]);
+        }
+        setIsLoading(false);
+      })
+      .catch(() => {
+        console.log("전체 민원 조회 데이터를 가져오는 중 오류 발생");
+      });
+  }, [filters.category]);
 
   useEffect(() => {
     handleFilter();
@@ -114,7 +132,7 @@ const View = () => {
   const isComplaintExist = !(filteredData.length == 0);
 
   const { currentPage, totalPages, displayedData, handlePageChange } =
-    usePagination<DataType>(sortData);
+    usePagination<ContentType>(sortData);
 
   return (
     <ViewContext.Provider
@@ -143,7 +161,10 @@ const View = () => {
           {/*정렬 필터링 + 컨텐츠*/}
           <SortContainer>
             <SortBar context={ViewContext} />
-            {isComplaintExist ? (
+            {/*로딩 중일 경우 로딩 컴포넌트 렌더링 */}
+            {isLoading ? (
+              <Loading />
+            ) : isComplaintExist ? (
               displayedData.map((i, index) => (
                 <ContentList data={i} key={index} resetTrigger={resetButton} />
               ))

@@ -4,6 +4,7 @@ import Input from "../input/Input";
 import TextArea from "../input/TextArea";
 import FileUploadField from "../file-upload/FileUploadField";
 import { useForm } from "../../hooks/useForm";
+import { complaintWrite } from "../../services/complaintService";
 
 const FormContainer = styled.form`
   min-width: 80%;
@@ -25,24 +26,37 @@ const FormInputGroup = styled.div`
 
 interface FormDataProps {
   title: string;
-  description: string;
-  improvements: string;
-  effect: string;
-  file: File | null;
+  contentProb: string;
+  contentDir: string;
+  contentExpect: string;
+  attachments: File | null;
+  categoryName: string;
+  tagName: string;
 }
 
 const ComplaintsForm = () => {
   const { formData, updateField, handleFileChange } = useForm<FormDataProps>({
     title: "",
-    description: "",
-    improvements: "",
-    effect: "",
-    file: null,
+    contentProb: "",
+    contentDir: "",
+    contentExpect: "",
+    attachments: null,
+    categoryName: "",
+    tagName: "",
   });
 
+  //해시태그 등의 값은 다른 페이지에서 받아와야 합니다.
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Submitted", formData);
+    //카테고리와 해시태그는 임시로 입력
+    const sendData = {
+      ...formData,
+      categoryName: "시설",
+      tagName: "해시태그",
+    };
+    complaintWrite(sendData)
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -61,7 +75,7 @@ const ComplaintsForm = () => {
           label="현황 및 문제점"
           placeholder="내용을 입력해주세요"
           isRequired={true}
-          onChange={(e) => updateField("description", e.target.value)}
+          onChange={(e) => updateField("contentProb", e.target.value)}
         />
       </FormInputGroup>
       <FormInputGroup>
@@ -69,17 +83,18 @@ const ComplaintsForm = () => {
           label="개선 방향"
           placeholder="내용을 입력해주세요"
           isRequired={true}
-          onChange={(e) => updateField("improvements", e.target.value)}
+          onChange={(e) => updateField("contentDir", e.target.value)}
         />
       </FormInputGroup>
       <FormInputGroup>
         <TextArea
           label="기대효과"
           placeholder="내용을 입력해주세요"
-          onChange={(e) => updateField("effect", e.target.value)}
+          onChange={(e) => updateField("contentExpect", e.target.value)}
         />
       </FormInputGroup>
-      <FileUploadField onFileChange={handleFileChange("file")} />
+      <FileUploadField onFileChange={handleFileChange("attachments")} />
+      <button type="submit">제출</button>
     </FormContainer>
   );
 };

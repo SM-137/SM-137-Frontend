@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import ContentBox from "../../components/content/ContentBox";
-import { mockData } from "../../mockData";
+import { sampleData } from "../../mockData";
 import {
   ContentBoxContainer,
   ContentContainer,
@@ -36,8 +36,7 @@ const ViewMore = styled.div`
 
 const ScrapComplaints = () => {
   const navigate = useNavigate();
-  const data = mockData.slice(0, 2);
-
+  const data = sampleData.slice(0, 2);
   return (
     <ContentContainer>
       <Background>

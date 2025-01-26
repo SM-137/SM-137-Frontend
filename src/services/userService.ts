@@ -1,9 +1,28 @@
 import apiClient from "./apiClient";
 
-// //path, post 데이터에 대해 타입 정의 필요
-// export const modify = async (data ) => {
+export const googleLogin = () => {
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  window.location.href = `${baseUrl}/oauth2/authorization/google`;
+};
+export const googleRedirect = async () => {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    if (!token) {
+      console.error("token이 없습니다");
+      return;
+    }
+    document.cookie = `jwtToken=${token}; path=/; max-age=3600; secure; SameSite=Lax`;
+    return token;
+  } catch (error) {
+    console.error("JWT 토큰 받아오는 중 오류 발생 :", error);
+    throw error;
+  }
+};
+
+// export const modify = async ( ) => {
 //   try {
-//     const response = await apiClient.patch(import.meta.env.USER_MODIFY, data);
+//     const response = await apiClient.patch("/api/user/modify", data);
 //     return response.data;
 //   } catch (error) {
 //     console.error("개인정보 수정 중 에러 발생 :", error);
@@ -11,13 +30,13 @@ import apiClient from "./apiClient";
 //   }
 // };
 
-export const myPage = async () => {
+export const userInfo = async () => {
   try {
-    const response = await apiClient.get(`/v1/user`);
-    console.log(response); // 백엔드에서 전달된 데이터 확인
+    const response = await apiClient.get(`api/user`);
+    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("마이페이지 조회 중 에러 발생 :", error);
+    console.error("사용자 정보 조회 중 에러 발생 :", error);
     throw error;
   }
 };

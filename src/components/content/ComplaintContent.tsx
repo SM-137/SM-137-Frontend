@@ -11,10 +11,8 @@ import { useModal } from "../../hooks/useModal";
 import Modal from "../modal/Modal";
 import DeleteComment from "../modal/contents/DeleteComment";
 import Alert from "../alert/Alert";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { BASE_NAME } from "../../utils/URL";
-import { Helmet } from "react-helmet-async";
 
 interface ComplaintContentProps {
   data: DataType;
@@ -137,8 +135,8 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   //복사할 URL 설정
   const baseURL = window.location.origin;
   const contentURL = useLocation().pathname;
-  const sharedLink = baseURL + BASE_NAME + contentURL;
-  const imageLink = baseURL + "/preview.png";
+  const sharedLink = baseURL + contentURL;
+  const imageLink = "https://sm137.netlify.app/preview.png";
 
   const copyToClipboard = async () => {
     try {
@@ -151,19 +149,21 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       setIsCopied(false);
     }, 1500);
   };
+  useEffect(() => {
+    document.title = "동적 페이지 제목";
+    document
+      .querySelector("meta[property='og:title']")
+      ?.setAttribute("content", "동적 페이지 제목");
+    document
+      .querySelector("meta[property='og:description']")
+      ?.setAttribute("content", "동적 페이지 설명");
+    document
+      .querySelector("meta[property='og:image']")
+      ?.setAttribute("content", imageLink);
+  }, []);
 
   return (
     <Container>
-      {/*공유 메타데이터 */}
-      <Helmet>
-        <title>숙명137</title>
-        <meta property="og:title" content="테스트 제목" />
-        <meta property="og:description" content="테스트 컨텐츠" />
-        {/*미리보기 사진 설정 필요 */}
-        {/* {data.src ? <meta property="og:image" content={data.imageUrl} /> : } */}
-        <meta property="og:image" content={imageLink} />
-      </Helmet>
-
       <Modal
         isOpen={isModalOpen}
         handleClose={handleModalClose}
