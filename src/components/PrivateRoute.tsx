@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
-import { getJwtTokenFromCookie } from "../utils/Cookie";
 import { ReactNode } from "react";
+import { getJwtTokenFromCookie } from "../utils/JWT";
 
 interface PrivateRouteProps {
   children: ReactNode;
