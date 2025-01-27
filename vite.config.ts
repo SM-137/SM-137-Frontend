@@ -4,7 +4,6 @@ import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   plugins: [react(), svgr()],
-  base: "/SM-137-Frontend/",
   server: {
     proxy: {
       "/base": {
