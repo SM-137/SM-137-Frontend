@@ -24,13 +24,17 @@ const Redirect = () => {
       try {
         const jwtToken = await googleRedirect();
         const isValidDomain = handleValidDomain();
-        if (jwtToken && isValidDomain) {
-          navigate("/");
+        if (!isValidDomain) {
+          alert("숙명 Gmail 계정으로만 로그인 가능합니다.");
+          navigate("/login");
           return;
         }
-        //유효하지 않은 도메인
-        alert("숙명 Gmail 계정으로만 로그인 가능합니다.");
-        navigate("/login");
+        if (!jwtToken) {
+          alert("로그인 중 에러가 발생하였습니다. 다시 시도해 주세요.");
+          return;
+        }
+        navigate("/");
+        return;
       } catch (error) {
         console.error("로그인 실패:", error);
       }
