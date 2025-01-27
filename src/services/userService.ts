@@ -6,6 +6,11 @@ export const googleLogin = () => {
 };
 export const googleRedirect = async () => {
   try {
+    const cookie = document.cookie;
+    if (!cookie) {
+      console.error("쿠키가 없습니다.");
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
     updateApiClientToken(token);
