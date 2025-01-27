@@ -138,16 +138,28 @@ export const complaintSearch = async (keyword: string) => {
 interface categoryProps {
   categoryName: string | null | undefined;
 }
-export const complaintAll = async (categoryOption: categoryProps) => {
+
+export const complaintAll = async () => {
+  try {
+    const response = await apiClient.get(`api/complaints/all`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("전체 조회 중 에러 발생 :", error);
+    throw error;
+  }
+};
+
+export const complaintCategory = async (categoryOption: categoryProps) => {
   try {
     const response = await apiClient.post(
       `api/complaints/category`,
       categoryOption
     );
-    console.log(response); // 백엔드에서 전달된 데이터 확인
+    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("전체 조회 중 에러 발생 :", error);
+    console.error("전체 조회 중 에러 발생 (카테고리 선택) :", error);
     throw error;
   }
 };

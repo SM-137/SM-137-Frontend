@@ -18,7 +18,10 @@ import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import { SortOptionsProps, useSort } from "../../hooks/useSort";
 import Pagination from "../../components/Pagination";
 import { usePagination } from "../../hooks/usePagination";
-import { complaintAll } from "../../services/complaintService";
+import {
+  complaintAll,
+  complaintCategory,
+} from "../../services/complaintService";
 import Loading from "../../components/loading/Loading";
 
 interface ViewProps {
@@ -105,7 +108,18 @@ const View = () => {
   };
 
   useEffect(() => {
-    complaintAll({ categoryName: filters.category })
+    if (!filters.category) {
+      complaintAll()
+        .then((res) => {
+          setOriginData(res.data);
+          setIsLoading(false);
+        })
+        .catch((error) =>
+          console.error(`전체 민원 조회 중 에러 발생 :${error}`)
+        );
+      return;
+    }
+    complaintCategory({ categoryName: filters.category })
       .then((res) => {
         setOriginData(res.data);
         if (!res.data) {
@@ -120,14 +134,18 @@ const View = () => {
   }, [filters.category]);
 
   useEffect(() => {
-    handleFilter();
-    handleResetButtonState();
-  }, [filters]);
+    if (!isLoading) {
+      handleFilter();
+      handleResetButtonState();
+    }
+  }, [filters, isLoading, originData]);
 
   useEffect(() => {
-    handleSort(filteredData);
-    handleResetButtonState();
-  }, [sortOptions, filteredData]);
+    if (!isLoading) {
+      handleSort(filteredData);
+      handleResetButtonState();
+    }
+  }, [sortOptions, filteredData, isLoading, originData]);
 
   const isComplaintExist = !(filteredData.length == 0);
 
