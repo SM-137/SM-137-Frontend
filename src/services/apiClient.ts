@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getJwtTokenFromCookie } from "../utils/Cookie";
+import { getJwtTokenFromCookie } from "../utils/JWT";
 
 const token = getJwtTokenFromCookie();
 const apiClient = axios.create({

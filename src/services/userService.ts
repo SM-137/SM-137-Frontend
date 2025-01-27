@@ -7,7 +7,6 @@ export const googleLogin = () => {
 export const googleRedirect = async () => {
   try {
     const urlParams = new URLSearchParams(window.location.search);
-    console.log(urlParams);
     const token = urlParams.get("token");
     updateApiClientToken(token);
 
