@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { MY_COMPLAINT_URL, MY_SCRAP_URL, MYPAGE_URL } from "../../../utils/URL";
+import { googleLogout } from "../../../services/userService";
 
 const NavigatorContainer = styled.ul`
   display: flex;
@@ -20,6 +21,16 @@ const NavigatorContent = styled.div`
 
 const HeaderNavigator = () => {
   const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      const res = await googleLogout();
+      console.log(res);
+    } catch (error) {
+      alert("로그아웃 중 에러가 발생하였습니다.");
+      console.error(error);
+    }
+  };
+
   return (
     <NavigatorContainer>
       <NavigatorContent onClick={() => navigate(MYPAGE_URL)}>
@@ -32,6 +43,7 @@ const HeaderNavigator = () => {
         스크랩
       </NavigatorContent>
       <NavigatorContent>개인정보 수정</NavigatorContent>
+      <NavigatorContent onClick={handleLogout}>로그아웃</NavigatorContent>
     </NavigatorContainer>
   );
 };

@@ -7,6 +7,7 @@ import {
   MYPAGE_URL,
   VIEW_URL,
 } from "../../utils/URL";
+import { googleLogout } from "../../services/userService";
 
 const SideNavContainer = styled.div`
   @keyframes moveRight {
@@ -54,9 +55,23 @@ const MenuContent = styled.div`
     color: var(--light-primary);
   }
 `;
+const LogoutBtn = styled.div`
+  position: absolute;
+  bottom: 10%;
+  color: var(--light-primary);
+`;
 
 const SideNavigator = () => {
   const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      const res = await googleLogout();
+      console.log(res);
+    } catch (error) {
+      alert("로그아웃 중 에러가 발생하였습니다.");
+      console.error(error);
+    }
+  };
 
   return (
     <SideNavContainer>
@@ -82,6 +97,7 @@ const SideNavigator = () => {
         </MenuContent>
         <MenuContent>개인정보 수정</MenuContent>
       </Menu>
+      <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
     </SideNavContainer>
   );
 };

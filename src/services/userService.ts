@@ -36,6 +36,15 @@ export const googleRedirect = async () => {
   }
 };
 
+export const googleLogout = async () => {
+  try {
+    const response = await apiClient.post("api/google/logout");
+    return response.data;
+  } catch (error) {
+    console.error("로그아웃 중 에러 발생", error);
+  }
+};
+
 // export const modify = async ( ) => {
 //   try {
 //     const response = await apiClient.patch("/api/user/modify", data);
