@@ -17,8 +17,6 @@ const Image = styled.img`
 `;
 
 const ContentImage = ({ attachmentUrls }: ContentImageProps) => {
-  console.log(attachmentUrls);
-  //이미지 로드
   const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
   const handleImageClick = () => {
     handleModalOpen();

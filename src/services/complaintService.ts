@@ -98,16 +98,18 @@ export const complaintWrite = async (data: ApplyContentProps) => {
 //     throw error;
 //   }
 // };
-// export const complaintScrap = async (complaintId, data) => {
-//   try {
-//     const response = await apiClient.post(`complaints/scrap`, data);
-//     console.log(response); // 백엔드에서 전달된 데이터 확인
-//     return response.data;
-//   } catch (error) {
-//     console.error("민원 스크랩 중 에러 발생 :", error);
-//     throw error;
-//   }
-// };
+
+//민원 스크랩
+export const complaintScrap = async (complaintId: number) => {
+  try {
+    const response = await apiClient.post(`api/complaints/scrap`, complaintId);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("민원 스크랩 중 에러 발생 :", error);
+    throw error;
+  }
+};
 
 export const complaintDetail = async (complaintId: number) => {
   try {
