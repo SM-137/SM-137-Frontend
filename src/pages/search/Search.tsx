@@ -3,26 +3,26 @@ import { SvgIcon, SvgIconProps } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import SearchBar from "../../components/search-bar/SearchBar";
 import ContentList from "../../components/content/ContentList";
-import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
 import SortBar from "../../components/sort-bar/SortBar";
 import { createContext, useEffect, useState } from "react";
-import { DataType, SortType } from "../../types/Type";
+import { ContentType, SortType } from "../../types/Type";
 import { NoComplaints } from "../../styles/NoComplaints";
 import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import { SortOptionsProps, useSort } from "../../hooks/useSort";
 import { usePagination } from "../../hooks/usePagination";
 import Pagination from "../../components/Pagination";
+import { complaintSearch } from "../../services/complaintService";
 
 interface SearchDataProps {
-  originData: DataType[];
+  originData: ContentType[];
   filters: FiltersProps;
   handleFilterOptions: <K extends keyof FiltersProps>(
     option: K,
     value: FiltersProps[K]
   ) => void;
   handleFilter: () => void;
-  handleSort: (inputData: DataType[]) => void;
+  handleSort: (inputData: ContentType[]) => void;
   sortOptions: SortOptionsProps;
   handleSortOption: (type: SortType) => void;
 }
@@ -81,8 +81,13 @@ const Search = () => {
   //검색어 연동
   const params = new URLSearchParams(location.search);
   const SEARCH_KEYWORD = decodeURIComponent(params.get("keyword") || "");
+  useEffect(() => {
+    complaintSearch(SEARCH_KEYWORD)
+      .then((res) => console.log(res.data))
+      .catch((error) => console.error(error));
+  }, []);
 
-  const [originData] = useState(mockData);
+  const [originData] = useState([]);
   const { filteredData, handleFilter, handleFilterOptions, filters } =
     useFilter(originData);
   const { handleSort, sortOptions, handleSortOption, sortData } =
@@ -99,7 +104,7 @@ const Search = () => {
   const isComplaintExist = !(filteredData.length == 0);
 
   const { currentPage, displayedData, totalPages, handlePageChange } =
-    usePagination<DataType>(sortData);
+    usePagination<ContentType>(sortData);
 
   return (
     <SearchContext.Provider

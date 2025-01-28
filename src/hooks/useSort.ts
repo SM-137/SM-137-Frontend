@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DataType, SortType } from "../types/Type";
+import { ContentType, SortType } from "../types/Type";
 
 export interface SortOptionsProps {
   latest: boolean;
@@ -7,8 +7,8 @@ export interface SortOptionsProps {
   likes: boolean;
 }
 
-export const useSort = (filteredData: DataType[]) => {
-  const [sortData, setSortData] = useState<DataType[]>(filteredData);
+export const useSort = (filteredData: ContentType[]) => {
+  const [sortData, setSortData] = useState<ContentType[]>(filteredData);
   const [sortOptions, setSortOptions] = useState({
     latest: true,
     scrap: false,
@@ -31,7 +31,7 @@ export const useSort = (filteredData: DataType[]) => {
     }));
   };
 
-  const handleSort = (inputData: DataType[]) => {
+  const handleSort = (inputData: ContentType[]) => {
     if (sortOptions.scrap) {
       return scrapSort(inputData);
     }
@@ -44,17 +44,19 @@ export const useSort = (filteredData: DataType[]) => {
     return inputData;
   };
 
-  const scrapSort = (inputData: DataType[]) => {
+  const scrapSort = (inputData: ContentType[]) => {
     return setSortData(
-      [...inputData].sort((a, b) => b.bookmarks - a.bookmarks)
+      [...inputData].sort((a, b) => b.scrapCount - a.scrapCount)
     );
   };
 
-  const likeSort = (inputData: DataType[]) => {
-    return setSortData([...inputData].sort((a, b) => b.likes - a.likes));
+  const likeSort = (inputData: ContentType[]) => {
+    return setSortData(
+      [...inputData].sort((a, b) => b.likeCount - a.likeCount)
+    );
   };
 
-  const latestSort = (inputData: DataType[]) => {
+  const latestSort = (inputData: ContentType[]) => {
     return setSortData(
       [...inputData].sort((a, b) => {
         const dateA = new Date(a.date).getTime();

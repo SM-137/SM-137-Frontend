@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import ContentBox from "../../components/content/ContentBox";
-import { mockData } from "../../mockData";
 import { motion } from "framer-motion";
 import ContactPageRoundedIcon from "@mui/icons-material/ContactPageRounded";
 import styled from "@emotion/styled";
@@ -13,10 +12,10 @@ import {
 } from "../../styles/ComplaintScrap";
 import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import ComplaintFilterBar from "./ComplaintFilterBar";
-import { DataType } from "../../types/Type";
+import { ContentType } from "../../types/Type";
 
 interface MyComplaintProps {
-  originData: DataType[];
+  originData: ContentType[];
   handleFilterOptions: <K extends keyof FiltersProps>(
     option: K,
     value: FiltersProps[K]
@@ -41,7 +40,7 @@ export const MyComplaintContext = createContext<MyComplaintProps | undefined>(
 );
 
 const Complaint = () => {
-  const [originData] = useState(mockData);
+  const [originData] = useState([]);
   const { filteredData, handleFilter, handleFilterOptions, filters } =
     useFilter(originData);
 

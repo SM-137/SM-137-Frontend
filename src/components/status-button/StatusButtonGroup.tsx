@@ -13,10 +13,10 @@ const ButtonGroupContainer = styled.div`
 `;
 
 interface SelectedTypeObject {
-  inProgress: boolean;
-  pending: boolean;
-  rejected: boolean;
-  completed: boolean;
+  IN_PROGRESS: boolean;
+  WAITING: boolean;
+  RETURN: boolean;
+  DONE: boolean;
 }
 interface UsageProps {
   usage: "filter" | "normal";
@@ -24,10 +24,10 @@ interface UsageProps {
 
 const StatusButtonGroup = ({ usage = "normal" }: UsageProps) => {
   const initial: SelectedTypeObject = {
-    inProgress: false,
-    pending: false,
-    rejected: false,
-    completed: false,
+    IN_PROGRESS: false,
+    WAITING: false,
+    RETURN: false,
+    DONE: false,
   };
 
   const [selectedType, setSelectedType] = useState(initial);
@@ -91,24 +91,24 @@ const StatusButtonGroup = ({ usage = "normal" }: UsageProps) => {
   return (
     <ButtonGroupContainer>
       <StatusButton
-        type="inProgress"
-        isSelected={selectedType.inProgress}
-        onClick={() => handleClickHandler("inProgress")}
+        type="IN_PROGRESS"
+        isSelected={selectedType.IN_PROGRESS}
+        onClick={() => handleClickHandler("IN_PROGRESS")}
       />
       <StatusButton
-        type="pending"
-        isSelected={selectedType.pending}
-        onClick={() => handleClickHandler("pending")}
+        type="WAITING"
+        isSelected={selectedType.WAITING}
+        onClick={() => handleClickHandler("WAITING")}
       />
       <StatusButton
-        type="rejected"
-        isSelected={selectedType.rejected}
-        onClick={() => handleClickHandler("rejected")}
+        type="RETURN"
+        isSelected={selectedType.RETURN}
+        onClick={() => handleClickHandler("RETURN")}
       />
       <StatusButton
-        type="completed"
-        isSelected={selectedType.completed}
-        onClick={() => handleClickHandler("completed")}
+        type="DONE"
+        isSelected={selectedType.DONE}
+        onClick={() => handleClickHandler("DONE")}
       />
     </ButtonGroupContainer>
   );
