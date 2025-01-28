@@ -1,10 +1,6 @@
 import styled from "@emotion/styled";
 import ComplaintContent from "../../components/content/ComplaintContent";
-import {
-  commentMockData,
-  ContentDetailSampleData,
-  mockData,
-} from "../../mockData";
+import { commentMockData } from "../../mockData";
 import Comment from "../../components/comment/Comment";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import {
@@ -14,8 +10,10 @@ import {
 } from "../../styles/CommentTitleStyle";
 import CommentInput from "../../components/comment/CommentInput";
 import Answer from "../../components/answer/Answer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { complaintDetail } from "../../services/complaintService";
+import Loading from "../../components/loading/Loading";
+import { ContentDetailProps } from "../../types/Type";
 
 const Container = styled.div`
   position: absolute;
@@ -62,9 +60,35 @@ const AnswerContainer = styled.div`
 `;
 
 const Detail = () => {
-  //임시 데이터
-  const MOCK_DATA = mockData[0];
-  const isAnswered = MOCK_DATA.answer.length != 0;
+  const defaultComplaintData: ContentDetailProps = {
+    complaintId: 0,
+    tag: "",
+    category: "",
+    complaintStatus: "WAITING",
+    complaintTitle: "",
+    contentProb: "",
+    contentDir: "",
+    contentExpect: "",
+    answer: null,
+    likeCount: 0,
+    scrapCount: 0,
+    createdAt: "",
+    isLiked: false,
+    isScrapped: false,
+    attachmentUrls: [],
+  };
+  const [isLoading, setIsLoading] = useState(true);
+  const [complaintData, setComplaintData] =
+    useState<ContentDetailProps>(defaultComplaintData);
+  useEffect(() => {
+    complaintDetail(complaintId)
+      .then((res) => {
+        setComplaintData(res.data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
   //length로 data의 개수를 계산하여 삽입 예정
   const COUNT = commentMockData.length;
 
@@ -75,20 +99,17 @@ const Detail = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const complaintId = Number(urlParams.get("complaintId"));
 
-  useEffect(() => {
-    complaintDetail(complaintId)
-      .then((res) => console.log(res))
-      .catch((error) => console.error(error));
-  }, []);
-
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <Container>
-      <ComplaintContent data={ContentDetailSampleData[0]} />
+      {complaintData && <ComplaintContent data={complaintData} />}
 
       {/*관리자 답변 */}
-      {isAnswered && (
+      {complaintData?.answer && (
         <AnswerContainer>
-          <Answer data={MOCK_DATA.answer} />
+          <Answer data={complaintData.answer} />
         </AnswerContainer>
       )}
 

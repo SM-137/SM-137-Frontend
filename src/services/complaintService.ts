@@ -112,7 +112,7 @@ export const complaintWrite = async (data: ApplyContentProps) => {
 export const complaintDetail = async (complaintId: number) => {
   try {
     const response = await apiClient.get(
-      `/api/complaint/detail/${complaintId}`
+      `api/complaints/detail/${complaintId}`
     );
     console.log(response);
     return response.data;
