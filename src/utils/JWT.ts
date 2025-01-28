@@ -34,7 +34,7 @@ export const deleteJWTToken = () => {
   cookies.forEach((cookie) => {
     const cookieName = cookie.trim().split("=")[0];
     if (cookieName === "jwtToken") {
-      document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+      document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=${window.location.hostname}; SameSite=Lax`;
     }
   });
 };

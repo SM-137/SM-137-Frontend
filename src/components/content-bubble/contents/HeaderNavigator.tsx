@@ -1,7 +1,13 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import { MY_COMPLAINT_URL, MY_SCRAP_URL, MYPAGE_URL } from "../../../utils/URL";
-import { googleLogout } from "../../../services/userService";
+import {
+  LOGIN_URL,
+  MY_COMPLAINT_URL,
+  MY_SCRAP_URL,
+  MYPAGE_URL,
+} from "../../../utils/URL";
+import { deleteJWTToken } from "../../../utils/JWT";
+import axios from "axios";
 
 const NavigatorContainer = styled.ul`
   display: flex;
@@ -22,13 +28,9 @@ const NavigatorContent = styled.div`
 const HeaderNavigator = () => {
   const navigate = useNavigate();
   const handleLogout = async () => {
-    try {
-      const res = await googleLogout();
-      console.log(res);
-    } catch (error) {
-      alert("로그아웃 중 에러가 발생하였습니다.");
-      console.error(error);
-    }
+    deleteJWTToken();
+    delete axios.defaults.headers.common["Authorization"];
+    window.location.replace(LOGIN_URL);
   };
 
   return (

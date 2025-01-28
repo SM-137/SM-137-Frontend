@@ -2,12 +2,14 @@ import styled from "@emotion/styled";
 import UserInfo from "./UserInfo";
 import { useNavigate } from "react-router-dom";
 import {
+  LOGIN_URL,
   MY_COMPLAINT_URL,
   MY_SCRAP_URL,
   MYPAGE_URL,
   VIEW_URL,
 } from "../../utils/URL";
-import { googleLogout } from "../../services/userService";
+import { deleteJWTToken } from "../../utils/JWT";
+import axios from "axios";
 
 const SideNavContainer = styled.div`
   @keyframes moveRight {
@@ -64,13 +66,9 @@ const LogoutBtn = styled.div`
 const SideNavigator = () => {
   const navigate = useNavigate();
   const handleLogout = async () => {
-    try {
-      const res = await googleLogout();
-      console.log(res);
-    } catch (error) {
-      alert("로그아웃 중 에러가 발생하였습니다.");
-      console.error(error);
-    }
+    deleteJWTToken();
+    delete axios.defaults.headers.common["Authorization"];
+    window.location.replace(LOGIN_URL);
   };
 
   return (
