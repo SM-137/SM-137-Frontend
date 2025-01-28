@@ -11,6 +11,7 @@ import AcademicInfoStep from "./pages/application-step/AcademicInfoStep";
 import CategorySelectionStep from "./pages/application-step/CategorySelectionStep";
 import CompletedStep from "./pages/application-step/CompletedStep";
 import ComplaintsWrittingStep from "./pages/application-step/CompaintsWrittingStep";
+import Modify from "./pages/modify/Modify";
 
 export const router = createBrowserRouter(
   [
@@ -45,6 +46,10 @@ export const router = createBrowserRouter(
         {
           path: "mypage/my-scrap",
           element: <Scrap />,
+        },
+        {
+          path: "my-modify",
+          element: <Modify />,
         },
         {
           path: "complaint-request",
