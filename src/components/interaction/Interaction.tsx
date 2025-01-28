@@ -9,16 +9,19 @@ import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  addLike,
+  addCommentLike,
   addScrap,
-  deleteLike,
+  addThumbUp,
+  deleteCommentLike,
   deleteScrap,
+  deleteThumbUp,
 } from "../../services/complaintService";
 
 interface InteractionProps {
   type: "thumbUp" | "scrap" | "likes";
   count: number;
   isIconClicked: boolean;
+  commentId?: number;
 }
 const Container = styled.div`
   display: inline-flex;
@@ -97,7 +100,12 @@ const getFill = (type: string) => {
   }
 };
 
-const Interaction = ({ type, count, isIconClicked }: InteractionProps) => {
+const Interaction = ({
+  type,
+  count,
+  isIconClicked,
+  commentId,
+}: InteractionProps) => {
   // 아이콘 색칠 제어
   const [isIconColored, setIsIconColored] = useState(isIconClicked);
   //화면에 보이는 스크랩 수 제어
@@ -115,6 +123,10 @@ const Interaction = ({ type, count, isIconClicked }: InteractionProps) => {
       return;
     }
     if (type === "thumbUp") {
+      handleThumbUp(prevColoredState);
+      return;
+    }
+    if (type === "likes") {
       handleLike(prevColoredState);
       return;
     }
@@ -131,18 +143,35 @@ const Interaction = ({ type, count, isIconClicked }: InteractionProps) => {
     }
   };
 
-  const handleLike = (prevColoredState: boolean) => {
+  const handleThumbUp = (prevColoredState: boolean) => {
     if (!prevColoredState) {
-      addLike(complaintId)
+      addThumbUp(complaintId)
         .then((res) => console.log(res))
         .catch((error) => console.error(error));
       return;
     }
     if (prevColoredState) {
-      deleteLike(complaintId)
+      deleteThumbUp(complaintId)
         .then((res) => console.log(res))
         .catch((error) => console.error(error));
       return;
+    }
+  };
+
+  const handleLike = (prevColoredState: boolean) => {
+    if (commentId) {
+      if (!prevColoredState) {
+        addCommentLike(complaintId, commentId)
+          .then((res) => console.log(res))
+          .catch((error) => console.error(error));
+        return;
+      }
+      if (prevColoredState) {
+        deleteCommentLike(complaintId, commentId)
+          .then((res) => console.log(res))
+          .catch((error) => console.error(error));
+        return;
+      }
     }
   };
 
