@@ -109,18 +109,18 @@ export const complaintWrite = async (data: ApplyContentProps) => {
 //   }
 // };
 
-// export const complaintDetail = async (complaintId) => {
-//   try {
-//     const response = await apiClient.get(`complaint/detail`, {
-//       params: { complaintId }, // 쿼리 파라미터로 complaintId 전달...?
-//     });
-//     console.log(response); // 백엔드에서 전달된 데이터 확인
-//     return response.data;
-//   } catch (error) {
-//     console.error("민원 내용 상세 조회 중 에러 발생 :", error);
-//     throw error;
-//   }
-// };
+export const complaintDetail = async (complaintId: number) => {
+  try {
+    const response = await apiClient.get(
+      `/api/complaint/detail/${complaintId}`
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("민원 내용 상세 조회 중 에러 발생 :", error);
+    throw error;
+  }
+};
 
 export const complaintSearch = async (keyword: string) => {
   try {

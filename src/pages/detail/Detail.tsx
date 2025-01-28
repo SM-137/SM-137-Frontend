@@ -1,6 +1,10 @@
 import styled from "@emotion/styled";
 import ComplaintContent from "../../components/content/ComplaintContent";
-import { commentMockData, mockData } from "../../mockData";
+import {
+  commentMockData,
+  ContentDetailSampleData,
+  mockData,
+} from "../../mockData";
 import Comment from "../../components/comment/Comment";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import {
@@ -10,6 +14,8 @@ import {
 } from "../../styles/CommentTitleStyle";
 import CommentInput from "../../components/comment/CommentInput";
 import Answer from "../../components/answer/Answer";
+import { useEffect } from "react";
+import { complaintDetail } from "../../services/complaintService";
 
 const Container = styled.div`
   position: absolute;
@@ -66,9 +72,18 @@ const Detail = () => {
   const ICON_WIDTH = "24px";
   const INDEX_OFFSET = 1;
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const complaintId = Number(urlParams.get("complaintId"));
+
+  useEffect(() => {
+    complaintDetail(complaintId)
+      .then((res) => console.log(res))
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
     <Container>
-      <ComplaintContent data={MOCK_DATA} />
+      <ComplaintContent data={ContentDetailSampleData[0]} />
 
       {/*관리자 답변 */}
       {isAnswered && (

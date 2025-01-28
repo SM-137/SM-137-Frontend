@@ -1,7 +1,7 @@
 import StatusDisplay from "../status-button/StatusDisplay";
 import CategoryTagGroup from "../category-tag/CategoryTagGroup";
 import InteractionGroup from "../interaction/InteractionGroup";
-import { DataType } from "../../types/Type";
+import { ContentDetailProps } from "../../types/Type";
 import { Article, Title } from "../../styles/ContentStyle";
 import styled from "@emotion/styled";
 import ShareIcon from "@mui/icons-material/Share";
@@ -15,13 +15,14 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 interface ComplaintContentProps {
-  data: DataType;
+  data: ContentDetailProps;
 }
 
 const Container = styled.div`
+  width: 100%;
   max-width: 782px;
   background: var(--white);
-  padding: 20px;
+  padding: 20px 0;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -113,7 +114,7 @@ const AlertContainer = styled.div`
 `;
 
 const ComplaintContent = ({ data }: ComplaintContentProps) => {
-  const date = new Date(data.date);
+  const date = data.createdAt ? new Date(data.createdAt) : new Date();
   const formatTime = getFormatTime(date);
 
   const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
@@ -177,15 +178,16 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       {/* Header */}
       <Header>
         <HeaderContent>
-          <StatusDisplay type={data.status} />
+          <StatusDisplay type={data.complaintStatus} />
           <CategoryContainer>
-            {data.hashtag.map((hashtag, index) => (
-              <CategoryTagGroup key={index} hashtag={[hashtag]} />
-            ))}
+            <CategoryTagGroup hashtag={[data.tag]} />
           </CategoryContainer>
         </HeaderContent>
         <InteractionContainer>
-          <InteractionGroup likes={data.likes} bookmarks={data.bookmarks} />
+          <InteractionGroup
+            likes={data.likeCount}
+            bookmarks={data.scrapCount}
+          />
 
           {/*공유 */}
           {isCopied && (
@@ -200,13 +202,13 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       <ComplaintNumber>
         {/*백엔드 field에 따라 민원번호 변동 필요*/}
         <Category>{data.category}</Category>
-        민원번호 : 00910
+        {data.complaintId}
       </ComplaintNumber>
 
       {/* Content */}
       <div>
-        <Title>{data.title}</Title>
-        <Article line={0}>{data.content}</Article>
+        <Title>{data.complaintTitle}</Title>
+        <Article line={0}>{data.contentProb}</Article>
       </div>
 
       {/* Footer */}
