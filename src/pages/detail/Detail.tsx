@@ -9,7 +9,7 @@ import {
 } from "../../styles/CommentTitleStyle";
 import CommentInput from "../../components/comment/CommentInput";
 import Answer from "../../components/answer/Answer";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   complaintComments,
   complaintDetail,
@@ -68,6 +68,10 @@ const Detail = () => {
     useState<ContentDetailProps>(defaultComplaintData);
   const [commentData, setCommentData] =
     useState<CommentType[]>(defaultCommentData);
+  const [isCommentAdd, setIsCommentAdd] = useState(false);
+  const handleIsCommentAdd = () => {
+    setIsCommentAdd(true);
+  };
 
   const urlParams = new URLSearchParams(window.location.search);
   const complaintId = Number(urlParams.get("complaintId"));
@@ -80,7 +84,15 @@ const Detail = () => {
         setIsLoading(false);
       })
       .catch((error) => console.error(error));
-  }, [complaintId]);
+  }, [complaintId, isCommentAdd]);
+
+  //댓글 작성시 스크롤 하단으로 이동
+  const commentListRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (commentListRef.current) {
+      commentListRef.current.scrollTop = commentListRef.current.scrollHeight;
+    }
+  }, [commentData, isCommentAdd]);
 
   const COUNT = commentData.length;
 
@@ -103,7 +115,7 @@ const Detail = () => {
       )}
 
       <Background>
-        <CommentContainer>
+        <CommentContainer ref={commentListRef}>
           <CommentTitleContainer>
             <Icon
               sx={{ fill: TITLE_COLOR, width: ICON_WIDTH }}
@@ -123,7 +135,7 @@ const Detail = () => {
 
       <InputBackground>
         <InputContainer>
-          <CommentInput />
+          <CommentInput handleIsCommentAdd={handleIsCommentAdd} />
         </InputContainer>
       </InputBackground>
     </Container>

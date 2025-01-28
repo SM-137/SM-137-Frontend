@@ -176,19 +176,25 @@ export const complaintComments = async (complaintId: number) => {
   }
 };
 
-// export const complaintCommentsWrite = async (complaintId, data) => {
-//   try {
-//     const response = await apiClient.post(
-//       `complaints/${complaintId}/comments`,
-//       data
-//     );
-//     console.log(response); // 백엔드에서 전달된 데이터 확인
-//     return response.data;
-//   } catch (error) {
-//     console.error("민원 댓글 작성 중 에러 발생 :", error);
-//     throw error;
-//   }
-// };
+export const complaintCommentsWrite = async (
+  complaintId: number,
+  content: string
+) => {
+  try {
+    const response = await apiClient.post(
+      `api/complaints/${complaintId}/comments`,
+      {
+        content: content,
+      }
+    );
+    console.log(response); // 백엔드에서 전달된 데이터 확인
+    return response.data;
+  } catch (error) {
+    console.error("민원 댓글 작성 중 에러 발생 :", error);
+    throw error;
+  }
+};
+
 // export const complaintCommentsLike = async (complaintId, data) => {
 //   try {
 //     const response = await apiClient.post(

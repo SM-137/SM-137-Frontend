@@ -32,8 +32,10 @@ const InfoContainer = styled.div`
 /*contents + time */
 const ContentsContainer = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: end;
   gap: 2rem;
+  width: 100%;
 `;
 const Contents = styled.div`
   color: var(--gray5-lowText);
@@ -56,7 +58,7 @@ const Comment = ({ data, index }: CommentProps) => {
             component={CommentRoundedIcon}
             sx={{ fill: COMMENT_COLOR, width: ICON_WIDTH }}
           />
-          <CommentTitle>댓글{index}</CommentTitle>
+          <CommentTitle>댓글 {index}</CommentTitle>
         </CommentTitleContainer>
         <Interaction type="likes" count={data.likeCount} isIconClicked={true} />
       </InfoContainer>
