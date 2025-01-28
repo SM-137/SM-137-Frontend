@@ -49,42 +49,6 @@ export const complaintWrite = async (data: ApplyContentProps) => {
 //   }
 // };
 
-// export const complaintComments = async (complaintId) => {
-//   try {
-//     const response = await apiClient.get(`complaints/${complaintId}/comments`);
-//     console.log(response); // 백엔드에서 전달된 데이터 확인
-//     return response.data;
-//   } catch (error) {
-//     console.error("민원 댓글 조회 중 에러 발생 :", error);
-//     throw error;
-//   }
-// };
-// export const complaintCommentsWrite = async (complaintId, data) => {
-//   try {
-//     const response = await apiClient.post(
-//       `complaints/${complaintId}/comments`,
-//       data
-//     );
-//     console.log(response); // 백엔드에서 전달된 데이터 확인
-//     return response.data;
-//   } catch (error) {
-//     console.error("민원 댓글 작성 중 에러 발생 :", error);
-//     throw error;
-//   }
-// };
-// export const complaintCommentsLike = async (complaintId, data) => {
-//   try {
-//     const response = await apiClient.post(
-//       `complaints/${complaintId}/like`,
-//       data
-//     );
-//     console.log(response); // 백엔드에서 전달된 데이터 확인
-//     return response.data;
-//   } catch (error) {
-//     console.error("민원 댓글 좋아요 처리 중 에러 발생 :", error);
-//     throw error;
-//   }
-// };
 export const addLike = async (complaintId: number) => {
   try {
     const response = await apiClient.post(`api/complaints/${complaintId}/like`);
@@ -198,3 +162,43 @@ export const complaintHome = async () => {
     throw error;
   }
 };
+
+export const complaintComments = async (complaintId: number) => {
+  try {
+    const response = await apiClient.get(
+      `api/complaints/${complaintId}/comments`
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("민원 댓글 조회 중 에러 발생 :", error);
+    throw error;
+  }
+};
+
+// export const complaintCommentsWrite = async (complaintId, data) => {
+//   try {
+//     const response = await apiClient.post(
+//       `complaints/${complaintId}/comments`,
+//       data
+//     );
+//     console.log(response); // 백엔드에서 전달된 데이터 확인
+//     return response.data;
+//   } catch (error) {
+//     console.error("민원 댓글 작성 중 에러 발생 :", error);
+//     throw error;
+//   }
+// };
+// export const complaintCommentsLike = async (complaintId, data) => {
+//   try {
+//     const response = await apiClient.post(
+//       `complaints/${complaintId}/like`,
+//       data
+//     );
+//     console.log(response); // 백엔드에서 전달된 데이터 확인
+//     return response.data;
+//   } catch (error) {
+//     console.error("민원 댓글 좋아요 처리 중 에러 발생 :", error);
+//     throw error;
+//   }
+// };

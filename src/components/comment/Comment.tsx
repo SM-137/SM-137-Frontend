@@ -4,10 +4,10 @@ import {
   CommentTitleContainer,
   Icon,
 } from "../../styles/CommentTitleStyle";
-import { CommentType } from "../../types/Type";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import Interaction from "../interaction/Interaction";
 import { getFormatTime } from "../../utils/FormattingTime";
+import { CommentType } from "../../types/Type";
 
 interface CommentProps {
   data: CommentType;
@@ -46,7 +46,7 @@ const Comment = ({ data, index }: CommentProps) => {
   const COMMENT_COLOR = "var(--disabled-primary)";
   const ICON_WIDTH = "20px";
 
-  const date = new Date(data.date);
+  const date = new Date(data.createdAt);
   const formatTime = getFormatTime(date);
   return (
     <Container>
@@ -58,7 +58,7 @@ const Comment = ({ data, index }: CommentProps) => {
           />
           <CommentTitle>댓글{index}</CommentTitle>
         </CommentTitleContainer>
-        <Interaction type="likes" count={data.likes} isIconClicked={true} />
+        <Interaction type="likes" count={data.likeCount} isIconClicked={true} />
       </InfoContainer>
 
       {/*컨텐츠 + 시간*/}

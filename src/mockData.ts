@@ -1,6 +1,5 @@
 import {
   AlarmDataProps,
-  CommentType,
   ContentDetailProps,
   ContentType,
   DataType,
@@ -274,28 +273,6 @@ export const mockData: DataType[] = [
     bookmarks: 3,
     date: "2024-07-12T14:00:00.000Z", // 6개월 이내
     answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다.",
-  },
-];
-
-export const commentMockData: CommentType[] = [
-  {
-    content:
-      "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
-    likes: 3,
-    date: "2025-01-06T23:15:00.000Z", // 1개월 이내
-  },
-  {
-    content:
-      "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
-    date: "2024-07-11T16:45:00.000Z", // 1개월 이내
-
-    likes: 3,
-  },
-  {
-    content:
-      "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
-    date: "2024-07-11T16:45:00.000Z", // 1개월 이내
-    likes: 10,
   },
 ];
 

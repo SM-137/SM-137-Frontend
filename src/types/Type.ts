@@ -19,12 +19,6 @@ export interface DataType {
   answer: string;
   category: string;
 }
-export interface CommentType {
-  content: string;
-  //백엔드 전달 데이터 타입에 따라 필요
-  date: string;
-  likes: number;
-}
 
 export interface MyPageProps {
   state: string;
@@ -98,4 +92,14 @@ export interface MyPageProps {
   sid: number;
   major: string;
   email: string;
+}
+
+export interface CommentType {
+  commentId: number;
+  userId: number;
+  userEmail: string;
+  content: string;
+  isLiked: boolean;
+  createdAt: string;
+  likeCount: number;
 }
