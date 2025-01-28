@@ -49,19 +49,6 @@ export const complaintWrite = async (data: ApplyContentProps) => {
 //   }
 // };
 
-// export const complaintLike = async (complaintId, data) => {
-//   try {
-//     const response = await apiClient.post(
-//       `complaints/${complaintId}/like`,
-//       data
-//     );
-//     console.log(response); // 백엔드에서 전달된 데이터 확인
-//     return response.data;
-//   } catch (error) {
-//     console.error("민원 좋아요 처리 중 에러 발생 :", error);
-//     throw error;
-//   }
-// };
 // export const complaintComments = async (complaintId) => {
 //   try {
 //     const response = await apiClient.get(`complaints/${complaintId}/comments`);
@@ -98,11 +85,47 @@ export const complaintWrite = async (data: ApplyContentProps) => {
 //     throw error;
 //   }
 // };
-
-//민원 스크랩
-export const complaintScrap = async (complaintId: number) => {
+export const addLike = async (complaintId: number) => {
   try {
-    const response = await apiClient.post(`api/complaints/scrap`, complaintId);
+    const response = await apiClient.post(`api/complaints/${complaintId}/like`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("민원 좋아요 처리 중 에러 발생 :", error);
+    throw error;
+  }
+};
+export const deleteLike = async (complaintId: number) => {
+  try {
+    const response = await apiClient.delete(
+      `api/complaints/${complaintId}/like`
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("민원 좋아요 삭제 처리 중 에러 발생 :", error);
+    throw error;
+  }
+};
+
+export const addScrap = async (complaintId: number) => {
+  try {
+    const response = await apiClient.post(`api/complaints/scrap`, {
+      complaintId: complaintId,
+    });
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("민원 스크랩 중 에러 발생 :", error);
+    throw error;
+  }
+};
+
+export const deleteScrap = async (complaintId: number) => {
+  try {
+    const response = await apiClient.delete(`api/complaints/scrap`, {
+      data: { complaintId },
+    });
     console.log(response);
     return response.data;
   } catch (error) {

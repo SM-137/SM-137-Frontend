@@ -218,6 +218,8 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
           <InteractionGroup
             likes={data.likeCount}
             bookmarks={data.scrapCount}
+            liked={data.liked}
+            scrapped={data.scrapped}
           />
 
           {/*공유 */}

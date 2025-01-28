@@ -58,7 +58,7 @@ const Comment = ({ data, index }: CommentProps) => {
           />
           <CommentTitle>댓글{index}</CommentTitle>
         </CommentTitleContainer>
-        <Interaction type="likes" count={data.likes} />
+        <Interaction type="likes" count={data.likes} isIconClicked={true} />
       </InfoContainer>
 
       {/*컨텐츠 + 시간*/}

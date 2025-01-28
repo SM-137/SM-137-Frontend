@@ -81,8 +81,8 @@ export const ContentDetailSampleData: ContentDetailProps[] = [
     category: "시설",
     tag: "냉난방",
     createdAt: "2025-01-28T12:00:00",
-    isLiked: false,
-    isScrapped: false,
+    liked: false,
+    scrapped: false,
     attachmentUrls: [
       "https://example.com/screenshots/classroom1.png",
       "https://example.com/screenshots/classroom2.png",
@@ -101,8 +101,8 @@ export const ContentDetailSampleData: ContentDetailProps[] = [
     category: "청소",
     tag: "화장실",
     createdAt: "2025-01-27T09:30:00",
-    isLiked: true,
-    isScrapped: true,
+    liked: true,
+    scrapped: true,
     attachmentUrls: [],
   },
 ];

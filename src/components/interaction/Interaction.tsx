@@ -6,13 +6,19 @@ import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
+import {
+  addLike,
+  addScrap,
+  deleteLike,
+  deleteScrap,
+} from "../../services/complaintService";
 
 interface InteractionProps {
   type: "thumbUp" | "scrap" | "likes";
   count: number;
-  resetTrigger?: boolean;
+  isIconClicked: boolean;
 }
 const Container = styled.div`
   display: inline-flex;
@@ -91,30 +97,58 @@ const getFill = (type: string) => {
   }
 };
 
-const Interaction = ({
-  type,
-  count,
-  resetTrigger = false,
-}: InteractionProps) => {
-  const [isClick, setIsClick] = useState(false);
-  //백엔드에 보내줄 데이터
-  const [, setValue] = useState(count);
+const Interaction = ({ type, count, isIconClicked }: InteractionProps) => {
+  // 아이콘 색칠 제어
+  const [isIconColored, setIsIconColored] = useState(isIconClicked);
+  //화면에 보이는 스크랩 수 제어
+  const [value, setValue] = useState(count);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const complaintId = Number(urlParams.get("complaintId"));
 
   const handleClick = () => {
-    setIsClick((prev) => !prev);
-    setValue((prev: number) => (isClick ? prev - 1 : prev + 1));
+    const prevColoredState = isIconColored;
+    setIsIconColored((prev) => !prev);
+    setValue((prev: number) => (prevColoredState ? prev - 1 : prev + 1));
+    if (type === "scrap") {
+      handleScrap(prevColoredState);
+      return;
+    }
+    if (type === "thumbUp") {
+      handleLike(prevColoredState);
+      return;
+    }
   };
 
-  useEffect(() => {
-    if (resetTrigger) {
-      setIsClick(false);
-      setValue(count);
+  const handleScrap = (prevColoredState: boolean) => {
+    if (!prevColoredState) {
+      addScrap(complaintId);
+      return;
     }
-  }, [resetTrigger, count]);
+    if (prevColoredState) {
+      deleteScrap(complaintId);
+      return;
+    }
+  };
+
+  const handleLike = (prevColoredState: boolean) => {
+    if (!prevColoredState) {
+      addLike(complaintId)
+        .then((res) => console.log(res))
+        .catch((error) => console.error(error));
+      return;
+    }
+    if (prevColoredState) {
+      deleteLike(complaintId)
+        .then((res) => console.log(res))
+        .catch((error) => console.error(error));
+      return;
+    }
+  };
 
   return (
     <Container>
-      {isClick ? (
+      {isIconColored ? (
         <IconWrapper
           variants={clickVariants}
           initial="start"
@@ -129,7 +163,7 @@ const Interaction = ({
       ) : (
         <UnClickIcon component={getIcon(type)} onClick={handleClick} />
       )}
-      <Value>{isClick ? count + 1 : count}</Value>
+      <Value>{value}</Value>
     </Container>
   );
 };

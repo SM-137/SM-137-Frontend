@@ -73,8 +73,8 @@ const Detail = () => {
     likeCount: 0,
     scrapCount: 0,
     createdAt: "",
-    isLiked: false,
-    isScrapped: false,
+    liked: false,
+    scrapped: false,
     attachmentUrls: [],
   };
   const [isLoading, setIsLoading] = useState(true);

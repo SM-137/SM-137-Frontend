@@ -4,7 +4,8 @@ import Interaction from "./Interaction";
 interface InteractionGroupProps {
   likes: number;
   bookmarks: number;
-  resetTrigger?: boolean;
+  liked: boolean;
+  scrapped: boolean;
 }
 
 const Container = styled.div`
@@ -18,12 +19,13 @@ const Container = styled.div`
 const InteractionGroup = ({
   likes,
   bookmarks,
-  resetTrigger,
+  liked,
+  scrapped,
 }: InteractionGroupProps) => {
   return (
     <Container>
-      <Interaction type="thumbUp" count={likes} resetTrigger={resetTrigger} />
-      <Interaction type="scrap" count={bookmarks} resetTrigger={resetTrigger} />
+      <Interaction type="thumbUp" count={likes} isIconClicked={liked} />
+      <Interaction type="scrap" count={bookmarks} isIconClicked={scrapped} />
     </Container>
   );
 };

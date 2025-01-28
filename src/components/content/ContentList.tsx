@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 interface ContentListProps {
   data: ContentType;
-  resetTrigger?: boolean;
 }
 
 const Container = styled.div`

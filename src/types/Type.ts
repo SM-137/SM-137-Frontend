@@ -85,8 +85,8 @@ export interface ContentDetailProps {
   likeCount: number;
   scrapCount: number;
   createdAt: string;
-  isLiked: boolean;
-  isScrapped: boolean;
+  liked: boolean;
+  scrapped: boolean;
   attachmentUrls: string[];
 }
 
