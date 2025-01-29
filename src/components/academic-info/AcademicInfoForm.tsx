@@ -1,0 +1,86 @@
+import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
+import { UserInfoType } from "../../types/Type";
+import { userInfo } from "../../services/userService";
+import Button from "../button/Button";
+import { useNavigate } from "react-router-dom";
+import { MY_MODIFY_URL } from "../../utils/URL";
+
+const FormContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem;
+  border-radius: 8px;
+  background-color: var(--gray1-background);
+  width: 50%;
+`;
+
+const Info = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  width: 60%;
+  gap: 1rem;
+`;
+
+const UserInfoBoxContainer = styled.div`
+  display: flex;
+  justify-content: end;
+  width: auto;
+  gap: 0.8rem;
+`;
+const UserInfoBoxTitle = styled.div`
+  color: var(--gray5-lowText);
+`;
+
+const UserInfoBox = styled.div`
+  width: 70%;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--gray3-border);
+  border-radius: 4px;
+`;
+
+const AcademicInfo = () => {
+  const [info, setInfo] = useState<UserInfoType>({
+    department: "",
+    name: "",
+    email: "",
+    number: "",
+  });
+
+  useEffect(() => {
+    userInfo()
+      .then((res) => setInfo(res.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(MY_MODIFY_URL);
+  };
+
+  return (
+    <FormContainer>
+      <Info>
+        <UserInfoBoxContainer>
+          <UserInfoBoxTitle>학번</UserInfoBoxTitle>
+          <UserInfoBox>{info.number}</UserInfoBox>
+        </UserInfoBoxContainer>
+
+        <UserInfoBoxContainer>
+          <UserInfoBoxTitle>학과/학부</UserInfoBoxTitle>
+          <UserInfoBox>{info.department}</UserInfoBox>
+        </UserInfoBoxContainer>
+      </Info>
+      <Button
+        type="_100x35_Gray2"
+        content="개인정보 수정"
+        onClick={handleClick}
+      />
+    </FormContainer>
+  );
+};
+
+export default AcademicInfo;

@@ -103,3 +103,10 @@ export interface CommentType {
   createdAt: string;
   likeCount: number;
 }
+
+export interface UserInfoType {
+  department: string;
+  email: string;
+  name: string;
+  number: string;
+}
