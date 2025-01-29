@@ -77,7 +77,7 @@ const ContentBox = ({ type = "small", data }: ContenteBoxProps) => {
       <StatusContainer flex={boxStyle.flex}>
         <StatusDisplay type={data.complaintStatus} />
       </StatusContainer>
-      <CategoryTagGroup hashtag={[data.tag]} />
+      {data.tag && <CategoryTagGroup hashtag={[data.tag]} />}
       <Title>{data.complaintTitle}</Title>
       <Article line={ARTICLE_LINE}>{data.contentProb}</Article>
     </Container>

@@ -51,7 +51,7 @@ const ContentList = ({ data }: ContentListProps) => {
       <StatusContainer>
         <InfoContainer>
           <StatusDisplay type={data.complaintStatus} />
-          <CategoryTagGroup hashtag={[data.tag]} />
+          {data.tag && <CategoryTagGroup hashtag={[data.tag]} />}
         </InfoContainer>
       </StatusContainer>
       <Title>{data.complaintTitle}</Title>

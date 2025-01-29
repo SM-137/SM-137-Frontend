@@ -34,14 +34,14 @@ const ContentWrapper = styled.div`
 const Title = styled.h1`
   font-size: 1.5rem;
   color: var(--gray6-header);
-  margin: 0; 
+  margin: 0;
 `;
 
 const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 0; 
+  margin-bottom: 0;
 `;
 
 const StyledMailIcon = styled(MailRoundedIcon)`
@@ -58,23 +58,20 @@ const ProgressWrapper = styled.div`
 
 interface LayoutProps {
   children: React.ReactNode;
-  onNext?: () => void;
-  onBack?: () => void;
-  disableNext?: boolean;
-  disableBack?: boolean;
+  activeStep: number;
 }
 
-const ApplicationStepLayout: React.FC<LayoutProps> = ({ children }) => {
+const ApplicationLayout: React.FC<LayoutProps> = ({ children, activeStep }) => {
   return (
     <LayoutContainer>
-      <Background />  
+      <Background />
       <ContentWrapper>
         <IconWrapper>
           <StyledMailIcon />
         </IconWrapper>
         <Title>민원 신청</Title>
         <ProgressWrapper>
-          <ProgressBar />
+          <ProgressBar activeStep={activeStep} />
         </ProgressWrapper>
         {children}
       </ContentWrapper>
@@ -82,4 +79,4 @@ const ApplicationStepLayout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export default ApplicationStepLayout;
+export default ApplicationLayout;

@@ -28,7 +28,11 @@ const InitialInfo = ({ handleClose }: InitialInfoProps) => {
         content={InfoMessageText}
       />
       <UserInfoForm />
-      <Button type="_120x40_Primary" content="다음" onClick={handleClose} />
+      <Button
+        styleType="_120x40_Primary"
+        content="다음"
+        onClick={handleClose}
+      />
     </Container>
   );
 };

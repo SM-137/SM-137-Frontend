@@ -1,8 +1,12 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import useComplaintStore from "../../store/useComplaintStore";
 
 interface PillButtonProps {
   contents: string;
+  tagArray: string[];
+  setTagArray: Dispatch<SetStateAction<string[]>>;
+  setShowAlert: Dispatch<SetStateAction<boolean>>;
 }
 interface ContainerProps {
   isClick: boolean;
@@ -33,13 +37,41 @@ const Contents = styled.div`
   align-items: center;
 `;
 
-const PillButton = ({ contents = "예시" }: PillButtonProps) => {
+const PillButton = ({
+  contents = "예시",
+  tagArray,
+  setTagArray,
+  setShowAlert,
+}: PillButtonProps) => {
+  const SELECT_LIMITS = 3;
+
   const [isClick, setIsClick] = useState(false);
-  const handleClick = () => {
-    setIsClick((prev) => !prev);
+  const { setTagName } = useComplaintStore();
+
+  const handleClick = (select: string) => {
+    const newIsClick = !isClick;
+
+    if (newIsClick && tagArray.length >= SELECT_LIMITS) {
+      setShowAlert(true);
+      return;
+    }
+
+    if (tagArray.length <= SELECT_LIMITS) {
+      setShowAlert(false);
+    }
+
+    if (newIsClick) {
+      setTagArray((prev: string[]) => [...prev, select]);
+      setTagName(select);
+    } else {
+      setTagArray(tagArray.filter((i) => i !== select));
+    }
+
+    setIsClick(newIsClick);
   };
+
   return (
-    <Container isClick={isClick} onClick={handleClick}>
+    <Container isClick={isClick} onClick={() => handleClick(contents)}>
       <Contents>{contents}</Contents>
     </Container>
   );

@@ -7,7 +7,6 @@ const FormContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding: 3rem;
   border-radius: 8px;
   margin-top: 1.5rem;
 `;

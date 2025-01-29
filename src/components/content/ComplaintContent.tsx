@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import ContentImage from "./ContentImage";
+import { AlertContainer } from "../../styles/AlertStyles";
 
 interface ComplaintContentProps {
   data: ContentDetailProps;
@@ -135,13 +136,6 @@ const Category = styled.span`
   color: var(--light-primary);
 `;
 
-const AlertContainer = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
 const ComplaintContent = ({ data }: ComplaintContentProps) => {
   const date = data.createdAt ? new Date(data.createdAt) : new Date();
   const formatTime = getFormatTime(date);
@@ -210,9 +204,11 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       <Header>
         <HeaderContent>
           <StatusDisplay type={data.complaintStatus} />
-          <CategoryContainer>
-            <CategoryTagGroup hashtag={[data.tag]} />
-          </CategoryContainer>
+          {data.tag && (
+            <CategoryContainer>
+              <CategoryTagGroup hashtag={[data.tag]} />
+            </CategoryContainer>
+          )}
         </HeaderContent>
         <InteractionContainer>
           <InteractionGroup
@@ -224,8 +220,8 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
 
           {/*공유 */}
           {isCopied && (
-            <AlertContainer>
-              <Alert content={COPIED_COMMENT} />
+            <AlertContainer top="10px">
+              <Alert type="info" content={COPIED_COMMENT} />
             </AlertContainer>
           )}
           <Icon component={ShareIcon} onClick={copyToClipboard} />
@@ -267,8 +263,6 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       {data.attachmentUrls && (
         <ContentImage attachmentUrls={data.attachmentUrls} />
       )}
-      {/*예시 이미지 */}
-      <ContentImage attachmentUrls={[imageLink, imageLink, imageLink]} />
 
       {/* Footer */}
       <Footer>
@@ -278,8 +272,8 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
             <pre>|</pre>
 
             {alertDelete && (
-              <AlertContainer>
-                <Alert content="삭제되었습니다" />
+              <AlertContainer top="10px">
+                <Alert type="info" content="삭제되었습니다" />
               </AlertContainer>
             )}
             <EditDeleteButton onClick={handleConfirmDelete}>

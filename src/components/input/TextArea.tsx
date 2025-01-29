@@ -2,12 +2,14 @@ import styled from "@emotion/styled";
 
 interface InfoTextAreaProps {
   height?: string;
+  hasError?: boolean;
 }
 
 interface TextAreaProps extends InfoTextAreaProps {
   label: string;
   placeholder: string;
   isRequired?: boolean;
+  hasError?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
@@ -40,8 +42,11 @@ const RequiredMark = styled.span`
 const StyledTextArea = styled.textarea<InfoTextAreaProps>`
   width: 85%;
   height: ${(props) => props.height || "119px"};
-  padding: 5px 16px;
-  border: 1px solid var(--gray3-border);
+  padding: 0.8rem;
+  border: ${(props) =>
+    props.hasError
+      ? "1px solid var(--error)"
+      : "1px solid var(--gray3-border);"};
   border-radius: 4px;
   font-size: 14px;
   resize: none;
@@ -60,6 +65,7 @@ const TextArea = ({
   placeholder = "placeholder",
   height = "119px",
   isRequired = false,
+  hasError = false,
   onChange,
 }: TextAreaProps) => {
   return (
@@ -72,6 +78,7 @@ const TextArea = ({
         placeholder={placeholder}
         height={height}
         onChange={onChange}
+        hasError={hasError}
       />
     </TextAreaContainer>
   );

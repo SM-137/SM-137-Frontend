@@ -4,6 +4,7 @@ import apiClient from "./apiClient";
 export const complaintWrite = async (data: ApplyContentProps) => {
   try {
     const formData = new FormData();
+
     const requestDto = {
       title: data.title,
       contentProb: data.contentProb,
@@ -12,14 +13,15 @@ export const complaintWrite = async (data: ApplyContentProps) => {
       categoryName: data.categoryName,
       tagName: data.tagName,
     };
-    formData.append("requestDto", JSON.stringify(requestDto));
-    if (data.attachments) {
-      formData.append("attachments", data.attachments);
-    }
+    formData.append(
+      "requestDto",
+      new Blob([JSON.stringify(requestDto)], { type: "application/json" })
+    );
 
-    console.log("FormData 확인:");
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
+    if (data.attachments) {
+      data.attachments.forEach((file) => {
+        formData.append("attachments", file);
+      });
     }
 
     const response = await apiClient.post("api/complaints", formData, {
@@ -27,10 +29,10 @@ export const complaintWrite = async (data: ApplyContentProps) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(response); // 백엔드에서 전달된 데이터 확인
+    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("민원 작성 중 에러 발생 :", error);
+    console.error("민원 작성 중 에러 발생:", error);
     throw error;
   }
 };

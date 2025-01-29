@@ -1,11 +1,15 @@
 import styled from "@emotion/styled";
 import MoodRoundedIcon from "@mui/icons-material/MoodRounded";
-import ModifyForm, { ModifyFormHandles } from "./ModifyForm";
 import Button from "../../components/button/Button";
+import Input from "../../components/input/Input";
+import Gmail from "../../assets/icons/gmail.png";
+import { useRef, useState, forwardRef, useImperativeHandle } from "react";
+import majors from "../../utils/MajorList";
 import { myPageInfo } from "../../mockData";
-import Gmail from "../../assets/gmail.png";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
-import { useRef } from "react";
+import { modify } from "../../services/userService";
+import { useNavigate } from "react-router-dom";
+import { MYPAGE_URL } from "../../utils/URL";
 
 const Container = styled.div`
   display: flex;
@@ -101,12 +105,114 @@ const WithdrawText = styled.p`
   transform: translate(9rem, -1.5rem);
 `;
 
+const InfoForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  white-space: nowrap;
+`;
+
+const ErrorText = styled.p`
+  color: red;
+  font-size: 0.875rem;
+  margin-top: -0.5rem;
+`;
+
+const StyledInput = styled(Input)<{ hasError: boolean }>`
+  border: ${(props) => (props.hasError ? "1px solid red" : "1px solid #ccc")};
+`;
+
+export interface ModifyFormHandles {
+  validateForm: () => boolean;
+  getFormData: () => { number: string; department: string };
+}
+
+const ModifyForm = forwardRef<ModifyFormHandles>((_, ref) => {
+  const [studentId, setStudentId] = useState("");
+  const [major, setMajor] = useState("");
+  const [errors, setErrors] = useState({ studentId: "", major: "" });
+
+  useImperativeHandle(ref, () => ({
+    validateForm,
+    getFormData,
+  }));
+
+  const handleStudentIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setStudentId(value);
+    }
+  };
+
+  const handleMajorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMajor(e.target.value);
+  };
+
+  const validateForm = () => {
+    const newErrors: { studentId: string; major: string } = {
+      studentId: "",
+      major: "",
+    };
+
+    if (studentId.length !== 7) {
+      newErrors.studentId = "학번은 7자리 숫자로 입력해주세요.";
+    }
+
+    if (!majors.includes(major)) {
+      newErrors.major = "유효한 학과/학부를 입력해주세요.";
+    }
+
+    setErrors(newErrors);
+
+    return !newErrors.studentId && !newErrors.major;
+  };
+
+  const getFormData = () => ({
+    number: studentId,
+    department: major,
+  });
+
+  return (
+    <InfoForm>
+      <StyledInput
+        label="학번"
+        placeholder="2012345"
+        value={studentId}
+        onChange={handleStudentIdChange}
+        hasError={!!errors.studentId}
+      />
+      {errors.studentId && <ErrorText>{errors.studentId}</ErrorText>}
+
+      <StyledInput
+        label="학과/학부"
+        placeholder="컴퓨터과학전공"
+        value={major}
+        onChange={handleMajorChange}
+        hasError={!!errors.major}
+      />
+      {errors.major && <ErrorText>{errors.major}</ErrorText>}
+    </InfoForm>
+  );
+});
+
 const Modify = () => {
   const formRef = useRef<ModifyFormHandles>(null);
+  const navigate = useNavigate();
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (formRef.current?.validateForm()) {
-    } else {
+      try {
+        const formData = formRef.current.getFormData();
+        const response = await modify(formData);
+        console.log("서버 응답:", response);
+        alert("개인정보 수정 완료");
+
+        navigate(MYPAGE_URL);
+      } catch (error) {
+        console.error("서버 요청 중 에러 발생:", error);
+        alert("개인정보 수정 실패");
+      }
     }
   };
 
@@ -128,7 +234,11 @@ const Modify = () => {
           </Email>
         </ContentContainer>
         <WithdrawText>회원 탈퇴</WithdrawText>
-        <Button type="_120x40_Primary" content="다음" onClick={handleNext} />
+        <Button
+          styleType="_120x40_Primary"
+          content="다음"
+          onClick={handleNext}
+        />
       </Background>
     </Container>
   );
