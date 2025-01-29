@@ -14,6 +14,7 @@ import { usePagination } from "../../hooks/usePagination";
 import Pagination from "../../components/Pagination";
 import { complaintSearch } from "../../services/complaintService";
 import Loading from "../../components/loading/Loading";
+import { useLocation } from "react-router-dom";
 
 interface SearchDataProps {
   originData: ContentType[];
@@ -80,6 +81,8 @@ export const SearchContext = createContext<SearchDataProps | undefined>(
 
 const Search = () => {
   //검색어 연동
+  const location = useLocation();
+
   const params = new URLSearchParams(location.search);
   const [searchKeyword, setSearchKeyword] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
@@ -103,14 +106,17 @@ const Search = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
-
+  }, [location.search]);
   useEffect(() => {
-    handleFilter();
+    if (originData) {
+      handleFilter();
+    }
   }, [filters, originData]);
 
   useEffect(() => {
-    handleSort(filteredData);
+    if (originData) {
+      handleSort(filteredData);
+    }
   }, [sortOptions, filteredData, originData]);
 
   const isComplaintExist = !(filteredData.length == 0);
