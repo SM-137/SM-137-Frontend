@@ -1,22 +1,12 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import Layout from "./ApplicationStepLayout";
-import CategorySelect from "../../components/category-select/CategorySelect";
-import Button from "../../components/button/Button";
+import useComplaintStore from "../../../store/store";
 import { useState } from "react";
-import Alert from "../../components/alert/Alert";
-import useComplaintStore from "../../store/store";
-
-const ContentWrapper = styled.div`
-  background-color: var(--white);
-  border-radius: 8px;
-  padding: 1.5rem;
-  width: 100%;
-  margin: 3rem auto 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+import Alert from "../../../components/alert/Alert";
+import CategorySelect from "../../../components/category-select/CategorySelect";
+import Button from "../../../components/button/Button";
+import ApplicationLayout from "../ApplicationLayout";
+import { ContentWrapper } from "../../../styles/ApplyStyles";
 
 const FormTitleContainer = styled.div`
   display: flex;
@@ -64,7 +54,7 @@ const CategorySelectionStep = () => {
   };
 
   return (
-    <Layout activeStep={2}>
+    <ApplicationLayout activeStep={2}>
       {showAlert && noSelect && (
         <AlertContainer>
           <Alert type="warning" content="카테고리를 선택해 주세요" />
@@ -78,11 +68,19 @@ const CategorySelectionStep = () => {
         </FormTitleContainer>
         <CategorySelect usage="normal" />
         <ButtonGroup>
-          <Button content="이전" type="_120x40_Gray2" onClick={handleBack} />
-          <Button content="다음" type="_120x40_Primary" onClick={handleNext} />
+          <Button
+            content="이전"
+            styleType="_120x40_Gray2"
+            onClick={handleBack}
+          />
+          <Button
+            content="다음"
+            styleType="_120x40_Primary"
+            onClick={handleNext}
+          />
         </ButtonGroup>
       </ContentWrapper>
-    </Layout>
+    </ApplicationLayout>
   );
 };
 

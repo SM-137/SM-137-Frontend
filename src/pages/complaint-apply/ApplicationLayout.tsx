@@ -58,10 +58,10 @@ const ProgressWrapper = styled.div`
 
 interface LayoutProps {
   children: React.ReactNode;
-  activeStep: number; // 현재 단계
+  activeStep: number;
 }
 
-const ApplicationStepLayout: React.FC<LayoutProps> = ({ children, activeStep }) => {
+const ApplicationLayout: React.FC<LayoutProps> = ({ children, activeStep }) => {
   return (
     <LayoutContainer>
       <Background />
@@ -79,4 +79,4 @@ const ApplicationStepLayout: React.FC<LayoutProps> = ({ children, activeStep }) 
   );
 };
 
-export default ApplicationStepLayout;
+export default ApplicationLayout;

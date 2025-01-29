@@ -203,12 +203,11 @@ const Modify = () => {
   const handleNext = async () => {
     if (formRef.current?.validateForm()) {
       try {
-        const formData = formRef.current.getFormData(); // 유효성 검사를 통과한 데이터 가져오기
-        const response = await modify(formData); // 서버 요청
+        const formData = formRef.current.getFormData();
+        const response = await modify(formData);
         console.log("서버 응답:", response);
         alert("개인정보 수정 완료");
 
-        // 서버 요청이 성공하면 페이지 이동
         navigate(MYPAGE_URL);
       } catch (error) {
         console.error("서버 요청 중 에러 발생:", error);
@@ -235,7 +234,11 @@ const Modify = () => {
           </Email>
         </ContentContainer>
         <WithdrawText>회원 탈퇴</WithdrawText>
-        <Button type="_120x40_Primary" content="다음" onClick={handleNext} />
+        <Button
+          styleType="_120x40_Primary"
+          content="다음"
+          onClick={handleNext}
+        />
       </Background>
     </Container>
   );

@@ -37,12 +37,13 @@ const FileInputWrapper = styled.div`
 const FileDetailsContainer = styled.div`
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column; /* 파일 정보를 세로로 나열 */
+  align-items: flex-start;
+  justify-content: flex-start;
   border: 1px solid var(--gray3-border);
   border-radius: 4px;
   padding: 5px 10px;
-  height: 40px;
+  height: auto; /* 높이를 파일 목록에 맞게 자동 조정 */
   gap: 10px;
 `;
 
@@ -67,24 +68,35 @@ const DeleteFileButton = styled(SvgIcon)<SvgIconProps>`
 `;
 
 interface FileUploadFieldProps {
-  onFileChange: (file: File | null) => void;
+  onFileChange: (file: File[] | null) => void;
 }
 
-const FileUploadField: React.FC<FileUploadFieldProps> = ({ onFileChange }) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+const FileUploadField = ({ onFileChange }: FileUploadFieldProps) => {
+  //file view
+  const [selectedFile, setSelectedFile] = useState<File[] | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("작동");
     e.preventDefault();
-    const files = e.target.files;
-    if (files && files[0]) {
-      setSelectedFile(files[0]);
-      onFileChange(files[0]);
+    const fileList = e.target.files;
+    if (fileList) {
+      const newFiles = Array.from(fileList);
+      setSelectedFile((prev) => (prev ? [...prev, ...newFiles] : newFiles));
+      onFileChange(newFiles);
     }
   };
 
-  const handleFileRemove = () => {
-    setSelectedFile(null);
-    onFileChange(null);
+  const handleFileRemove = (index: number) => {
+    if (selectedFile) {
+      const updatedFiles = Array.from(selectedFile);
+      updatedFiles.splice(index, 1);
+      setSelectedFile(updatedFiles ? updatedFiles : null);
+      onFileChange(updatedFiles);
+    }
+  };
+
+  const handleFileClick = () => {
+    document.getElementById("file")?.click();
   };
 
   return (
@@ -93,22 +105,30 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({ onFileChange }) => {
         <FileInputLabel>첨부파일</FileInputLabel>
       </FileLabelContainer>
       <FileInputWrapper>
-        <HiddenFileInput type="file" id="file" onChange={handleFileChange} />
-        <Button
-          content="첨부파일"
-          type="_100x35_Gray2"
-          onClick={() => document.getElementById("file")?.click()}
+        <HiddenFileInput
+          type="file"
+          id="file"
+          multiple
+          onChange={handleFileChange}
         />
+        <div onClick={handleFileClick}>
+          <Button content="첨부파일" styleType="_100x35_Gray2" type="button" />
+        </div>
         <FileDetailsContainer>
-          <FileName>
-            {selectedFile ? selectedFile.name : "선택된 파일 없음"}
-          </FileName>
-          {selectedFile && (
-            <DeleteFileButton
-              component={CancelRoundedIcon}
-              onClick={handleFileRemove}
-            />
-          )}
+          {selectedFile &&
+            Array.from(selectedFile).map((file, index) => (
+              <div
+                key={index}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <FileName>{file.name}</FileName>
+                <DeleteFileButton
+                  component={CancelRoundedIcon}
+                  onClick={() => handleFileRemove(index)}
+                />
+              </div>
+            ))}
+          {!selectedFile?.length && "선택된 파일 없음"}
         </FileDetailsContainer>
       </FileInputWrapper>
     </FileInputContainer>

@@ -1,24 +1,13 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ApplicationStepLayout from "../ApplicationStepLayout";
 import Checkbox from "../../../components/check-box/CheckBox";
 import InfoMessage from "../../../components/info-message/InfoMessage";
 import AcademicInfo from "../../../components/academic-info/AcademicInfoForm";
 import Button from "../../../components/button/Button";
 import Alert from "../../../components/alert/Alert";
-
-const ContentWrapper = styled.div`
-  background-color: var(--white);
-  border-radius: 8px;
-  padding: 1.5rem;
-  width: 100%;
-  margin: 3rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-`;
+import ApplicationLayout from "../ApplicationLayout";
+import { ContentWrapper } from "../../../styles/ApplyStyles";
 
 const FormTitleContainer = styled.div`
   display: flex;
@@ -70,7 +59,7 @@ const AcademicInfoStep = () => {
   };
 
   return (
-    <ApplicationStepLayout activeStep={1}>
+    <ApplicationLayout activeStep={1}>
       <ContentWrapper>
         <AlertContainer>
           {showAlert && (
@@ -95,10 +84,14 @@ const AcademicInfoStep = () => {
         <AcademicInfo />
 
         <ButtonGroup>
-          <Button content="다음" type="_120x40_Primary" onClick={handleNext} />
+          <Button
+            content="다음"
+            styleType="_120x40_Primary"
+            onClick={handleNext}
+          />
         </ButtonGroup>
       </ContentWrapper>
-    </ApplicationStepLayout>
+    </ApplicationLayout>
   );
 };
 

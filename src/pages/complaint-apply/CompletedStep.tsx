@@ -1,11 +1,11 @@
-import styled from "@emotion/styled"; 
+import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import Layout from "./ApplicationStepLayout";
 import CompletedForm from "../../components/form/CompletedForm";
 import Button from "../../components/button/Button";
+import ApplicationLayout from "./ApplicationLayout";
 
 // 민원신청 완료 후 경로
-const COMPLETE_STEP_PATH = "../../"; 
+const COMPLETE_STEP_PATH = "../../";
 
 const ContentWrapper = styled.div`
   background-color: var(--white);
@@ -26,26 +26,34 @@ const ButtonGroup = styled.div`
 `;
 
 const CompletedStep = () => {
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   const handleBack = () => {
     navigate("../3", { replace: true });
   };
 
   const handleNext = () => {
-    navigate(COMPLETE_STEP_PATH, { replace: true });  
+    navigate(COMPLETE_STEP_PATH, { replace: true });
   };
 
   return (
-    <Layout activeStep={4}>
+    <ApplicationLayout activeStep={4}>
       <ContentWrapper>
-        <CompletedForm /> 
+        <CompletedForm />
         <ButtonGroup>
-          <Button content="이전" type="_120x40_Gray2" onClick={handleBack} />
-          <Button content="다음" type="_120x40_Primary" onClick={handleNext} />
+          <Button
+            content="이전"
+            styleType="_120x40_Gray2"
+            onClick={handleBack}
+          />
+          <Button
+            content="다음"
+            styleType="_120x40_Primary"
+            onClick={handleNext}
+          />
         </ButtonGroup>
       </ContentWrapper>
-    </Layout>
+    </ApplicationLayout>
   );
 };
 

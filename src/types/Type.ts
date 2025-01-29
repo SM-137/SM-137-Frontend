@@ -119,10 +119,12 @@ export interface ComplaintForm {
   contentExpect: string;
   categoryName: string | undefined;
   tagName: string;
+  attachment: File[] | null;
   setTitle: (title: string) => void;
   setContentProb: (contentProb: string) => void;
   setContentDir: (contentDir: string) => void;
   setContentExpect: (contentExpect: string) => void;
   setCategoryName: (categoryName: string | undefined) => void;
   setTagName: (tagName: string) => void;
+  setAttachment: (update: (prev: File[] | null) => File[] | null) => void;
 }

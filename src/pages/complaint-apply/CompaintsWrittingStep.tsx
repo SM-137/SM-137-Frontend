@@ -1,18 +1,8 @@
 import styled from "@emotion/styled";
-import Layout from "./ApplicationStepLayout";
 import ComplaintsForm from "../../components/form/ComplaintsForm";
 import Button from "../../components/button/Button";
-
-const ContentWrapper = styled.div`
-  background-color: var(--white);
-  border-radius: 8px;
-  padding: 1.5rem;
-  width: 100%;
-  margin: 3rem auto 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+import ApplicationLayout from "./ApplicationLayout";
+import { ContentWrapper } from "../../styles/ApplyStyles";
 
 const MessageContainer = styled.div`
   display: flex;
@@ -43,7 +33,7 @@ const ButtonGroup = styled.div`
 
 const ComplaintsWrittingStep = () => {
   return (
-    <Layout>
+    <ApplicationLayout activeStep={3}>
       <ContentWrapper>
         <MessageContainer>
           <TitleMessage>민원의 세부내용을 작성해 주세요</TitleMessage>
@@ -51,11 +41,11 @@ const ComplaintsWrittingStep = () => {
         </MessageContainer>
         <ComplaintsForm />
         <ButtonGroup>
-          <Button content="이전" type="_120x40_Gray2" />
-          <Button content="다음" type="_120x40_Primary" />
+          <Button content="이전" styleType="_120x40_Gray2" />
+          <Button content="다음" styleType="_120x40_Primary" />
         </ButtonGroup>
       </ContentWrapper>
-    </Layout>
+    </ApplicationLayout>
   );
 };
 

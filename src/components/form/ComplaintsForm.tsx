@@ -1,10 +1,8 @@
-import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Input from "../input/Input";
 import TextArea from "../input/TextArea";
 import FileUploadField from "../file-upload/FileUploadField";
-import { useForm } from "../../hooks/useForm";
-import { complaintWrite } from "../../services/complaintService";
+import useComplaintStore from "../../store/store";
 
 const FormContainer = styled.form`
   min-width: 80%;
@@ -23,54 +21,32 @@ const FormInputGroup = styled.div`
   width: 100%;
 `;
 
-interface FormDataProps {
-  title: string;
-  contentProb: string;
-  contentDir: string;
-  contentExpect: string;
-  attachments: File | null;
-  categoryName: string;
-  tagName: string;
-}
-
 const ComplaintsForm = () => {
-  const { formData, updateField } = useForm<FormDataProps>({
-    title: "",
-    contentProb: "",
-    contentDir: "",
-    contentExpect: "",
-    attachments: null,
-    categoryName: "",
-    tagName: "",
-  });
+  const {
+    setTitle,
+    setContentDir,
+    setContentProb,
+    setContentExpect,
+    setAttachment,
+  } = useComplaintStore((state) => state);
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null); // 첨부파일 상태
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // 카테고리와 해시태그는 임시로 입력
-    const sendData = {
-      ...formData,
-      attachments: selectedFile,  // 선택된 파일을 전송 데이터에 추가
-      categoryName: "시설",
-      tagName: "해시태그",
-    };
-
-    complaintWrite(sendData)
-      .then((res) => console.log("응답 데이터:", res))
-      .catch((error) => console.error("에러 발생:", error));
+  const handleFileChange = (file: File[] | null) => {
+    if (file) {
+      setAttachment((prev: File[] | null) =>
+        prev ? [...prev, ...file] : [...file]
+      );
+    }
   };
 
   return (
-    <FormContainer onSubmit={handleSubmit}>
+    <FormContainer>
       <FormInputGroup>
         <Input
           label="제목"
           placeholder="내용을 입력해주세요"
           isRequired={true}
           height="40px"
-          onChange={(e) => updateField("title", e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </FormInputGroup>
       <FormInputGroup>
@@ -78,7 +54,7 @@ const ComplaintsForm = () => {
           label="현황 및 문제점"
           placeholder="내용을 입력해주세요"
           isRequired={true}
-          onChange={(e) => updateField("contentProb", e.target.value)}
+          onChange={(e) => setContentProb(e.target.value)}
         />
       </FormInputGroup>
       <FormInputGroup>
@@ -86,17 +62,17 @@ const ComplaintsForm = () => {
           label="개선 방향"
           placeholder="내용을 입력해주세요"
           isRequired={true}
-          onChange={(e) => updateField("contentDir", e.target.value)}
+          onChange={(e) => setContentDir(e.target.value)}
         />
       </FormInputGroup>
       <FormInputGroup>
         <TextArea
           label="기대효과"
           placeholder="내용을 입력해주세요"
-          onChange={(e) => updateField("contentExpect", e.target.value)}
+          onChange={(e) => setContentExpect(e.target.value)}
         />
       </FormInputGroup>
-      <FileUploadField onFileChange={setSelectedFile} />
+      <FileUploadField onFileChange={handleFileChange} />
     </FormContainer>
   );
 };

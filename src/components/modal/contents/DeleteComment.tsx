@@ -29,8 +29,16 @@ const DeleteComment = ({ handleClose, handleCancel }: DeleteCommentProps) => {
     <Container>
       <Comment>{DELETE_COMMENT}</Comment>
       <ButtonContainer>
-        <Button type="_100x35_Gray2" content="취소" onClick={handleCancel} />
-        <Button type="_100x35_Primary" content="삭제" onClick={handleClose} />
+        <Button
+          styleType="_100x35_Gray2"
+          content="취소"
+          onClick={handleCancel}
+        />
+        <Button
+          styleType="_100x35_Primary"
+          content="삭제"
+          onClick={handleClose}
+        />
       </ButtonContainer>
     </Container>
   );

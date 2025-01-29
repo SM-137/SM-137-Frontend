@@ -15,9 +15,8 @@ const Container = styled.div`
 const MessageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 `;
-
 
 const ButtonGroup = styled.div`
   display: flex;
@@ -33,7 +32,6 @@ interface InitialInfoProps {
 }
 
 const HashTagInfo = ({ handleClose }: InitialInfoProps) => {
-
   return (
     <Container>
       <MessageContainer>
@@ -43,13 +41,21 @@ const HashTagInfo = ({ handleClose }: InitialInfoProps) => {
           content={InfoMessageText}
         />
         <div style={{ color: "var(--gray4-placeholder-low)" }}>
-         {SubMessageText}
+          {SubMessageText}
         </div>
       </MessageContainer>
       <RecHashTag />
       <ButtonGroup>
-        <Button content="이전" type="_120x40_Gray2" onClick={handleClose}/>
-        <Button content="다음" type="_120x40_Primary" onClick={handleClose}/>
+        <Button
+          content="이전"
+          styleType="_120x40_Gray2"
+          onClick={handleClose}
+        />
+        <Button
+          content="다음"
+          styleType="_120x40_Primary"
+          onClick={handleClose}
+        />
       </ButtonGroup>
     </Container>
   );
