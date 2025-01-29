@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 
-export const Title = styled.span``;
+export const Title = styled.span`
+  text-align: left;
+`;
 export const Article = styled.div<{ line: number }>`
   color: var(--gray5-lowText);
   overflow: hidden;
