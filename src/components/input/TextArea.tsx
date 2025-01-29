@@ -40,7 +40,7 @@ const RequiredMark = styled.span`
 const StyledTextArea = styled.textarea<InfoTextAreaProps>`
   width: 85%;
   height: ${(props) => props.height || "119px"};
-  padding: 5px 16px;
+  padding: 0.8rem;
   border: 1px solid var(--gray3-border);
   border-radius: 4px;
   font-size: 14px;
