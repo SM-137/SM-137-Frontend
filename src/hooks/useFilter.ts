@@ -31,7 +31,6 @@ export const useFilter = (originData: ContentType[]) => {
 
   const handleFilter = () => {
     let result: ContentType[] = originData;
-    setFilteredData(result);
     if (filters.period) {
       result = handlePeriod(result, filters.period);
     }
@@ -41,6 +40,7 @@ export const useFilter = (originData: ContentType[]) => {
     if (filters.hashtag) {
       result = handleHashtag(result, filters.hashtag);
     }
+    setFilteredData(result);
   };
 
   const setLastDate = (option: string) => {
