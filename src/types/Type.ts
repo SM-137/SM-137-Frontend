@@ -49,9 +49,9 @@ export interface ApplyContentProps {
   contentProb: string;
   contentDir: string;
   contentExpect: string;
-  categoryName: string;
+  categoryName: string | undefined;
   tagName: string;
-  attachments: File | null;
+  attachments: File[] | null;
 }
 
 export interface ContentType {
@@ -119,7 +119,7 @@ export interface ComplaintForm {
   contentExpect: string;
   categoryName: string | undefined;
   tagName: string;
-  attachment: File[] | null;
+  attachments: File[] | null;
   setTitle: (title: string) => void;
   setContentProb: (contentProb: string) => void;
   setContentDir: (contentDir: string) => void;
@@ -127,13 +127,4 @@ export interface ComplaintForm {
   setCategoryName: (categoryName: string | undefined) => void;
   setTagName: (tagName: string) => void;
   setAttachment: (update: (prev: File[] | null) => File[] | null) => void;
-}
-
-export interface EssentialWriteState {
-  isEssentialWrite: {
-    title: boolean;
-    contentProb: boolean;
-    contentDir: boolean;
-  };
-  setEssentialWrite: (formType: string) => void;
 }

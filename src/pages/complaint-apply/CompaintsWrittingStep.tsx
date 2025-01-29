@@ -7,6 +7,7 @@ import { useState } from "react";
 import useComplaintStore from "../../store/useComplaintStore";
 import { AlertContainer } from "../../styles/AlertStyles";
 import Alert from "../../components/alert/Alert";
+import { complaintWrite } from "../../services/complaintService";
 
 const MessageContainer = styled.div`
   display: flex;
@@ -46,9 +47,10 @@ const ComplaintsWrittingStep = () => {
     contentExpect,
     categoryName,
     tagName,
-    attachment,
+    attachments,
   } = useComplaintStore();
 
+  //유효성 검사
   const [isEssentialWrite, setIsEssentialWrite] = useState({
     title: true,
     contentProb: true,
@@ -56,7 +58,7 @@ const ComplaintsWrittingStep = () => {
   });
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleSubmit = () => {
+  const handleValid = () => {
     const isValidTitle = title.length !== 0;
     const isValidContentProb = contentProb.length !== 0;
     const isValidContentDir = contentDir.length !== 0;
@@ -78,6 +80,26 @@ const ComplaintsWrittingStep = () => {
     }
     if (!isValidTitle || !isValidContentDir || !isValidContentProb) {
       setShowAlert(true);
+      return false;
+    }
+    return true;
+  };
+
+  const sendData = {
+    title: title,
+    contentProb: contentProb,
+    contentDir: contentDir,
+    contentExpect: contentExpect,
+    categoryName: categoryName,
+    tagName: tagName,
+    attachments: attachments,
+  };
+
+  const handleSubmit = () => {
+    if (handleValid()) {
+      complaintWrite(sendData)
+        .then((res) => console.log(res))
+        .catch((error) => console.error(error));
     }
   };
 

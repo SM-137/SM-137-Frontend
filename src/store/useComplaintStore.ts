@@ -8,7 +8,7 @@ const useComplaintStore = create<ComplaintForm>((set) => ({
   contentExpect: "",
   categoryName: "",
   tagName: "",
-  attachment: [],
+  attachments: [],
 
   setTitle: (title) => set({ title }),
   setContentProb: (contentProb) => set({ contentProb }),
@@ -17,7 +17,7 @@ const useComplaintStore = create<ComplaintForm>((set) => ({
   setCategoryName: (categoryName) => set({ categoryName }),
   setTagName: (tagName) => set({ tagName }),
   setAttachment: (update: (prev: File[] | null) => File[] | null) =>
-    set((state) => ({ attachment: update(state.attachment) })),
+    set((state) => ({ attachments: update(state.attachments) })),
 }));
 
 export default useComplaintStore;
