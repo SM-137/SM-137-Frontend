@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
 import HashtagCloud from "../../components/hashtag-cloud/HashtagCloud";
 import SearchBar from "../../components/search-bar/SearchBar";
 import QuickLink from "../../components/quick-link/QuickLink";
 import HomeContentList from "./HomeContentList";
 import Emblem from "../../assets/emblem-1_DarkGray.png";
-import { useEffect, useState } from "react";
 import Modal from "../../components/modal/Modal";
 import InitialInfo from "../../components/modal/contents/InitialInfo";
+import { userInfo } from "../../services/userService";
 
 const HomeContainer = styled.div`
   height: 100%;
@@ -73,7 +74,15 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setIsModalOpen(true);
+    userInfo()
+      .then((res) => {
+        const { number, department } = res.data;
+
+        if (number === "string" || department === "string") {
+          setIsModalOpen(true);
+        }
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   return (

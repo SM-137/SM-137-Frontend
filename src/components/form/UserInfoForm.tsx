@@ -23,6 +23,7 @@ const StyledInput = styled(Input)<{ hasError: boolean }>`
 
 export interface UserInfoFormHandles {
   validateForm: () => boolean;
+  getFormData: () => { number: string; department: string };
 }
 
 const UserInfoForm = forwardRef<UserInfoFormHandles>((_, ref) => {
@@ -32,6 +33,7 @@ const UserInfoForm = forwardRef<UserInfoFormHandles>((_, ref) => {
 
   useImperativeHandle(ref, () => ({
     validateForm,
+    getFormData,
   }));
 
   const handleStudentIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +65,11 @@ const UserInfoForm = forwardRef<UserInfoFormHandles>((_, ref) => {
 
     return !newErrors.studentId && !newErrors.major;
   };
+
+  const getFormData = () => ({
+    number: studentId,
+    department: major,
+  });
 
   return (
     <InfoForm>
