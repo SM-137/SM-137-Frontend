@@ -53,12 +53,12 @@ interface ModalProps {
   contents: React.ReactNode;
 }
 
-const Modal = ({ isOpen, contents }: ModalProps) => {
+const Modal = ({ isOpen, handleClose, contents }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
     <ModalWrapper>
-      <ModalBackdrop />
+      <ModalBackdrop onClick={handleClose} />
       <ModalContent>{contents}</ModalContent>
     </ModalWrapper>
   );
