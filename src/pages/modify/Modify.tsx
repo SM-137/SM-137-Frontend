@@ -206,13 +206,11 @@ const Modify = () => {
         const formData = formRef.current.getFormData(); // 유효성 검사를 통과한 데이터 가져오기
         const response = await modify(formData); // 서버 요청
         console.log("서버 응답:", response);
-        alert("개인정보 수정 완료");
 
         // 서버 요청이 성공하면 페이지 이동
         navigate(MYPAGE_URL);
       } catch (error) {
         console.error("서버 요청 중 에러 발생:", error);
-        alert("개인정보 수정 실패");
       }
     }
   };
