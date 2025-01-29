@@ -9,8 +9,9 @@ import { AlertContainer } from "../../../styles/AlertStyles";
 import ApplicationLayout from "../ApplicationLayout";
 import Modal from "../../../components/modal/Modal";
 import HashTagInfo from "../../../components/modal/contents/HashTagInfo";
-import { useModal } from "../../../hooks/useModal";
 import { useNavigate } from "react-router-dom";
+import { useModal } from "../../../hooks/useModal";
+import Submit from "../../../components/modal/contents/Submit";
 
 const MessageContainer = styled.div`
   display: flex;
@@ -90,23 +91,34 @@ const ComplaintsWrittingStep = () => {
     }
   };
 
+  const [modalStep, setModalStep] = useState(1);
+  //해시태그 선택 -> 제출 모달 변경
+  const handleModalStep = () => {
+    setModalStep(2);
+  };
   const { handleModalClose, handleModalOpen, isModalOpen } = useModal();
   const contentTotal = contentProb + contentDir + contentExpect;
 
   return (
     <ApplicationLayout activeStep={3}>
-      {isModalOpen && (
+      {isModalOpen && modalStep === 1 ? (
         <Modal
           contents={
             <HashTagInfo
-              handleClose={handleModalClose}
               contentTotal={contentTotal}
+              handleModalStep={handleModalStep}
             />
           }
           isOpen={isModalOpen}
           handleClose={handleModalClose}
         />
-      )}
+      ) : isModalOpen && modalStep === 2 ? (
+        <Modal
+          contents={<Submit handleModalClose={handleModalClose} />}
+          isOpen={isModalOpen}
+          handleClose={handleModalClose}
+        />
+      ) : null}
 
       {showAlert && (
         <AlertContainer top="18rem">

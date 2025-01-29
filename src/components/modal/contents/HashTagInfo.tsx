@@ -28,12 +28,12 @@ const INFO_MESSAGE_TEXT =
   "해시태그를 선택해 민원의 분류를 도와주세요 (최대 3개)";
 const SUB_MESSAGE_TEXT = "다음은 민원글을 분석한 추천 해시태그입니다";
 
-interface InitialInfoProps {
-  handleClose: () => void;
+interface HashtagInfoProps {
   contentTotal: string;
+  handleModalStep: () => void;
 }
 
-const HashTagInfo = ({ handleClose, contentTotal }: InitialInfoProps) => {
+const HashTagInfo = ({ contentTotal, handleModalStep }: HashtagInfoProps) => {
   return (
     <Container>
       <MessageContainer>
@@ -49,9 +49,9 @@ const HashTagInfo = ({ handleClose, contentTotal }: InitialInfoProps) => {
       <RecHashTag contentTotal={contentTotal} />
       <ButtonGroup>
         <Button
-          content="다음"
+          content="제출"
           styleType="_120x40_Primary"
-          onClick={handleClose}
+          onClick={handleModalStep}
         />
       </ButtonGroup>
     </Container>
