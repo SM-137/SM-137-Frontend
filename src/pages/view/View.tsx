@@ -94,18 +94,11 @@ const View = () => {
   const [originData, setOriginData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [resetButton, setResetButton] = useState(false);
-
   const { filteredData, handleFilter, handleFilterOptions, filters } =
     useFilter(originData);
   const { handleSort, sortOptions, handleSortOption, sortData } =
     useSort(filteredData);
   const [, setCategoryData] = useState();
-
-  // 필터링이나 정렬이 변경되면 버튼 상태 리셋
-  const handleResetButtonState = () => {
-    setResetButton(true);
-  };
 
   useEffect(() => {
     if (!filters.category) {
@@ -136,14 +129,12 @@ const View = () => {
   useEffect(() => {
     if (!isLoading) {
       handleFilter();
-      handleResetButtonState();
     }
   }, [filters, isLoading, originData]);
 
   useEffect(() => {
     if (!isLoading) {
       handleSort(filteredData);
-      handleResetButtonState();
     }
   }, [sortOptions, filteredData, isLoading, originData]);
 
@@ -184,7 +175,7 @@ const View = () => {
               <Loading />
             ) : isComplaintExist ? (
               displayedData.map((i, index) => (
-                <ContentList data={i} key={index} resetTrigger={resetButton} />
+                <ContentList data={i} key={index} />
               ))
             ) : (
               <NoComplaints>조건에 맞는 게시물이 없습니다</NoComplaints>

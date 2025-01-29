@@ -56,7 +56,7 @@ export const useFilter = (originData: ContentType[]) => {
     }
     const lastDate = setLastDate(dateOption);
     const result = originData.filter((i) => {
-      const date = new Date(i.date).getTime();
+      const date = new Date(i.createdAt).getTime();
       return date > lastDate;
     });
     return result;
