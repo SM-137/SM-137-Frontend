@@ -91,8 +91,8 @@ const Scrap = () => {
 
         setScrapData(transformedData);
       } catch (error) {
-        console.error("스크랩 데이터를 불러오는 거 실패", error);
-        setError("스크랩 데이터를 불러오는 거 실패");
+        console.error("스크랩 데이터를 불러오는 거 실패하였습니다.", error);
+        setError("스크랩 데이터를 불러오는 거 실패하였습니다.");
       }
     };
 
