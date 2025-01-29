@@ -3,7 +3,7 @@ import { categoryName } from "../../utils/SubCategoryContent";
 import { CategoryValue } from "../../types/Type";
 import { useContext, useState } from "react";
 import { ViewContext } from "../../pages/view/View";
-import useComplaintStore from "../../store/store";
+import useComplaintStore from "../../store/useComplaintStore";
 
 interface SubCategoryProps {
   category: keyof typeof categoryName;

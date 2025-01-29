@@ -78,17 +78,12 @@ const DeleteFileButton = styled(SvgIcon)<SvgIconProps>`
   }
 `;
 
-const InfoMessage = styled.p`
-  color: var(--light-primary);
-`;
-
 interface FileUploadFieldProps {
   onFileChange: (file: File[] | null) => void;
 }
 
 const FileUploadField = ({ onFileChange }: FileUploadFieldProps) => {
-  const NO_FILE = "선택된 파일이 없습니다";
-  const INVALID_EXTENSION = "Jpg / Jpeg / Png 만 업로드 할 수 있습니다";
+  const INVALID_EXTENSION = "Jpg / Jpeg / Png 파일만 업로드 할 수 있습니다";
 
   //file view
   const [selectedFile, setSelectedFile] = useState<File[] | null>(null);
@@ -152,11 +147,9 @@ const FileUploadField = ({ onFileChange }: FileUploadFieldProps) => {
                   />
                 </FileNameContainer>
               ))}
-            {!selectedFile?.length && <FileName>{NO_FILE}</FileName>}
+            {!selectedFile?.length && <FileName>{INVALID_EXTENSION}</FileName>}
           </FileDetailsContainer>
         </FileInputWrapper>
-
-        <InfoMessage>{INVALID_EXTENSION}</InfoMessage>
       </InputInfoContainer>
     </FileInputContainer>
   );

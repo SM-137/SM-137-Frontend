@@ -128,3 +128,12 @@ export interface ComplaintForm {
   setTagName: (tagName: string) => void;
   setAttachment: (update: (prev: File[] | null) => File[] | null) => void;
 }
+
+export interface EssentialWriteState {
+  isEssentialWrite: {
+    title: boolean;
+    contentProb: boolean;
+    contentDir: boolean;
+  };
+  setEssentialWrite: (formType: string) => void;
+}

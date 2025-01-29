@@ -198,16 +198,6 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-input:valid,
-textarea:valid,
-select:valid {
-  border-color: var(--gray3-border);
-}
-input:invalid,
-textarea:invalid,
-select:invalid {
-  border-color: var(--gray3-border);
-}
 input:focus {
   border: 2px solid var(--light-primary);
 }

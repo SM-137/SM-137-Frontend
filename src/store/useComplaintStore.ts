@@ -8,7 +8,7 @@ const useComplaintStore = create<ComplaintForm>((set) => ({
   contentExpect: "",
   categoryName: "",
   tagName: "",
-  attachment: [], // 기존 null을 []로 변경 (파일 배열로 저장)
+  attachment: [],
 
   setTitle: (title) => set({ title }),
   setContentProb: (contentProb) => set({ contentProb }),

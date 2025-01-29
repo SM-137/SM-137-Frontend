@@ -8,13 +8,13 @@ import View from "./pages/view/View";
 import MyPage from "./pages/my-page/MyPage";
 import Search from "./pages/search/Search";
 import CompletedStep from "./pages/complaint-apply/CompletedStep";
-import ComplaintsWrittingStep from "./pages/complaint-apply/CompaintsWrittingStep";
 import Login from "./pages/login/Login";
 import Redirect from "./pages/login/Redirect";
 import PrivateRoute from "./components/PrivateRoute";
 import Modify from "./pages/modify/Modify";
 import AcademicInfoStep from "./pages/complaint-apply/apply-step/AcademicInfoStep";
 import CategorySelectionStep from "./pages/complaint-apply/apply-step/CategorySelectionStep";
+import ComplaintsWrittingStep from "./pages/complaint-apply/CompaintsWrittingStep";
 
 export const router = createBrowserRouter([
   {

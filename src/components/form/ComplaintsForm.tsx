@@ -2,7 +2,15 @@ import styled from "@emotion/styled";
 import Input from "../input/Input";
 import TextArea from "../input/TextArea";
 import FileUploadField from "../file-upload/FileUploadField";
-import useComplaintStore from "../../store/store";
+import useComplaintStore from "../../store/useComplaintStore";
+
+interface ComplaintsFormProps {
+  isEssentialWrite: {
+    title: boolean;
+    contentProb: boolean;
+    contentDir: boolean;
+  };
+}
 
 const FormContainer = styled.form`
   min-width: 80%;
@@ -21,7 +29,7 @@ const FormInputGroup = styled.div`
   width: 100%;
 `;
 
-const ComplaintsForm = () => {
+const ComplaintsForm = ({ isEssentialWrite }: ComplaintsFormProps) => {
   const {
     setTitle,
     setContentDir,
@@ -38,6 +46,23 @@ const ComplaintsForm = () => {
     }
   };
 
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+    formType: string
+  ) => {
+    if (formType === "title") {
+      setTitle(e.target.value);
+    }
+    if (formType === "contentProb") {
+      setContentProb(e.target.value);
+    }
+    if (formType === "contentDir") {
+      setContentDir(e.target.value);
+    }
+  };
+
   return (
     <FormContainer>
       <FormInputGroup>
@@ -46,7 +71,8 @@ const ComplaintsForm = () => {
           placeholder="내용을 입력해주세요"
           isRequired={true}
           height="40px"
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => handleChange(e, "title")}
+          hasError={!isEssentialWrite.title}
         />
       </FormInputGroup>
       <FormInputGroup>
@@ -54,7 +80,8 @@ const ComplaintsForm = () => {
           label="현황 및 문제점"
           placeholder="내용을 입력해주세요"
           isRequired={true}
-          onChange={(e) => setContentProb(e.target.value)}
+          onChange={(e) => handleChange(e, "contentProb")}
+          hasError={!isEssentialWrite.contentProb}
         />
       </FormInputGroup>
       <FormInputGroup>
@@ -62,7 +89,8 @@ const ComplaintsForm = () => {
           label="개선 방향"
           placeholder="내용을 입력해주세요"
           isRequired={true}
-          onChange={(e) => setContentDir(e.target.value)}
+          onChange={(e) => handleChange(e, "contentDir")}
+          hasError={!isEssentialWrite.contentDir}
         />
       </FormInputGroup>
       <FormInputGroup>

@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import useComplaintStore from "../../../store/store";
 import { useState } from "react";
 import Alert from "../../../components/alert/Alert";
 import CategorySelect from "../../../components/category-select/CategorySelect";
@@ -8,6 +7,7 @@ import Button from "../../../components/button/Button";
 import ApplicationLayout from "../ApplicationLayout";
 import { ContentWrapper } from "../../../styles/ApplyStyles";
 import { AlertContainer } from "../../../styles/AlertStyles";
+import useComplaintStore from "../../../store/useComplaintStore";
 
 const FormTitleContainer = styled.div`
   display: flex;
