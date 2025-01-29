@@ -2,8 +2,10 @@ import styled from "@emotion/styled";
 import UserInfo from "./UserInfo";
 import { useNavigate } from "react-router-dom";
 import {
+  COMPLAINT_APPLICATION_URL,
   LOGIN_URL,
   MY_COMPLAINT_URL,
+  MY_MODIFY_URL,
   MY_SCRAP_URL,
   MYPAGE_URL,
   VIEW_URL,
@@ -79,7 +81,9 @@ const SideNavigator = () => {
         <MenuContent onClick={() => navigate(VIEW_URL)}>
           전체 민원 조회
         </MenuContent>
-        <MenuContent>민원 신청</MenuContent>
+        <MenuContent onClick={() => navigate(COMPLAINT_APPLICATION_URL)}>
+          민원 신청
+        </MenuContent>
       </Menu>
       <Menu>
         <MenuSubTitle>마이페이지</MenuSubTitle>
@@ -89,11 +93,12 @@ const SideNavigator = () => {
         <MenuContent onClick={() => navigate(MY_COMPLAINT_URL)}>
           내 민원
         </MenuContent>
-        <MenuContent>결과 조회</MenuContent>
         <MenuContent onClick={() => navigate(MY_SCRAP_URL)}>
           스크랩한 민원
         </MenuContent>
-        <MenuContent>개인정보 수정</MenuContent>
+        <MenuContent onClick={() => navigate(MY_MODIFY_URL)}>
+          개인정보 수정
+        </MenuContent>
       </Menu>
       <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
     </SideNavContainer>
