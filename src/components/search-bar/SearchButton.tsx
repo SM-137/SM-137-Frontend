@@ -1,11 +1,9 @@
 import styled from "@emotion/styled";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { SvgIcon, SvgIconProps } from "@mui/material";
-import { searchUrl } from "../../utils/URL";
-import { useNavigate } from "react-router-dom";
 
 interface SearchButtonProps {
-  searchKeyword: string;
+  handleSearch: () => void;
 }
 const SearchIcon = styled(SvgIcon)<SvgIconProps>`
   width: 24px;
@@ -22,12 +20,9 @@ const Button = styled.button`
   justify-content: center;
 `;
 
-const SearchButton = ({ searchKeyword }: SearchButtonProps) => {
-  const navigate = useNavigate();
-  const SEARCH_URL = searchUrl(searchKeyword);
-
+const SearchButton = ({ handleSearch }: SearchButtonProps) => {
   return (
-    <Button onClick={() => navigate(SEARCH_URL)}>
+    <Button onClick={handleSearch}>
       <SearchIcon component={SearchRoundedIcon} />
     </Button>
   );
