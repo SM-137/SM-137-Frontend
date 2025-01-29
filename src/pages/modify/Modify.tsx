@@ -176,7 +176,11 @@ const Modify = () => {
           </Email>
         </ContentContainer>
         <WithdrawText>회원 탈퇴</WithdrawText>
-        <Button type="_120x40_Primary" content="다음" onClick={handleNext} />
+        <Button
+          styleType="_120x40_Primary"
+          content="다음"
+          onClick={handleNext}
+        />
       </Background>
     </Container>
   );

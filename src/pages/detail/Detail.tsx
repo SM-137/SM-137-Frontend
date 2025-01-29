@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import ComplaintContent from "../../components/content/ComplaintContent";
-import { commentMockData, mockData } from "../../mockData";
 import Comment from "../../components/comment/Comment";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import {
@@ -10,6 +9,14 @@ import {
 } from "../../styles/CommentTitleStyle";
 import CommentInput from "../../components/comment/CommentInput";
 import Answer from "../../components/answer/Answer";
+import { useEffect, useRef, useState } from "react";
+import {
+  complaintComments,
+  complaintDetail,
+} from "../../services/complaintService";
+import Loading from "../../components/loading/Loading";
+import { CommentType, ContentDetailProps } from "../../types/Type";
+import { defaultCommentData, defaultComplaintData } from "../../DefaulatData";
 
 const Container = styled.div`
   position: absolute;
@@ -56,29 +63,59 @@ const AnswerContainer = styled.div`
 `;
 
 const Detail = () => {
-  //임시 데이터
-  const MOCK_DATA = mockData[0];
-  const isAnswered = MOCK_DATA.answer.length != 0;
-  //length로 data의 개수를 계산하여 삽입 예정
-  const COUNT = commentMockData.length;
+  const [isLoading, setIsLoading] = useState(true);
+  const [complaintData, setComplaintData] =
+    useState<ContentDetailProps>(defaultComplaintData);
+  const [commentData, setCommentData] =
+    useState<CommentType[]>(defaultCommentData);
+  const [isCommentAdd, setIsCommentAdd] = useState(false);
+  const handleIsCommentAdd = () => {
+    setIsCommentAdd(true);
+  };
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const complaintId = Number(urlParams.get("complaintId"));
+
+  useEffect(() => {
+    Promise.all([complaintDetail(complaintId), complaintComments(complaintId)])
+      .then(([complaintRes, commentsRes]) => {
+        setComplaintData(complaintRes.data);
+        setCommentData(commentsRes.data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error(error));
+  }, [complaintId, isCommentAdd]);
+
+  //댓글 작성시 스크롤 하단으로 이동
+  const commentListRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (commentListRef.current) {
+      commentListRef.current.scrollTop = commentListRef.current.scrollHeight;
+    }
+  }, [commentData, isCommentAdd]);
+
+  const COUNT = commentData.length;
 
   const TITLE_COLOR = "var(--gray6-black)";
   const ICON_WIDTH = "24px";
   const INDEX_OFFSET = 1;
 
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <Container>
-      <ComplaintContent data={MOCK_DATA} />
+      {complaintData && <ComplaintContent data={complaintData} />}
 
       {/*관리자 답변 */}
-      {isAnswered && (
+      {complaintData?.answer && (
         <AnswerContainer>
-          <Answer data={MOCK_DATA.answer} />
+          <Answer data={complaintData.answer} />
         </AnswerContainer>
       )}
 
       <Background>
-        <CommentContainer>
+        <CommentContainer ref={commentListRef}>
           <CommentTitleContainer>
             <Icon
               sx={{ fill: TITLE_COLOR, width: ICON_WIDTH }}
@@ -86,15 +123,19 @@ const Detail = () => {
             />
             <CommentTitle>댓글 {COUNT}</CommentTitle>
           </CommentTitleContainer>
-          {commentMockData.map((i, index) => (
-            <Comment data={i} index={index + INDEX_OFFSET} key={index} />
-          ))}
+          {commentData.length !== 0 ? (
+            commentData.map((i, index) => (
+              <Comment data={i} index={index + INDEX_OFFSET} key={index} />
+            ))
+          ) : (
+            <div>댓글이 없습니다</div>
+          )}
         </CommentContainer>
       </Background>
 
       <InputBackground>
         <InputContainer>
-          <CommentInput />
+          <CommentInput handleIsCommentAdd={handleIsCommentAdd} />
         </InputContainer>
       </InputBackground>
     </Container>

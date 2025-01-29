@@ -1,8 +1,8 @@
 import StatusDisplay from "../status-button/StatusDisplay";
 import CategoryTagGroup from "../category-tag/CategoryTagGroup";
 import InteractionGroup from "../interaction/InteractionGroup";
-import { DataType } from "../../types/Type";
-import { Article, Title } from "../../styles/ContentStyle";
+import { ContentDetailProps } from "../../types/Type";
+import { Title } from "../../styles/ContentStyle";
 import styled from "@emotion/styled";
 import ShareIcon from "@mui/icons-material/Share";
 import { SvgIcon, SvgIconProps } from "@mui/material";
@@ -13,15 +13,19 @@ import DeleteComment from "../modal/contents/DeleteComment";
 import Alert from "../alert/Alert";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
+import ContentImage from "./ContentImage";
+import { AlertContainer } from "../../styles/AlertStyles";
 
 interface ComplaintContentProps {
-  data: DataType;
+  data: ContentDetailProps;
 }
 
 const Container = styled.div`
+  width: 100%;
   max-width: 782px;
   background: var(--white);
-  padding: 20px;
+  padding: 20px 0;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -39,7 +43,16 @@ const HeaderContent = styled.div`
   align-items: center;
   gap: 12px;
 `;
-
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+`;
 const ComplaintNumber = styled.div`
   display: flex;
   align-items: center;
@@ -51,6 +64,13 @@ const ComplaintNumber = styled.div`
   margin-top: 8px;
 `;
 
+const Article = styled.div`
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
+  color: var(--gray5-lowText);
+`;
+
 const Icon = styled(SvgIcon)<SvgIconProps>`
   width: 24px;
   height: 24px;
@@ -60,10 +80,21 @@ const Icon = styled(SvgIcon)<SvgIconProps>`
     fill: var(--gray6-header);
   }
 `;
+const InfoIcon = styled(SvgIcon)<SvgIconProps>`
+  width: 20px;
+  height: 20px;
+  fill: var(--disabled-primary);
+`;
 
 const CategoryContainer = styled.div`
   display: flex;
   gap: 8px;
+`;
+const SubTitle = styled.span`
+  color: var(--disabled-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 `;
 
 const Footer = styled.div`
@@ -105,15 +136,8 @@ const Category = styled.span`
   color: var(--light-primary);
 `;
 
-const AlertContainer = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
 const ComplaintContent = ({ data }: ComplaintContentProps) => {
-  const date = new Date(data.date);
+  const date = data.createdAt ? new Date(data.createdAt) : new Date();
   const formatTime = getFormatTime(date);
 
   const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
@@ -150,15 +174,17 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
     }, 1500);
   };
   useEffect(() => {
-    document.title = "동적 페이지 제목";
+    document.title = data.complaintTitle;
     document
       .querySelector("meta[property='og:title']")
-      ?.setAttribute("content", "동적 페이지 제목");
+      ?.setAttribute("content", `${data.complaintTitle}`);
     document
       .querySelector("meta[property='og:description']")
-      ?.setAttribute("content", "동적 페이지 설명");
+      ?.setAttribute("content", `${data.contentProb}`);
     document
       .querySelector("meta[property='og:image']")
+      //이미지 링크 변경 예정
+      // ?.setAttribute("content", `${data.attachmentUrls[0]}`);
       ?.setAttribute("content", imageLink);
   }, []);
 
@@ -177,20 +203,25 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       {/* Header */}
       <Header>
         <HeaderContent>
-          <StatusDisplay type={data.status} />
-          <CategoryContainer>
-            {data.hashtag.map((hashtag, index) => (
-              <CategoryTagGroup key={index} hashtag={[hashtag]} />
-            ))}
-          </CategoryContainer>
+          <StatusDisplay type={data.complaintStatus} />
+          {data.tag && (
+            <CategoryContainer>
+              <CategoryTagGroup hashtag={[data.tag]} />
+            </CategoryContainer>
+          )}
         </HeaderContent>
         <InteractionContainer>
-          <InteractionGroup likes={data.likes} bookmarks={data.bookmarks} />
+          <InteractionGroup
+            likes={data.likeCount}
+            bookmarks={data.scrapCount}
+            liked={data.liked}
+            scrapped={data.scrapped}
+          />
 
           {/*공유 */}
           {isCopied && (
-            <AlertContainer>
-              <Alert content={COPIED_COMMENT} />
+            <AlertContainer top="10px">
+              <Alert type="info" content={COPIED_COMMENT} />
             </AlertContainer>
           )}
           <Icon component={ShareIcon} onClick={copyToClipboard} />
@@ -200,14 +231,38 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       <ComplaintNumber>
         {/*백엔드 field에 따라 민원번호 변동 필요*/}
         <Category>{data.category}</Category>
-        민원번호 : 00910
+        민원 번호 : {data.complaintId}
       </ComplaintNumber>
+      <Title>{data.complaintTitle}</Title>
 
       {/* Content */}
-      <div>
-        <Title>{data.title}</Title>
-        <Article line={0}>{data.content}</Article>
-      </div>
+      <Content>
+        <ContentContainer>
+          <SubTitle>
+            <InfoIcon component={InfoRoundedIcon} />
+            현황 및 문제점
+          </SubTitle>
+          <Article>{data.contentProb}</Article>
+        </ContentContainer>
+        <ContentContainer>
+          <SubTitle>
+            <InfoIcon component={InfoRoundedIcon} />
+            개선방향
+          </SubTitle>
+          <Article>{data.contentDir}</Article>
+        </ContentContainer>
+        <ContentContainer>
+          <SubTitle>
+            <InfoIcon component={InfoRoundedIcon} />
+            기대효과
+          </SubTitle>
+          <Article>{data.contentExpect}</Article>
+        </ContentContainer>
+      </Content>
+
+      {data.attachmentUrls && (
+        <ContentImage attachmentUrls={data.attachmentUrls} />
+      )}
 
       {/* Footer */}
       <Footer>
@@ -217,8 +272,8 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
             <pre>|</pre>
 
             {alertDelete && (
-              <AlertContainer>
-                <Alert content="삭제되었습니다" />
+              <AlertContainer top="10px">
+                <Alert type="info" content="삭제되었습니다" />
               </AlertContainer>
             )}
             <EditDeleteButton onClick={handleConfirmDelete}>

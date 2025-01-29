@@ -28,3 +28,13 @@ export const handleValidDomain = () => {
   }
   return true;
 };
+
+export const deleteJWTToken = () => {
+  const cookies = document.cookie.split(";");
+  cookies.forEach((cookie) => {
+    const cookieName = cookie.trim().split("=")[0];
+    if (cookieName === "jwtToken") {
+      document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=${window.location.hostname}; SameSite=Lax`;
+    }
+  });
+};

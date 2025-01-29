@@ -2,6 +2,12 @@ import styled from "@emotion/styled";
 import Button from "../button/Button";
 import { Icon } from "../../styles/CommentTitleStyle";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
+import { useState } from "react";
+import { complaintCommentsWrite } from "../../services/complaintService";
+
+interface CommentInputProps {
+  handleIsCommentAdd: () => void;
+}
 
 const Container = styled.div`
   width: 100%;
@@ -33,9 +39,33 @@ const InputComment = styled.input`
     border: none;
   }
 `;
-const CommentInput = () => {
+const CommentInput = ({ handleIsCommentAdd }: CommentInputProps) => {
   const ICON_WIDTH = "20px";
   const FILL = "var(--disabled-primary)";
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const complaintId = Number(urlParams.get("complaintId"));
+
+  const [commentContent, setCommentContent] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCommentContent(e.target.value);
+  };
+  const handleSubmit = () => {
+    complaintCommentsWrite(complaintId, commentContent)
+      .then(() => {
+        handleIsCommentAdd();
+        setCommentContent("");
+      })
+      .catch((error) => console.error(error));
+  };
+
+  //엔터 입력시 제출
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && commentContent.trim() !== "") {
+      handleSubmit();
+    }
+  };
+
   return (
     <Container>
       <InputContainer>
@@ -43,9 +73,18 @@ const CommentInput = () => {
           component={CommentRoundedIcon}
           sx={{ width: ICON_WIDTH, fill: FILL }}
         />
-        <InputComment placeholder="댓글을 입력해 주세요" />
+        <InputComment
+          value={commentContent}
+          placeholder="댓글을 입력해 주세요"
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+        />
       </InputContainer>
-      <Button type="_100x35_Primary" content="등록" />
+      <Button
+        styleType="_100x35_Primary"
+        content="등록"
+        onClick={handleSubmit}
+      />
     </Container>
   );
 };

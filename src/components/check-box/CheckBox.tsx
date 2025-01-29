@@ -1,4 +1,23 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
+
+interface hasErroProps {
+  hasError: boolean;
+}
+type CheckboxProps = {
+  text: string;
+  hasError: boolean;
+  onChange: (checked: boolean) => void;
+};
+
+const StyledLabel = styled.label<hasErroProps>`
+  display: flex;
+  align-items: center;
+  user-select: none;
+  background-color: ${(props) => props.hasError && "var(--error-light)"};
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+`;
 
 const StyledInput = styled.input`
   appearance: none;
@@ -6,7 +25,7 @@ const StyledInput = styled.input`
   border-radius: 1px;
   width: 1rem;
   height: 1rem;
-  background: var(--gray3-border);
+  background-color: var(--white);
 
   &:checked {
     border-color: transparent;
@@ -18,26 +37,29 @@ const StyledInput = styled.input`
   }
 `;
 
-const StyledLabel = styled.label`
-  display: flex;
-  align-items: center;
-  user-select: none;
-`;
-
-const ConfirmationMessage = styled.p`
+const ConfirmationMessage = styled.p<hasErroProps>`
   margin-left: 0.25rem;
-  color: var(--gray5-lowText);
+  color: ${(props) =>
+    props.hasError ? "var(--error-dark)" : "var(--gray5-lowText)"};
 `;
 
-type CheckboxProps = {
-  text: string; 
-};
+function Checkbox({ text, hasError, onChange }: CheckboxProps) {
+  const [isChecked, setIsChecked] = useState(false);
+  const handleCheck = () => {
+    const newCheckState = !isChecked;
+    setIsChecked((prev) => !prev);
+    onChange(newCheckState);
+  };
 
-function Checkbox({ text }: CheckboxProps) {
   return (
-    <StyledLabel htmlFor={text}>
-      <StyledInput type="checkbox" id={text} name={text} />
-      <ConfirmationMessage>{text}</ConfirmationMessage>
+    <StyledLabel htmlFor={text} hasError={hasError}>
+      <StyledInput
+        type="checkbox"
+        id={text}
+        name={text}
+        onChange={handleCheck}
+      />
+      <ConfirmationMessage hasError={hasError}>{text}</ConfirmationMessage>
     </StyledLabel>
   );
 }

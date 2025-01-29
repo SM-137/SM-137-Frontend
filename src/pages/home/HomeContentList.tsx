@@ -94,18 +94,20 @@ const HomeContentList = () => {
     }
     setCurrentIndex(FIRST_PAGE_INDEX);
   };
+
   const prevPage = () => {
     setAnimateKey((prev) => prev - 1);
     if (currentIndex - 2 >= 0) {
       setCurrentIndex(currentIndex - 2);
       return;
     }
-    if (data.length >= RECOMMEND_COUNT) {
-      setCurrentIndex(RECOMMEND_COUNT - 2);
+    if (data.length < RECOMMEND_COUNT) {
+      setCurrentIndex(Math.floor(data.length / 2 + 1));
       return;
     }
     setCurrentIndex(FIRST_PAGE_INDEX);
   };
+  console.log(currentIndex);
   return (
     <ContentContainer>
       <Title>최근 주목받은 민원</Title>

@@ -10,7 +10,7 @@ interface CategoryProps {
 
 interface UsageProps {
   usage: "filter" | "normal";
-  onCategoryChange?: (selectedCategory: keyof typeof categoryName) => void; 
+  onCategoryChange?: (selectedCategory: keyof typeof categoryName) => void;
 }
 
 const Wrap = styled.div`
@@ -61,7 +61,7 @@ const Highlight = styled(motion.div)`
   background-color: var(--light-primary);
 `;
 
-const CategorySelect = ({ usage, onCategoryChange }: UsageProps) => {
+const CategorySelect = ({ usage }: UsageProps) => {
   const CATEGORY = ["facility", "degree", "career", "school"] as const;
   const CATEGORY_CONTENT = ["시설/설비", "대학원", "진로/취업", "학교생활"];
 
@@ -79,11 +79,6 @@ const CategorySelect = ({ usage, onCategoryChange }: UsageProps) => {
     const value = e.currentTarget.getAttribute("data-category")!;
     if (value) {
       setCategory(value as keyof typeof categoryName);
-
-      if (usage === "normal" && onCategoryChange) {
-        onCategoryChange(value as keyof typeof categoryName);
-      }
-
       setIsClick((prev) => {
         const newPrev = { ...prev };
         for (let key in newPrev) {
@@ -107,8 +102,8 @@ const CategorySelect = ({ usage, onCategoryChange }: UsageProps) => {
             <Category
               key={index}
               data-category={i}
-              onClick={handleCategorySelect}
               isClick={isClick[i]}
+              onClick={handleCategorySelect}
             >
               {CATEGORY_CONTENT[index]}
             </Category>
