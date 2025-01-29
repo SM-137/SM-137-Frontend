@@ -3,13 +3,18 @@ import MoodRoundedIcon from "@mui/icons-material/MoodRounded";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import Gmail from "../../assets/icons/gmail.png";
-import { useRef, useState, forwardRef, useImperativeHandle } from "react";
+import {
+  useRef,
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import majors from "../../utils/MajorList";
-import { myPageInfo } from "../../mockData";
-import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
-import { modify } from "../../services/userService";
 import { useNavigate } from "react-router-dom";
+import { userInfo, modify } from "../../services/userService";
 import { MYPAGE_URL } from "../../utils/URL";
+import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 
 const Container = styled.div`
   display: flex;
@@ -199,15 +204,28 @@ const ModifyForm = forwardRef<ModifyFormHandles>((_, ref) => {
 const Modify = () => {
   const formRef = useRef<ModifyFormHandles>(null);
   const navigate = useNavigate();
+  const [email, setEmail] = useState<string>("");
+
+  useEffect(() => {
+    const fetchEmail = async () => {
+      try {
+        const response = await userInfo();
+        setEmail(response.data.email);
+      } catch (e) {
+        console.error("이메일 정보를 가져오는 중 에러 발생:", e);
+      }
+    };
+
+    fetchEmail();
+  }, []);
 
   const handleNext = async () => {
     if (formRef.current?.validateForm()) {
       try {
-        const formData = formRef.current.getFormData(); // 유효성 검사를 통과한 데이터 가져오기
-        const response = await modify(formData); // 서버 요청
+        const formData = formRef.current.getFormData();
+        const response = await modify(formData);
         console.log("서버 응답:", response);
 
-        // 서버 요청이 성공하면 페이지 이동
         navigate(MYPAGE_URL);
       } catch (error) {
         console.error("서버 요청 중 에러 발생:", error);
@@ -229,7 +247,7 @@ const Modify = () => {
           </FormWrapper>
           <Email>
             <EmailIcon src={Gmail} alt="gmail icon" />
-            {myPageInfo.email}
+            {email}
           </Email>
         </ContentContainer>
         <WithdrawText>회원 탈퇴</WithdrawText>
