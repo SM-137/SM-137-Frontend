@@ -4,8 +4,9 @@ import SearchBar from "../../components/search-bar/SearchBar";
 import QuickLink from "../../components/quick-link/QuickLink";
 import HomeContentList from "./HomeContentList";
 import Emblem from "../../assets/emblem-1_DarkGray.png";
-import { useEffect } from "react";
-import { userInfo } from "../../services/userService";
+import { useEffect, useState } from "react";
+import Modal from "../../components/modal/Modal";
+import InitialInfo from "../../components/modal/contents/InitialInfo";
 
 const HomeContainer = styled.div`
   height: 100%;
@@ -15,14 +16,15 @@ const HomeContainer = styled.div`
   padding: 0 1rem;
   position: relative;
 `;
+
 const QuickLinkContainer = styled.div`
   margin: 4rem 0;
   width: 100%;
 `;
+
 const EmblemContainer = styled.img`
   width: 750px;
   height: 750px;
-  //HomeContainer 기준 상대정렬
   position: absolute;
   top: -55%;
   left: -40%;
@@ -53,7 +55,6 @@ const KeyWordContainer = styled.div`
   height: 200px;
 `;
 
-//7개 보냄
 const mockHashtag = [
   "냉난방",
   "학사일정",
@@ -65,14 +66,24 @@ const mockHashtag = [
 ];
 
 const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
-    userInfo()
-      .then((res) => console.log(res))
-      .catch((error) => console.error(error));
+    setIsModalOpen(true);
   }, []);
 
   return (
     <HomeContainer>
+      <Modal
+        isOpen={isModalOpen}
+        handleClose={handleModalClose}
+        contents={<InitialInfo handleClose={handleModalClose} />}
+      />
+
       <EmblemContainer src={Emblem} />
 
       <SearchContainer>
