@@ -5,6 +5,8 @@ import Button from "../../components/button/Button";
 import AcademicInfo from "../../components/academic-info/AcademicInfoForm";
 import Checkbox from "../../components/check-box/CheckBox";
 import InfoMessage from "../../components/info-message/InfoMessage";
+import { useState } from "react";
+import Alert from "../../components/alert/Alert";
 
 const ContentWrapper = styled.div`
   background-color: var(--white);
@@ -40,26 +42,46 @@ const ButtonGroup = styled.div`
 const AcademicInfoStep = () => {
   const INFO_MESSAGE =
     "학적 정보는 관리자에게 전송되며, 오직 민원 처리 목적으로만 사용됩니다";
+
+  const [isChecked, setIsChecked] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
   const navigate = useNavigate();
+
   const handleNext = () => {
+    if (!isChecked) {
+      setShowAlert(true);
+      return;
+    }
+    setShowAlert(false);
     navigate("../2", { replace: true });
+  };
+
+  const handleIsChecked = (isChecked: boolean) => {
+    setIsChecked(isChecked);
   };
 
   return (
     <Layout activeStep={1}>
       <ContentWrapper>
         <FormTitleContainer>
+          {showAlert && (
+            <Alert type="warning" content="체크박스에 체크해 주세요" />
+          )}
           <FormTitle>학번, 학과/학부를 확인해 주세요</FormTitle>
           <InfoMessage
             content={INFO_MESSAGE}
             sizeType="small"
             messageType="info"
           />
+          <Checkbox
+            text="확인했습니다"
+            hasError={showAlert}
+            onChange={handleIsChecked}
+          />
         </FormTitleContainer>
 
         <AcademicInfo />
-
-        <Checkbox text="확인했습니다" />
 
         <ButtonGroup>
           <Button content="확인" type="_120x40_Primary" onClick={handleNext} />

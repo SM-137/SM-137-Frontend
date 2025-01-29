@@ -225,7 +225,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
           {/*공유 */}
           {isCopied && (
             <AlertContainer>
-              <Alert content={COPIED_COMMENT} />
+              <Alert type="info" content={COPIED_COMMENT} />
             </AlertContainer>
           )}
           <Icon component={ShareIcon} onClick={copyToClipboard} />
@@ -279,7 +279,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
 
             {alertDelete && (
               <AlertContainer>
-                <Alert content="삭제되었습니다" />
+                <Alert type="info" content="삭제되었습니다" />
               </AlertContainer>
             )}
             <EditDeleteButton onClick={handleConfirmDelete}>
