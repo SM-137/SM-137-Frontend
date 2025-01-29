@@ -204,9 +204,11 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       <Header>
         <HeaderContent>
           <StatusDisplay type={data.complaintStatus} />
-          <CategoryContainer>
-            <CategoryTagGroup hashtag={[data.tag]} />
-          </CategoryContainer>
+          {data.tag && (
+            <CategoryContainer>
+              <CategoryTagGroup hashtag={[data.tag]} />
+            </CategoryContainer>
+          )}
         </HeaderContent>
         <InteractionContainer>
           <InteractionGroup
@@ -261,8 +263,6 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       {data.attachmentUrls && (
         <ContentImage attachmentUrls={data.attachmentUrls} />
       )}
-      {/*예시 이미지 */}
-      <ContentImage attachmentUrls={[imageLink, imageLink, imageLink]} />
 
       {/* Footer */}
       <Footer>
