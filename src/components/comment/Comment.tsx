@@ -4,10 +4,10 @@ import {
   CommentTitleContainer,
   Icon,
 } from "../../styles/CommentTitleStyle";
-import { CommentType } from "../../types/Type";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import Interaction from "../interaction/Interaction";
 import { getFormatTime } from "../../utils/FormattingTime";
+import { CommentType } from "../../types/Type";
 
 interface CommentProps {
   data: CommentType;
@@ -32,8 +32,10 @@ const InfoContainer = styled.div`
 /*contents + time */
 const ContentsContainer = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: end;
   gap: 2rem;
+  width: 100%;
 `;
 const Contents = styled.div`
   color: var(--gray5-lowText);
@@ -46,7 +48,7 @@ const Comment = ({ data, index }: CommentProps) => {
   const COMMENT_COLOR = "var(--disabled-primary)";
   const ICON_WIDTH = "20px";
 
-  const date = new Date(data.date);
+  const date = new Date(data.createdAt);
   const formatTime = getFormatTime(date);
   return (
     <Container>
@@ -56,9 +58,14 @@ const Comment = ({ data, index }: CommentProps) => {
             component={CommentRoundedIcon}
             sx={{ fill: COMMENT_COLOR, width: ICON_WIDTH }}
           />
-          <CommentTitle>댓글{index}</CommentTitle>
+          <CommentTitle>댓글 {index}</CommentTitle>
         </CommentTitleContainer>
-        <Interaction type="likes" count={data.likes} />
+        <Interaction
+          type="likes"
+          count={data.likeCount}
+          isIconClicked={true}
+          commentId={data.commentId}
+        />
       </InfoContainer>
 
       {/*컨텐츠 + 시간*/}

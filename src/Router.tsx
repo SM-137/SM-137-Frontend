@@ -14,6 +14,7 @@ import ComplaintsWrittingStep from "./pages/application-step/CompaintsWrittingSt
 import Login from "./pages/login/Login";
 import Redirect from "./pages/login/Redirect";
 import PrivateRoute from "./components/PrivateRoute";
+import Modify from "./pages/modify/Modify";
 
 export const router = createBrowserRouter([
   {
@@ -32,14 +33,14 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-          {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/auth/callback",
-      element: <Redirect />,
-    },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/auth/callback",
+        element: <Redirect />,
+      },
       {
         path: "",
         element: <Home />,
@@ -67,6 +68,10 @@ export const router = createBrowserRouter([
       {
         path: "mypage/my-scrap",
         element: <Scrap />,
+      },
+      {
+        path: "my-modify",
+        element: <Modify />,
       },
       {
         path: "complaint-request",

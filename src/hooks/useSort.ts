@@ -59,8 +59,8 @@ export const useSort = (filteredData: ContentType[]) => {
   const latestSort = (inputData: ContentType[]) => {
     return setSortData(
       [...inputData].sort((a, b) => {
-        const dateA = new Date(a.date).getTime();
-        const dateB = new Date(b.date).getTime();
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
         return dateB - dateA;
       })
     );

@@ -3,13 +3,10 @@ import StatusDisplay from "../status-button/StatusDisplay";
 import CategoryTagGroup from "../category-tag/CategoryTagGroup";
 import { Article, Title } from "../../styles/ContentStyle";
 import { ContentType } from "../../types/Type";
-import InteractionGroup from "../interaction/InteractionGroup";
 import { useNavigate } from "react-router-dom";
-import { complaintDetailUrl } from "../../utils/URL";
 
 interface ContentListProps {
   data: ContentType;
-  resetTrigger?: boolean;
 }
 
 const Container = styled.div`
@@ -41,22 +38,21 @@ const StatusContainer = styled.div`
   justify-content: space-between;
 `;
 
-const ContentList = ({ data, resetTrigger }: ContentListProps) => {
+const ContentList = ({ data }: ContentListProps) => {
   const ARTICLE_LINE = 2;
-  const CONTENT_DETAIL_URL = complaintDetailUrl(data.complaintId);
+
   const navigate = useNavigate();
   return (
-    <Container onClick={() => navigate(CONTENT_DETAIL_URL)}>
+    <Container
+      onClick={() =>
+        navigate(`/complaint-detail?complaintId=${data.complaintId}`)
+      }
+    >
       <StatusContainer>
         <InfoContainer>
           <StatusDisplay type={data.complaintStatus} />
           <CategoryTagGroup hashtag={[data.tag]} />
         </InfoContainer>
-        <InteractionGroup
-          likes={data.likeCount}
-          bookmarks={data.scrapCount}
-          resetTrigger={resetTrigger}
-        />
       </StatusContainer>
       <Title>{data.complaintTitle}</Title>
       <Article line={ARTICLE_LINE}>{data.contentProb}</Article>

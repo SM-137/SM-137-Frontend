@@ -18,7 +18,10 @@ import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import { SortOptionsProps, useSort } from "../../hooks/useSort";
 import Pagination from "../../components/Pagination";
 import { usePagination } from "../../hooks/usePagination";
-import { complaintAll } from "../../services/complaintService";
+import {
+  complaintAll,
+  complaintCategory,
+} from "../../services/complaintService";
 import Loading from "../../components/loading/Loading";
 
 interface ViewProps {
@@ -91,21 +94,25 @@ const View = () => {
   const [originData, setOriginData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [resetButton, setResetButton] = useState(false);
-
   const { filteredData, handleFilter, handleFilterOptions, filters } =
     useFilter(originData);
   const { handleSort, sortOptions, handleSortOption, sortData } =
     useSort(filteredData);
   const [, setCategoryData] = useState();
 
-  // 필터링이나 정렬이 변경되면 버튼 상태 리셋
-  const handleResetButtonState = () => {
-    setResetButton(true);
-  };
-
   useEffect(() => {
-    complaintAll({ categoryName: filters.category })
+    if (!filters.category) {
+      complaintAll()
+        .then((res) => {
+          setOriginData(res.data);
+          setIsLoading(false);
+        })
+        .catch((error) =>
+          console.error(`전체 민원 조회 중 에러 발생 :${error}`)
+        );
+      return;
+    }
+    complaintCategory({ categoryName: filters.category })
       .then((res) => {
         setOriginData(res.data);
         if (!res.data) {
@@ -120,14 +127,16 @@ const View = () => {
   }, [filters.category]);
 
   useEffect(() => {
-    handleFilter();
-    handleResetButtonState();
-  }, [filters]);
+    if (!isLoading) {
+      handleFilter();
+    }
+  }, [filters, isLoading, originData]);
 
   useEffect(() => {
-    handleSort(filteredData);
-    handleResetButtonState();
-  }, [sortOptions, filteredData]);
+    if (!isLoading) {
+      handleSort(filteredData);
+    }
+  }, [sortOptions, filteredData, isLoading, originData]);
 
   const isComplaintExist = !(filteredData.length == 0);
 
@@ -166,7 +175,7 @@ const View = () => {
               <Loading />
             ) : isComplaintExist ? (
               displayedData.map((i, index) => (
-                <ContentList data={i} key={index} resetTrigger={resetButton} />
+                <ContentList data={i} key={index} />
               ))
             ) : (
               <NoComplaints>조건에 맞는 게시물이 없습니다</NoComplaints>

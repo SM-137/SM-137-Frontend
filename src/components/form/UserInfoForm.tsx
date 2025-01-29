@@ -6,13 +6,14 @@ const InfoForm = styled.form`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  white-space: nowrap;
 `;
 
 const UserInfoForm = () => {
   return (
     <InfoForm>
-      <Input type="text" label="학번" placeholder="2012345" />
-      <Input type="text" label="학과/학부" placeholder="컴퓨터과학전공" />
+      <Input label="학번" placeholder="2012345" />
+      <Input label="학과/학부" placeholder="컴퓨터과학전공" />
     </InfoForm>
   );
 };

@@ -19,12 +19,6 @@ export interface DataType {
   answer: string;
   category: string;
 }
-export interface CommentType {
-  content: string;
-  //백엔드 전달 데이터 타입에 따라 필요
-  date: string;
-  likes: number;
-}
 
 export interface MyPageProps {
   state: string;
@@ -49,7 +43,7 @@ export type CategoryValue =
   | (typeof categoryName)[keyof typeof categoryName][number]
   | undefined;
 
-//백엔드 연도
+//백엔드 연동
 export interface ApplyContentProps {
   title: string;
   contentProb: string;
@@ -69,7 +63,43 @@ export interface ContentType {
   contentProb: string;
   likeCount: number;
   scrapCount: number;
-  date: Date;
+  createdAt: Date;
+}
+
+export interface ContentDetailProps {
+  complaintId: number;
+  tag: string;
+  category: string;
+  complaintStatus: StatusType;
+  complaintTitle: string;
+  contentProb: string;
+  contentDir: string;
+  contentExpect: string;
+  answer: string | null;
+  likeCount: number;
+  scrapCount: number;
+  createdAt: string;
+  liked: boolean;
+  scrapped: boolean;
+  attachmentUrls: string[];
 }
 
 export type StatusType = "WAITING" | "IN_PROGRESS" | "RETURN" | "DONE";
+
+export interface MyPageProps {
+  state: string;
+  name: string;
+  sid: number;
+  major: string;
+  email: string;
+}
+
+export interface CommentType {
+  commentId: number;
+  userId: number;
+  userEmail: string;
+  content: string;
+  isLiked: boolean;
+  createdAt: string;
+  likeCount: number;
+}

@@ -70,6 +70,7 @@ const Home = () => {
       .then((res) => console.log(res))
       .catch((error) => console.error(error));
   }, []);
+
   return (
     <HomeContainer>
       <EmblemContainer src={Emblem} />

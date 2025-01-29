@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 
 interface InfoInputProps {
-  height?: string;
+  height?: string; // 옵셔널로 변경
+  hasError?: boolean; // 에러 표시를 위한 추가 props
 }
 
 interface InputProps extends InfoInputProps {
@@ -10,6 +11,7 @@ interface InputProps extends InfoInputProps {
   type?: string;
   isRequired?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string; // value props 추가
 }
 
 const Container = styled.div`
@@ -43,7 +45,8 @@ const InfoInput = styled.input<InfoInputProps>`
   width: 85%;
   height: ${(props) => props.height || "35px"};
   padding: 5px 16px;
-  border: 1px solid var(--gray3-border);
+  border: ${(props) =>
+    props.hasError ? "1px solid red" : "1px solid var(--gray3-border)"};
   border-radius: 4px;
   font-size: 14px;
 
@@ -63,6 +66,7 @@ const Input = ({
   height = "35px",
   isRequired = false,
   onChange,
+  hasError,
 }: InputProps) => {
   return (
     <Container>
@@ -75,6 +79,7 @@ const Input = ({
         placeholder={placeholder}
         height={height}
         onChange={onChange}
+        hasError={hasError}
       />
     </Container>
   );
