@@ -252,11 +252,15 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
           <Article>{data.contentDir}</Article>
         </ContentContainer>
         <ContentContainer>
-          <SubTitle>
-            <InfoIcon component={InfoRoundedIcon} />
-            기대효과
-          </SubTitle>
-          <Article>{data.contentExpect}</Article>
+          {data.contentExpect && (
+            <>
+              <SubTitle>
+                <InfoIcon component={InfoRoundedIcon} />
+                기대효과
+              </SubTitle>
+              <Article>{data.contentExpect}</Article>
+            </>
+          )}
         </ContentContainer>
       </Content>
 
