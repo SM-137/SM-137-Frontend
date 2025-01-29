@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { UserInfoType } from "../../types/Type";
 import { userInfo } from "../../services/userService";
-import Button from "../button/Button";
 import { useNavigate } from "react-router-dom";
 import { MY_MODIFY_URL } from "../../utils/URL";
 
@@ -42,6 +41,14 @@ const UserInfoBox = styled.div`
   border-radius: 4px;
 `;
 
+const ModifyComment = styled.div`
+  color: var(--gray4-placeholder-low);
+  cursor: pointer;
+  &:hover {
+    border-bottom: 1px solid var(--gray4-placeholder-low);
+  }
+`;
+
 const AcademicInfo = () => {
   const [info, setInfo] = useState<UserInfoType>({
     department: "",
@@ -74,11 +81,10 @@ const AcademicInfo = () => {
           <UserInfoBox>{info.department}</UserInfoBox>
         </UserInfoBoxContainer>
       </Info>
-      <Button
-        type="_100x35_Gray2"
-        content="개인정보 수정"
-        onClick={handleClick}
-      />
+
+      <ModifyComment onClick={handleClick}>
+        정보 수정이 필요한가요?
+      </ModifyComment>
     </FormContainer>
   );
 };

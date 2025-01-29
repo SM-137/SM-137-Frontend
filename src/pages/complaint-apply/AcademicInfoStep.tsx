@@ -94,7 +94,7 @@ const AcademicInfoStep = () => {
         <AcademicInfo />
 
         <ButtonGroup>
-          <Button content="확인" type="_120x40_Primary" onClick={handleNext} />
+          <Button content="다음" type="_120x40_Primary" onClick={handleNext} />
         </ButtonGroup>
       </ContentWrapper>
     </Layout>
