@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"; 
+import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import Layout from "./ApplicationStepLayout";
 import AcademicInfoForm from "../../components/form/AcademicInfoForm";
@@ -17,9 +17,9 @@ const ContentWrapper = styled.div`
 
 const FormTitleContainer = styled.div`
   display: flex;
-  margin-top: 1rem; 
+  margin-top: 1rem;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 `;
 
 const FormTitle = styled.span`
@@ -35,7 +35,7 @@ const ButtonGroup = styled.div`
 `;
 
 const AcademicInfoStep = () => {
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   const handleNext = () => {
     navigate("../2", { replace: true });
@@ -47,7 +47,7 @@ const AcademicInfoStep = () => {
         <FormTitleContainer>
           <FormTitle>학번, 학과/학부를 확인해 주세요</FormTitle>
         </FormTitleContainer>
-        <AcademicInfoForm /> 
+        <AcademicInfoForm />
         <ButtonGroup>
           <Button content="다음" type="_120x40_Primary" onClick={handleNext} />
         </ButtonGroup>
@@ -57,4 +57,3 @@ const AcademicInfoStep = () => {
 };
 
 export default AcademicInfoStep;
-
