@@ -63,7 +63,7 @@ export interface ContentType {
   contentProb: string;
   likeCount: number;
   scrapCount: number;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface ContentDetailProps {

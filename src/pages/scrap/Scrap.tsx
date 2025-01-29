@@ -12,20 +12,7 @@ import {
 } from "../../styles/ComplaintScrap";
 import styled from "@emotion/styled";
 import Loading from "../../components/loading/Loading";
-
-type StatusType = "IN_PROGRESS" | "WAITING" | "RETURN" | "DONE";
-
-interface ContentType {
-  complaintId: number;
-  tag: string;
-  category: string;
-  complaintStatus: StatusType;
-  complaintTitle: string;
-  contentProb: string;
-  likeCount: number;
-  scrapCount: number;
-  date: Date;
-}
+import { ContentType } from "../../types/Type";
 
 const Border = styled.div`
   display: flex;
