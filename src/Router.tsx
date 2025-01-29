@@ -15,6 +15,7 @@ import Modify from "./pages/modify/Modify";
 import AcademicInfoStep from "./pages/complaint-apply/apply-step/AcademicInfoStep";
 import CategorySelectionStep from "./pages/complaint-apply/apply-step/CategorySelectionStep";
 import ComplaintsWrittingStep from "./pages/complaint-apply/apply-step/CompaintsWrittingStep";
+import ScrollToTop from "./components/ScrollToTop";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +30,8 @@ export const router = createBrowserRouter([
     path: "/",
     element: (
       <PrivateRoute>
+        <ScrollToTop />
+
         <Layout />
       </PrivateRoute>
     ),

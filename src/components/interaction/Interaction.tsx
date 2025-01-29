@@ -96,7 +96,7 @@ const getFill = (type: string) => {
     return "var(--info-dark)";
   }
   if (type === "likes") {
-    return "var(--error-light)";
+    return "var(--error)";
   }
 };
 
