@@ -1,6 +1,11 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import { MY_COMPLAINT_URL, MY_SCRAP_URL, MYPAGE_URL } from "../../../utils/URL";
+import {
+  MY_COMPLAINT_URL,
+  MY_SCRAP_URL,
+  MYPAGE_URL,
+  My_DATA_Modify_URL,
+} from "../../../utils/URL";
 
 const NavigatorContainer = styled.ul`
   display: flex;
@@ -31,7 +36,9 @@ const HeaderNavigator = () => {
       <NavigatorContent onClick={() => navigate(MY_SCRAP_URL)}>
         스크랩
       </NavigatorContent>
-      <NavigatorContent>개인정보 수정</NavigatorContent>
+      <NavigatorContent onClick={() => navigate(My_DATA_Modify_URL)}>
+        개인정보 수정
+      </NavigatorContent>
     </NavigatorContainer>
   );
 };
