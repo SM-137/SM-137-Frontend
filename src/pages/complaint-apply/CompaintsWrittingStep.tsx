@@ -6,15 +6,17 @@ import { ContentWrapper } from "../../styles/ApplyStyles";
 
 const MessageContainer = styled.div`
   display: flex;
-  margin-top: 2rem;
   flex-direction: column;
   align-items: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
 `;
 
 const TitleMessage = styled.span`
   color: var(--gray6-header);
   text-align: center;
   font-size: 1.2rem;
+  line-height: 0;
 `;
 
 const InfoMessage = styled.p`

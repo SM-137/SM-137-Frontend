@@ -8,15 +8,16 @@ const useComplaintStore = create<ComplaintForm>((set) => ({
   contentExpect: "",
   categoryName: "",
   tagName: "",
-  attachment: null,
+  attachment: [], // 기존 null을 []로 변경 (파일 배열로 저장)
+
   setTitle: (title) => set({ title }),
   setContentProb: (contentProb) => set({ contentProb }),
   setContentDir: (contentDir) => set({ contentDir }),
   setContentExpect: (contentExpect) => set({ contentExpect }),
   setCategoryName: (categoryName) => set({ categoryName }),
   setTagName: (tagName) => set({ tagName }),
-  setAttachment: (update: (prev: File[]) => File[]) =>
-    set((state) => ({ attachments: update(state.attachments) })),
+  setAttachment: (update: (prev: File[] | null) => File[] | null) =>
+    set((state) => ({ attachment: update(state.attachment) })),
 }));
 
 export default useComplaintStore;

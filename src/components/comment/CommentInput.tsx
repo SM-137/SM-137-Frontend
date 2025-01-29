@@ -80,7 +80,11 @@ const CommentInput = ({ handleIsCommentAdd }: CommentInputProps) => {
           onKeyDown={handleKeyDown}
         />
       </InputContainer>
-      <Button type="_100x35_Primary" content="등록" onClick={handleSubmit} />
+      <Button
+        styleType="_100x35_Primary"
+        content="등록"
+        onClick={handleSubmit}
+      />
     </Container>
   );
 };

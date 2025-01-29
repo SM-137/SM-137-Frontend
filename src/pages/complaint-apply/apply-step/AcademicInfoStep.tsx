@@ -8,6 +8,7 @@ import Button from "../../../components/button/Button";
 import Alert from "../../../components/alert/Alert";
 import ApplicationLayout from "../ApplicationLayout";
 import { ContentWrapper } from "../../../styles/ApplyStyles";
+import { AlertContainer } from "../../../styles/AlertStyles";
 
 const FormTitleContainer = styled.div`
   display: flex;
@@ -26,10 +27,6 @@ const ButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-`;
-const AlertContainer = styled.div`
-  position: absolute;
-  top: 15rem;
 `;
 
 const AcademicInfoStep = () => {
@@ -61,7 +58,7 @@ const AcademicInfoStep = () => {
   return (
     <ApplicationLayout activeStep={1}>
       <ContentWrapper>
-        <AlertContainer>
+        <AlertContainer top="15rem">
           {showAlert && (
             <Alert type="warning" content="체크박스에 체크해 주세요" />
           )}

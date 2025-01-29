@@ -7,6 +7,7 @@ import CategorySelect from "../../../components/category-select/CategorySelect";
 import Button from "../../../components/button/Button";
 import ApplicationLayout from "../ApplicationLayout";
 import { ContentWrapper } from "../../../styles/ApplyStyles";
+import { AlertContainer } from "../../../styles/AlertStyles";
 
 const FormTitleContainer = styled.div`
   display: flex;
@@ -26,10 +27,6 @@ const ButtonGroup = styled.div`
   justify-content: space-between;
   margin-top: 1.5rem;
   gap: 1rem;
-`;
-const AlertContainer = styled.div`
-  position: absolute;
-  top: 16rem;
 `;
 
 const CategorySelectionStep = () => {
@@ -56,7 +53,7 @@ const CategorySelectionStep = () => {
   return (
     <ApplicationLayout activeStep={2}>
       {showAlert && noSelect && (
-        <AlertContainer>
+        <AlertContainer top="16rem">
           <Alert type="warning" content="카테고리를 선택해 주세요" />
         </AlertContainer>
       )}

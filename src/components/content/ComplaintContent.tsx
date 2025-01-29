@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import ContentImage from "./ContentImage";
+import { AlertContainer } from "../../styles/AlertStyles";
 
 interface ComplaintContentProps {
   data: ContentDetailProps;
@@ -135,13 +136,6 @@ const Category = styled.span`
   color: var(--light-primary);
 `;
 
-const AlertContainer = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
 const ComplaintContent = ({ data }: ComplaintContentProps) => {
   const date = data.createdAt ? new Date(data.createdAt) : new Date();
   const formatTime = getFormatTime(date);
@@ -224,7 +218,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
 
           {/*공유 */}
           {isCopied && (
-            <AlertContainer>
+            <AlertContainer top="10px">
               <Alert type="info" content={COPIED_COMMENT} />
             </AlertContainer>
           )}
@@ -278,7 +272,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
             <pre>|</pre>
 
             {alertDelete && (
-              <AlertContainer>
+              <AlertContainer top="10px">
                 <Alert type="info" content="삭제되었습니다" />
               </AlertContainer>
             )}
