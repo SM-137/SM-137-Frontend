@@ -38,6 +38,10 @@ const ButtonGroup = styled.div`
   justify-content: space-between;
   gap: 1rem;
 `;
+const AlertContainer = styled.div`
+  position: absolute;
+  top: 250px;
+`;
 
 const AcademicInfoStep = () => {
   const INFO_MESSAGE =
@@ -59,15 +63,21 @@ const AcademicInfoStep = () => {
 
   const handleIsChecked = (isChecked: boolean) => {
     setIsChecked(isChecked);
+    if (isChecked) {
+      setShowAlert(false);
+    }
   };
 
   return (
     <Layout activeStep={1}>
       <ContentWrapper>
-        <FormTitleContainer>
+        <AlertContainer>
           {showAlert && (
             <Alert type="warning" content="체크박스에 체크해 주세요" />
           )}
+        </AlertContainer>
+
+        <FormTitleContainer>
           <FormTitle>학번, 학과/학부를 확인해 주세요</FormTitle>
           <InfoMessage
             content={INFO_MESSAGE}
