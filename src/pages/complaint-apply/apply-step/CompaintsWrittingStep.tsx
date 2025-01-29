@@ -1,13 +1,16 @@
 import styled from "@emotion/styled";
-import ComplaintsForm from "../../components/form/ComplaintsForm";
-import Button from "../../components/button/Button";
-import ApplicationLayout from "./ApplicationLayout";
-import { ContentWrapper } from "../../styles/ApplyStyles";
+import useComplaintStore from "../../../store/useComplaintStore";
 import { useState } from "react";
-import useComplaintStore from "../../store/useComplaintStore";
-import { AlertContainer } from "../../styles/AlertStyles";
-import Alert from "../../components/alert/Alert";
-import { complaintWrite } from "../../services/complaintService";
+import { ContentWrapper } from "../../../styles/ApplyStyles";
+import ComplaintsForm from "../../../components/form/ComplaintsForm";
+import Button from "../../../components/button/Button";
+import Alert from "../../../components/alert/Alert";
+import { AlertContainer } from "../../../styles/AlertStyles";
+import ApplicationLayout from "../ApplicationLayout";
+import Modal from "../../../components/modal/Modal";
+import HashTagInfo from "../../../components/modal/contents/HashTagInfo";
+import { useModal } from "../../../hooks/useModal";
+import { useNavigate } from "react-router-dom";
 
 const MessageContainer = styled.div`
   display: flex;
@@ -39,18 +42,11 @@ const ButtonGroup = styled.div`
 `;
 
 const ComplaintsWrittingStep = () => {
+  const PREV_URL = "../2";
   const INVALID_CONTENT_MESSAGE = "필수 항목을 모두 작성해 주세요";
-  const {
-    title,
-    contentProb,
-    contentDir,
-    contentExpect,
-    categoryName,
-    tagName,
-    attachments,
-  } = useComplaintStore();
 
-  //유효성 검사
+  const { title, contentProb, contentDir, contentExpect } = useComplaintStore();
+
   const [isEssentialWrite, setIsEssentialWrite] = useState({
     title: true,
     contentProb: true,
@@ -69,42 +65,49 @@ const ComplaintsWrittingStep = () => {
       contentProb: true,
     });
     setShowAlert(false);
-    if (!isValidTitle) {
-      setIsEssentialWrite((prev) => ({ ...prev, title: false }));
-    }
-    if (!isValidContentProb) {
-      setIsEssentialWrite((prev) => ({ ...prev, contentProb: false }));
-    }
-    if (!isValidContentDir) {
-      setIsEssentialWrite((prev) => ({ ...prev, contentDir: false }));
-    }
+
     if (!isValidTitle || !isValidContentDir || !isValidContentProb) {
+      setIsEssentialWrite((prev) => ({
+        ...prev,
+        title: isValidTitle,
+        contentProb: isValidContentProb,
+        contentDir: isValidContentDir,
+      }));
       setShowAlert(true);
       return false;
     }
     return true;
   };
 
-  const sendData = {
-    title: title,
-    contentProb: contentProb,
-    contentDir: contentDir,
-    contentExpect: contentExpect,
-    categoryName: categoryName,
-    tagName: tagName,
-    attachments: attachments,
+  const navigate = useNavigate();
+  const handlePrev = () => {
+    navigate(PREV_URL);
   };
 
-  const handleSubmit = () => {
+  const handleNext = () => {
     if (handleValid()) {
-      complaintWrite(sendData)
-        .then((res) => console.log(res))
-        .catch((error) => console.error(error));
+      handleModalOpen();
     }
   };
 
+  const { handleModalClose, handleModalOpen, isModalOpen } = useModal();
+  const contentTotal = contentProb + contentDir + contentExpect;
+
   return (
     <ApplicationLayout activeStep={3}>
+      {isModalOpen && (
+        <Modal
+          contents={
+            <HashTagInfo
+              handleClose={handleModalClose}
+              contentTotal={contentTotal}
+            />
+          }
+          isOpen={isModalOpen}
+          handleClose={handleModalClose}
+        />
+      )}
+
       {showAlert && (
         <AlertContainer top="18rem">
           <Alert content={INVALID_CONTENT_MESSAGE} type="warning" />
@@ -118,12 +121,16 @@ const ComplaintsWrittingStep = () => {
         </MessageContainer>
         <ComplaintsForm isEssentialWrite={isEssentialWrite} />
         <ButtonGroup>
-          <Button content="이전" styleType="_120x40_Gray2" />
+          <Button
+            content="이전"
+            styleType="_120x40_Gray2"
+            onClick={handlePrev}
+          />
           <Button
             content="다음"
             styleType="_120x40_Primary"
             type="submit"
-            onClick={handleSubmit}
+            onClick={handleNext}
           />
         </ButtonGroup>
       </ContentWrapper>

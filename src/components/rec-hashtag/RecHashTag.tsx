@@ -1,6 +1,11 @@
 import styled from "@emotion/styled";
 import PillButton from "../pill-button/PillButton";
+import { getHashtags } from "../../services/hashtagService";
+import { useEffect, useState } from "react";
 
+interface RecHashTagProps {
+  contentTotal: string;
+}
 const HashTagContainer = styled.div`
   display: inline-flex;
   flex-direction: column;
@@ -26,27 +31,24 @@ const ListTitle = styled.span`
   margin-bottom: 0.5rem;
 `;
 
-// 삭제 예정
-const hashTagMockData = {
-  hashtags: [
-    "교육대학원",
-    "교육대학원",
-    "교육대학원",
-    "교육대학원",
-    "교육대학원",
-    "교육대학원",
-    "교육대학원",
-    "교육대학원",
-    "교육대학원",
-  ],
-};
+const RecHashTag = ({ contentTotal }: RecHashTagProps) => {
+  //AI 생성 해시태그 데이터
+  const [hashtagData, setHashtagData] = useState<string[]>([]);
 
-const RecHashTag = () => {
+  useEffect(() => {
+    getHashtags(contentTotal)
+      .then((res) => {
+        setHashtagData(res.split(", "));
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  console.log(hashtagData);
   return (
     <HashTagContainer>
       <ListTitle>추천 해시태그</ListTitle>
       <HashTagButton>
-        {hashTagMockData.hashtags.map((tag, index) => (
+        {hashtagData.map((tag, index) => (
           <PillButton key={index} contents={tag} />
         ))}
       </HashTagButton>

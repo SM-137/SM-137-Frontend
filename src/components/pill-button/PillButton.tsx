@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
+import useComplaintStore from "../../store/useComplaintStore";
 
 interface PillButtonProps {
   contents: string;
@@ -35,11 +36,16 @@ const Contents = styled.div`
 
 const PillButton = ({ contents = "예시" }: PillButtonProps) => {
   const [isClick, setIsClick] = useState(false);
-  const handleClick = () => {
+  // 선택한 데이터
+  const { tagName, setTagName } = useComplaintStore();
+  const handleClick = (select: string) => {
     setIsClick((prev) => !prev);
+    setTagName(select);
   };
+
+  console.log(tagName);
   return (
-    <Container isClick={isClick} onClick={handleClick}>
+    <Container isClick={isClick} onClick={() => handleClick(contents)}>
       <Contents>{contents}</Contents>
     </Container>
   );

@@ -14,7 +14,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Modify from "./pages/modify/Modify";
 import AcademicInfoStep from "./pages/complaint-apply/apply-step/AcademicInfoStep";
 import CategorySelectionStep from "./pages/complaint-apply/apply-step/CategorySelectionStep";
-import ComplaintsWrittingStep from "./pages/complaint-apply/CompaintsWrittingStep";
+import ComplaintsWrittingStep from "./pages/complaint-apply/apply-step/CompaintsWrittingStep";
 
 export const router = createBrowserRouter([
   {

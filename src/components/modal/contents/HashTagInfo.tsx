@@ -24,33 +24,30 @@ const ButtonGroup = styled.div`
   gap: 1rem;
 `;
 
-const InfoMessageText = "해시태그를 선택해 민원의 분류를 도와주세요";
-const SubMessageText = "다음은 민원글을 분석한 추천 해시태그입니다";
+const INFO_MESSAGE_TEXT =
+  "해시태그를 선택해 민원의 분류를 도와주세요 (최대 3개)";
+const SUB_MESSAGE_TEXT = "다음은 민원글을 분석한 추천 해시태그입니다";
 
 interface InitialInfoProps {
   handleClose: () => void;
+  contentTotal: string;
 }
 
-const HashTagInfo = ({ handleClose }: InitialInfoProps) => {
+const HashTagInfo = ({ handleClose, contentTotal }: InitialInfoProps) => {
   return (
     <Container>
       <MessageContainer>
         <InfoMessage
           sizeType="small"
           messageType="info"
-          content={InfoMessageText}
+          content={INFO_MESSAGE_TEXT}
         />
         <div style={{ color: "var(--gray4-placeholder-low)" }}>
-          {SubMessageText}
+          {SUB_MESSAGE_TEXT}
         </div>
       </MessageContainer>
-      <RecHashTag />
+      <RecHashTag contentTotal={contentTotal} />
       <ButtonGroup>
-        <Button
-          content="이전"
-          styleType="_120x40_Gray2"
-          onClick={handleClose}
-        />
         <Button
           content="다음"
           styleType="_120x40_Primary"
