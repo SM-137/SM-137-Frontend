@@ -3,7 +3,6 @@ import {
   ContentDetailProps,
   ContentType,
   DataType,
-  MyPageProps,
 } from "./types/Type";
 
 //백엔드 연동
@@ -275,14 +274,6 @@ export const mockData: DataType[] = [
     answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다.",
   },
 ];
-
-export const myPageInfo: MyPageProps = {
-  name: "홍길동",
-  state: "재학생",
-  sid: 2012345,
-  major: "컴퓨터과학전공",
-  email: "test1234@gmail.com",
-};
 
 export const alarmData: AlarmDataProps[] = [
   {

@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import ContentBox from "../../components/content/ContentBox";
-import { sampleData } from "../../mockData";
+import { myScrap } from "../../services/userService";
 import {
   Container,
   TitleContainer,
@@ -10,6 +11,8 @@ import {
   ComplaintGrid as ScrapGrid,
 } from "../../styles/ComplaintScrap";
 import styled from "@emotion/styled";
+import Loading from "../../components/loading/Loading";
+import { ContentType } from "../../types/Type";
 
 const Border = styled.div`
   display: flex;
@@ -21,10 +24,26 @@ const Border = styled.div`
   z-index: 0;
   width: 100vw;
   flex-wrap: wrap;
+  text-align: center;
+`;
+
+const EmptyMessage = styled.div`
+  font-size: 1.2rem;
+  color: var(--gray4-placeholder-low);
 `;
 
 const Scrap = () => {
-  const scrapData = sampleData.filter((item) => item.scrapCount > 0);
+  const [scrapData, setScrapData] = useState<ContentType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    myScrap()
+      .then((res) => {
+        setScrapData(res.data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <Container>
@@ -34,18 +53,23 @@ const Scrap = () => {
       </TitleContainer>
 
       <Border>
-        <ScrapGrid>
-          {scrapData.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ContentBox data={item} type="small" />
-            </motion.div>
-          ))}
-        </ScrapGrid>
+        {isLoading && <Loading />}
+        {!isLoading && scrapData.length === 0 ? (
+          <EmptyMessage>스크랩한 민원이 없습니다.</EmptyMessage>
+        ) : (
+          <ScrapGrid>
+            {scrapData.map((item) => (
+              <motion.div
+                key={item.complaintId}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ContentBox data={item} type="small" />
+              </motion.div>
+            ))}
+          </ScrapGrid>
+        )}
       </Border>
     </Container>
   );

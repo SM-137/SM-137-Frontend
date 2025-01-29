@@ -55,7 +55,7 @@ export const buttonStyles = {
   },
   DONE: {
     Icon: CheckIcon,
-    color: "var(--success)",
+    color: "var(--succeess)",
     text: "완료",
   },
   DEFAULT: {

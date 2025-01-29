@@ -92,6 +92,7 @@ export interface MyPageProps {
   sid: number;
   major: string;
   email: string;
+  createdAt: string;
 }
 
 export interface CommentType {
