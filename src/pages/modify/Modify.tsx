@@ -128,95 +128,20 @@ const StyledInput = styled(Input)<{ hasError: boolean }>`
   border: ${(props) => (props.hasError ? "1px solid red" : "1px solid #ccc")};
 `;
 
-export interface ModifyFormHandles {
-  validateForm: () => boolean;
-  getFormData: () => { number: string; department: string };
-}
-
-const ModifyForm = forwardRef<ModifyFormHandles>((_, ref) => {
-  const [studentId, setStudentId] = useState("");
-  const [major, setMajor] = useState("");
-  const [errors, setErrors] = useState({ studentId: "", major: "" });
-
-  useImperativeHandle(ref, () => ({
-    validateForm,
-    getFormData,
-  }));
-
-  const handleStudentIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setStudentId(value);
-    }
-  };
-
-  const handleMajorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMajor(e.target.value);
-  };
-
-  const validateForm = () => {
-    const newErrors: { studentId: string; major: string } = {
-      studentId: "",
-      major: "",
-    };
-
-    if (studentId.length !== 7) {
-      newErrors.studentId = "학번은 7자리 숫자로 입력해주세요.";
-    }
-
-    if (!majors.includes(major)) {
-      newErrors.major = "유효한 학과/학부를 입력해주세요.";
-    }
-
-    setErrors(newErrors);
-
-    return !newErrors.studentId && !newErrors.major;
-  };
-
-  const getFormData = () => ({
-    number: studentId,
-    department: major,
-  });
-
-  return (
-    <InfoForm>
-      <StyledInput
-        label="학번"
-        placeholder="2012345"
-        value={studentId}
-        onChange={handleStudentIdChange}
-        hasError={!!errors.studentId}
-      />
-      {errors.studentId && <ErrorText>{errors.studentId}</ErrorText>}
-
-      <StyledInput
-        label="학과/학부"
-        placeholder="컴퓨터과학전공"
-        value={major}
-        onChange={handleMajorChange}
-        hasError={!!errors.major}
-      />
-      {errors.major && <ErrorText>{errors.major}</ErrorText>}
-    </InfoForm>
-  );
-});
-
 const Modify = () => {
   const formRef = useRef<ModifyFormHandles>(null);
   const navigate = useNavigate();
-  const [email, setEmail] = useState<string>("");
+  const [initialInfo, setInitialInfo] = useState({
+    name: "",
+    email: "",
+    number: "",
+    department: "",
+  });
 
   useEffect(() => {
-    const fetchEmail = async () => {
-      try {
-        const response = await userInfo();
-        setEmail(response.data.email);
-      } catch (e) {
-        console.error("이메일 정보를 가져오는 중 에러 발생:", e);
-      }
-    };
-
-    fetchEmail();
+    userInfo()
+      .then((res) => setInitialInfo(res.data))
+      .catch((error) => console.error(error));
   }, []);
 
   const handleNext = async () => {
@@ -243,11 +168,11 @@ const Modify = () => {
         <ContentContainer>
           <PillMark>재학생</PillMark>
           <FormWrapper>
-            <ModifyForm ref={formRef} />
+            <ModifyForm ref={formRef} info={initialInfo} />
           </FormWrapper>
           <Email>
             <EmailIcon src={Gmail} alt="gmail icon" />
-            {email}
+            {initialInfo.email}
           </Email>
         </ContentContainer>
         <WithdrawText>회원 탈퇴</WithdrawText>
@@ -258,3 +183,93 @@ const Modify = () => {
 };
 
 export default Modify;
+
+export interface ModifyFormHandles {
+  validateForm: () => boolean;
+  getFormData: () => { number: string; department: string };
+  info?: {
+    number: string;
+    department: string;
+  };
+}
+
+const ModifyForm = forwardRef<
+  ModifyFormHandles,
+  { info: ModifyFormHandles["info"] }
+>(
+  (
+    {
+      info = {
+        number: "1234567",
+        department: "컴퓨터과학전공",
+      },
+    },
+    ref
+  ) => {
+    const [studentId, setStudentId] = useState("");
+    const [major, setMajor] = useState("");
+    const [errors, setErrors] = useState({ studentId: "", major: "" });
+
+    useImperativeHandle(ref, () => ({
+      validateForm,
+      getFormData,
+    }));
+
+    const handleStudentIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      if (/^\d*$/.test(value)) {
+        setStudentId(value);
+      }
+    };
+
+    const handleMajorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setMajor(e.target.value);
+    };
+
+    const validateForm = () => {
+      const newErrors: { studentId: string; major: string } = {
+        studentId: "",
+        major: "",
+      };
+
+      if (studentId.length !== 7) {
+        newErrors.studentId = "학번은 7자리 숫자로 입력해주세요.";
+      }
+
+      if (!majors.includes(major)) {
+        newErrors.major = "유효한 학과/학부를 입력해주세요.";
+      }
+
+      setErrors(newErrors);
+
+      return !newErrors.studentId && !newErrors.major;
+    };
+
+    const getFormData = () => ({
+      number: studentId,
+      department: major,
+    });
+
+    return (
+      <InfoForm>
+        <StyledInput
+          label="학번"
+          placeholder={info.number}
+          value={studentId}
+          onChange={handleStudentIdChange}
+          hasError={!!errors.studentId}
+        />
+        {errors.studentId && <ErrorText>{errors.studentId}</ErrorText>}
+
+        <StyledInput
+          label="학과/학부"
+          placeholder={info.department}
+          value={major}
+          onChange={handleMajorChange}
+          hasError={!!errors.major}
+        />
+        {errors.major && <ErrorText>{errors.major}</ErrorText>}
+      </InfoForm>
+    );
+  }
+);
