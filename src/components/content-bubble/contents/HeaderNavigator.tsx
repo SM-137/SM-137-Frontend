@@ -5,6 +5,7 @@ import {
   MY_COMPLAINT_URL,
   MY_SCRAP_URL,
   MYPAGE_URL,
+  MY_MODIFY_URL,
 } from "../../../utils/URL";
 import { deleteJWTToken } from "../../../utils/JWT";
 import axios from "axios";
@@ -44,7 +45,9 @@ const HeaderNavigator = () => {
       <NavigatorContent onClick={() => navigate(MY_SCRAP_URL)}>
         스크랩
       </NavigatorContent>
-      <NavigatorContent>개인정보 수정</NavigatorContent>
+      <NavigatorContent onClick={() => navigate(MY_MODIFY_URL)}>
+        개인정보 수정
+      </NavigatorContent>
       <NavigatorContent onClick={handleLogout}>로그아웃</NavigatorContent>
     </NavigatorContainer>
   );

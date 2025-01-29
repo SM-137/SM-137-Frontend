@@ -63,7 +63,7 @@ export interface ContentType {
   contentProb: string;
   likeCount: number;
   scrapCount: number;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface ContentDetailProps {
@@ -92,6 +92,7 @@ export interface MyPageProps {
   sid: number;
   major: string;
   email: string;
+  createdAt: string;
 }
 
 export interface CommentType {
