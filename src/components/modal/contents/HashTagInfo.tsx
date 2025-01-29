@@ -15,9 +15,8 @@ const Container = styled.div`
 const MessageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 `;
-
 
 const ButtonGroup = styled.div`
   display: flex;
@@ -25,31 +24,35 @@ const ButtonGroup = styled.div`
   gap: 1rem;
 `;
 
-const InfoMessageText = "해시태그를 선택해 민원의 분류를 도와주세요";
-const SubMessageText = "다음은 민원글을 분석한 추천 해시태그입니다";
+const INFO_MESSAGE_TEXT =
+  "해시태그를 선택해 민원의 분류를 도와주세요 (최대 3개)";
+const SUB_MESSAGE_TEXT = "다음은 민원글을 분석한 추천 해시태그입니다";
 
-interface InitialInfoProps {
-  handleClose: () => void;
+interface HashtagInfoProps {
+  contentTotal: string;
+  handleModalStep: () => void;
 }
 
-const HashTagInfo = ({ handleClose }: InitialInfoProps) => {
-
+const HashTagInfo = ({ contentTotal, handleModalStep }: HashtagInfoProps) => {
   return (
     <Container>
       <MessageContainer>
         <InfoMessage
           sizeType="small"
           messageType="info"
-          content={InfoMessageText}
+          content={INFO_MESSAGE_TEXT}
         />
         <div style={{ color: "var(--gray4-placeholder-low)" }}>
-         {SubMessageText}
+          {SUB_MESSAGE_TEXT}
         </div>
       </MessageContainer>
-      <RecHashTag />
+      <RecHashTag contentTotal={contentTotal} />
       <ButtonGroup>
-        <Button content="이전" type="_120x40_Gray2" onClick={handleClose}/>
-        <Button content="다음" type="_120x40_Primary" onClick={handleClose}/>
+        <Button
+          content="제출"
+          styleType="_120x40_Primary"
+          onClick={handleModalStep}
+        />
       </ButtonGroup>
     </Container>
   );

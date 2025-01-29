@@ -1,16 +1,25 @@
 import styled from "@emotion/styled";
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { motion } from "framer-motion";
 
 interface AlertProps {
   content: string;
+  type: "warning" | "info";
 }
-const Container = styled(motion.div)`
+interface TypeProps {
+  type: "warning" | "info";
+}
+const Container = styled(motion.div)<TypeProps>`
   display: inline-flex;
   padding: 0.5rem 1rem;
-  background-color: var(--disabled-primary);
-  color: var(--light-primary);
+  background-color: ${(props) =>
+    props.type === "warning"
+      ? "var(--error-light)"
+      : "var(--disabled-primary)"};
+  color: ${(props) =>
+    props.type === "warning" ? "var(--error-dark)" : "var(--light-primary)"};
   border-radius: 20px;
   justify-content: center;
   align-items: center;
@@ -20,7 +29,6 @@ const Container = styled(motion.div)`
 const Icon = styled(SvgIcon)<SvgIconProps>`
   width: 15px;
   height: 15px;
-  fill: var(--light-primary);
 `;
 
 const showVariants = {
@@ -37,10 +45,28 @@ const showVariants = {
   },
 };
 
-const Alert = ({ content = "메세지를 입력해 주세요" }: AlertProps) => {
+const Alert = ({
+  content = "메세지를 입력해 주세요",
+  type = "info",
+}: AlertProps) => {
   return (
-    <Container variants={showVariants} initial="start" animate="clicking">
-      <Icon component={CheckCircleRoundedIcon} />
+    <Container
+      variants={showVariants}
+      initial="start"
+      animate="clicking"
+      type={type}
+    >
+      {type === "warning" ? (
+        <Icon
+          component={WarningRoundedIcon}
+          sx={{ fill: "var(--error-dark)" }}
+        />
+      ) : (
+        <Icon
+          component={CheckCircleRoundedIcon}
+          sx={{ fill: "var(--light-primary)" }}
+        />
+      )}
       {content}
     </Container>
   );

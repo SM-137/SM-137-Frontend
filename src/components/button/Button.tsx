@@ -2,12 +2,14 @@ import styled from "@emotion/styled";
 import { buttonType } from "./ButtonType";
 
 const DEFAULT_CONTENT = "버튼 내용";
-const DEFAULT_TYPE = "_120x40_Primary";
+const DEFAULT_STYLE_TYPE = "_120x40_Primary";
+const DEFAULT_TYPE = "button";
 
 interface ContentProps {
   content?: string;
-  type: keyof typeof buttonType;
-  onClick?: () => void; // onClick 이벤트 추가
+  styleType: keyof typeof buttonType;
+  onClick?: () => void;
+  type?: "button" | "submit" | "reset" | undefined;
 }
 
 interface StyleProps {
@@ -29,7 +31,7 @@ const ButtonContainer = styled.button<StyleProps>`
   justify-content: center;
   align-items: center;
   border: none;
-  cursor: pointer; // 버튼에 클릭 커서 추가
+  cursor: pointer;
   &:hover {
     background-color: ${(props) => props.hoverBackGround};
   }
@@ -42,10 +44,11 @@ const ButtonContents = styled.div<StyleProps>`
 
 const Button = ({
   content = DEFAULT_CONTENT,
+  styleType = DEFAULT_STYLE_TYPE,
+  onClick,
   type = DEFAULT_TYPE,
-  onClick, // onClick props 추가
 }: ContentProps) => {
-  const buttonStyle = buttonType[type];
+  const buttonStyle = buttonType[styleType];
 
   const {
     width,
@@ -65,7 +68,8 @@ const Button = ({
       backGround={backGround}
       hoverBackGround={hoverBackGround}
       borderRadius={borderRadius}
-      onClick={onClick} // onClick 이벤트 핸들러 추가
+      onClick={onClick}
+      type={type}
     >
       <ButtonContents color={color}>{content}</ButtonContents>
     </ButtonContainer>

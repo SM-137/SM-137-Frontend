@@ -14,6 +14,7 @@ import {
 import { FiltersProps, useFilter } from "../../hooks/useFilter";
 import { myComplaint } from "../../services/userService";
 import { ContentType } from "../../types/Type";
+import Loading from "../../components/loading/Loading";
 
 interface MyComplaintProps {
   originData: ContentType[];
@@ -59,44 +60,26 @@ export const MyComplaintContext = createContext<MyComplaintProps | undefined>(
 
 const Complaint = () => {
   const [originData, setOriginData] = useState<ContentType[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const { filteredData, handleFilter, handleFilterOptions, filters } =
     useFilter(originData);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchMyComplaint = async () => {
-      try {
-        const response = await myComplaint();
-        const { data } = response;
-
-        const transformedData = data.map((item: ContentType) => ({
-          complaintId: item.complaintId,
-          tag: item.tag,
-          category: item.category,
-          complaintStatus: item.complaintStatus,
-          complaintTitle: item.complaintTitle,
-          contentProb: item.contentProb,
-          likeCount: item.likeCount,
-          scrapCount: item.scrapCount,
-        }));
-
-        setOriginData(transformedData);
-      } catch (error) {
-        console.error("내 민원을 불러오는 데 실패했습니다:", error);
-        setError("내 민원을 불러오는 데 실패했습니다.");
-      }
+      myComplaint()
+        .then((res) => {
+          setOriginData(res.data);
+          handleFilter();
+          setIsLoading(false);
+        })
+        .catch((error) => console.error(error));
     };
-
     fetchMyComplaint();
   }, []);
 
   useEffect(() => {
     handleFilter();
-  }, [filters]);
-
-  if (error) {
-    return <div>{error}</div>;
-  }
+  }, [filters, originData]);
 
   return (
     <MyComplaintContext.Provider
@@ -113,7 +96,8 @@ const Complaint = () => {
         </FilterContainer>
 
         <Border>
-          {filteredData.length === 0 ? (
+          {isLoading && <Loading />}
+          {!isLoading && originData.length === 0 ? (
             <EmptyMessage>내 민원이 없습니다.</EmptyMessage>
           ) : (
             <ComplaintGrid>

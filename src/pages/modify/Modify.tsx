@@ -3,13 +3,18 @@ import MoodRoundedIcon from "@mui/icons-material/MoodRounded";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import Gmail from "../../assets/icons/gmail.png";
-import { useRef, useState, forwardRef, useImperativeHandle } from "react";
+import {
+  useRef,
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import majors from "../../utils/MajorList";
-import { myPageInfo } from "../../mockData";
-import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
-import { modify } from "../../services/userService";
 import { useNavigate } from "react-router-dom";
+import { userInfo, modify } from "../../services/userService";
 import { MYPAGE_URL } from "../../utils/URL";
+import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 
 const Container = styled.div`
   display: flex;
@@ -123,91 +128,29 @@ const StyledInput = styled(Input)<{ hasError: boolean }>`
   border: ${(props) => (props.hasError ? "1px solid red" : "1px solid #ccc")};
 `;
 
-export interface ModifyFormHandles {
-  validateForm: () => boolean;
-  getFormData: () => { number: string; department: string };
-}
-
-const ModifyForm = forwardRef<ModifyFormHandles>((_, ref) => {
-  const [studentId, setStudentId] = useState("");
-  const [major, setMajor] = useState("");
-  const [errors, setErrors] = useState({ studentId: "", major: "" });
-
-  useImperativeHandle(ref, () => ({
-    validateForm,
-    getFormData,
-  }));
-
-  const handleStudentIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setStudentId(value);
-    }
-  };
-
-  const handleMajorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMajor(e.target.value);
-  };
-
-  const validateForm = () => {
-    const newErrors: { studentId: string; major: string } = {
-      studentId: "",
-      major: "",
-    };
-
-    if (studentId.length !== 7) {
-      newErrors.studentId = "학번은 7자리 숫자로 입력해주세요.";
-    }
-
-    if (!majors.includes(major)) {
-      newErrors.major = "유효한 학과/학부를 입력해주세요.";
-    }
-
-    setErrors(newErrors);
-
-    return !newErrors.studentId && !newErrors.major;
-  };
-
-  const getFormData = () => ({
-    number: studentId,
-    department: major,
-  });
-
-  return (
-    <InfoForm>
-      <StyledInput
-        label="학번"
-        placeholder="2012345"
-        value={studentId}
-        onChange={handleStudentIdChange}
-        hasError={!!errors.studentId}
-      />
-      {errors.studentId && <ErrorText>{errors.studentId}</ErrorText>}
-
-      <StyledInput
-        label="학과/학부"
-        placeholder="컴퓨터과학전공"
-        value={major}
-        onChange={handleMajorChange}
-        hasError={!!errors.major}
-      />
-      {errors.major && <ErrorText>{errors.major}</ErrorText>}
-    </InfoForm>
-  );
-});
-
 const Modify = () => {
   const formRef = useRef<ModifyFormHandles>(null);
   const navigate = useNavigate();
+  const [initialInfo, setInitialInfo] = useState({
+    name: "",
+    email: "",
+    number: "",
+    department: "",
+  });
+
+  useEffect(() => {
+    userInfo()
+      .then((res) => setInitialInfo(res.data))
+      .catch((error) => console.error(error));
+  }, []);
 
   const handleNext = async () => {
     if (formRef.current?.validateForm()) {
       try {
-        const formData = formRef.current.getFormData(); // 유효성 검사를 통과한 데이터 가져오기
-        const response = await modify(formData); // 서버 요청
+        const formData = formRef.current.getFormData();
+        const response = await modify(formData);
         console.log("서버 응답:", response);
 
-        // 서버 요청이 성공하면 페이지 이동
         navigate(MYPAGE_URL);
       } catch (error) {
         console.error("서버 요청 중 에러 발생:", error);
@@ -225,18 +168,112 @@ const Modify = () => {
         <ContentContainer>
           <PillMark>재학생</PillMark>
           <FormWrapper>
-            <ModifyForm ref={formRef} />
+            <ModifyForm ref={formRef} info={initialInfo} />
           </FormWrapper>
           <Email>
             <EmailIcon src={Gmail} alt="gmail icon" />
-            {myPageInfo.email}
+            {initialInfo.email}
           </Email>
         </ContentContainer>
         <WithdrawText>회원 탈퇴</WithdrawText>
-        <Button type="_120x40_Primary" content="다음" onClick={handleNext} />
+        <Button
+          styleType="_120x40_Primary"
+          content="다음"
+          onClick={handleNext}
+        />
       </Background>
     </Container>
   );
 };
 
 export default Modify;
+
+export interface ModifyFormHandles {
+  validateForm: () => boolean;
+  getFormData: () => { number: string; department: string };
+  info?: {
+    number: string;
+    department: string;
+  };
+}
+
+const ModifyForm = forwardRef<
+  ModifyFormHandles,
+  { info: ModifyFormHandles["info"] }
+>(
+  (
+    {
+      info = {
+        number: "1234567",
+        department: "컴퓨터과학전공",
+      },
+    },
+    ref
+  ) => {
+    const [studentId, setStudentId] = useState("");
+    const [major, setMajor] = useState("");
+    const [errors, setErrors] = useState({ studentId: "", major: "" });
+
+    useImperativeHandle(ref, () => ({
+      validateForm,
+      getFormData,
+    }));
+
+    const handleStudentIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      if (/^\d*$/.test(value)) {
+        setStudentId(value);
+      }
+    };
+
+    const handleMajorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setMajor(e.target.value);
+    };
+
+    const validateForm = () => {
+      const newErrors: { studentId: string; major: string } = {
+        studentId: "",
+        major: "",
+      };
+
+      if (studentId.length !== 7) {
+        newErrors.studentId = "학번은 7자리 숫자로 입력해주세요.";
+      }
+
+      if (!majors.includes(major)) {
+        newErrors.major = "유효한 학과/학부를 입력해주세요.";
+      }
+
+      setErrors(newErrors);
+
+      return !newErrors.studentId && !newErrors.major;
+    };
+
+    const getFormData = () => ({
+      number: studentId,
+      department: major,
+    });
+
+    return (
+      <InfoForm>
+        <StyledInput
+          label="학번"
+          placeholder={info.number}
+          value={studentId}
+          onChange={handleStudentIdChange}
+          hasError={!!errors.studentId}
+        />
+        {errors.studentId && <ErrorText>{errors.studentId}</ErrorText>}
+
+        <StyledInput
+          label="학과/학부"
+          placeholder={info.department}
+          value={major}
+          onChange={handleMajorChange}
+          hasError={!!errors.major}
+        />
+        {errors.major && <ErrorText>{errors.major}</ErrorText>}
+      </InfoForm>
+    );
+  }
+);

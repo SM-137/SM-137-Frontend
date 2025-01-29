@@ -4,7 +4,7 @@ import HowToRegRoundedIcon from "@mui/icons-material/HowToRegRounded";
 import { motion } from "framer-motion";
 
 interface AnswerProps {
-  data: string;
+  data: string | null;
 }
 const Container = styled.div`
   width: 100%;

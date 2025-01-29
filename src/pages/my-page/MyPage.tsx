@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import MyPageInfo from "./MyPageInfo";
-import { myPageInfo } from "../../mockData";
 import MyPageAlarm from "./MyPageAlarm";
 import MyComplaints from "./MyComplaints";
 import ScrapComplaints from "./ScrapComplaints";
@@ -45,7 +44,7 @@ const MyPage = () => {
     <Container>
       <BackGround>
         <BackgroundContents>
-          <MyPageInfo data={myPageInfo} />
+          <MyPageInfo />
           <MyPageAlarm />
         </BackgroundContents>
       </BackGround>

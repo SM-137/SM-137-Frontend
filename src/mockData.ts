@@ -1,11 +1,11 @@
 import {
   AlarmDataProps,
-  CommentType,
+  ContentDetailProps,
   ContentType,
   DataType,
-  MyPageProps,
 } from "./types/Type";
 
+//백엔드 연동
 export const sampleData: ContentType[] = [
   {
     complaintId: 1,
@@ -16,7 +16,7 @@ export const sampleData: ContentType[] = [
     contentProb: "공원에 쓰레기가 너무 많아 미관을 해치고 있습니다.",
     likeCount: 23,
     scrapCount: 5,
-    date: new Date("2025-01-20"),
+    createdAt: new Date("2025-01-20"),
   },
   {
     complaintId: 2,
@@ -27,7 +27,7 @@ export const sampleData: ContentType[] = [
     contentProb: "신호등이 고장나 교통사고 위험이 있습니다.",
     likeCount: 15,
     scrapCount: 2,
-    date: new Date("2025-01-18"),
+    createdAt: new Date("2025-01-18"),
   },
   {
     complaintId: 3,
@@ -38,7 +38,7 @@ export const sampleData: ContentType[] = [
     contentProb: "도로변에 불법 건축물이 있어 통행에 불편을 겪고 있습니다.",
     likeCount: 40,
     scrapCount: 10,
-    date: new Date("2025-01-15"),
+    createdAt: new Date("2025-01-15"),
   },
   {
     complaintId: 4,
@@ -49,7 +49,7 @@ export const sampleData: ContentType[] = [
     contentProb: "음식점 내 위생 상태가 심각하여 개선이 필요합니다.",
     likeCount: 18,
     scrapCount: 4,
-    date: new Date("2025-01-22"),
+    createdAt: new Date("2025-01-22"),
   },
   {
     complaintId: 5,
@@ -60,10 +60,52 @@ export const sampleData: ContentType[] = [
     contentProb: "야간 공사 소음으로 인해 주민들이 피해를 보고 있습니다.",
     likeCount: 30,
     scrapCount: 7,
-    date: new Date("2025-01-19"),
+    createdAt: new Date("2025-01-19"),
   },
 ];
 
+export const ContentDetailSampleData: ContentDetailProps[] = [
+  {
+    complaintId: 1,
+    complaintStatus: "WAITING",
+    complaintTitle: "저녁 수업 냉난방 가동 요청",
+    contentProb:
+      "강의실에서 냉난방기가 작동하지 않아 수업 진행에 어려움이 있습니다.",
+    contentDir: "냉난방 문제",
+    contentExpect: "수업 시간 동안 냉난방기가 정상적으로 작동했으면 합니다.",
+    answer: "해당 문제를 확인 중입니다. 빠른 시일 내에 조치하겠습니다.",
+    likeCount: 10,
+    scrapCount: 3,
+    category: "시설",
+    tag: "냉난방",
+    createdAt: "2025-01-28T12:00:00",
+    liked: false,
+    scrapped: false,
+    attachmentUrls: [
+      "https://example.com/screenshots/classroom1.png",
+      "https://example.com/screenshots/classroom2.png",
+    ],
+  },
+  {
+    complaintId: 2,
+    complaintStatus: "DONE",
+    complaintTitle: "화장실 휴지 부족",
+    contentProb: "화장실에 휴지가 계속 부족한 상태입니다.",
+    contentDir: "화장실 문제",
+    contentExpect: "항상 휴지가 준비되어 있었으면 합니다.",
+    answer: "문제가 해결되었습니다. 확인해주셔서 감사합니다.",
+    likeCount: 25,
+    scrapCount: 8,
+    category: "청소",
+    tag: "화장실",
+    createdAt: "2025-01-27T09:30:00",
+    liked: true,
+    scrapped: true,
+    attachmentUrls: [],
+  },
+];
+
+//프론트 더미 데이터
 export const mockData: DataType[] = [
   {
     id: 1,
@@ -232,36 +274,6 @@ export const mockData: DataType[] = [
     answer: "안녕하세요, 숙명여자대학교 시설관리팀입니다.",
   },
 ];
-
-export const commentMockData: CommentType[] = [
-  {
-    content:
-      "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
-    likes: 3,
-    date: "2025-01-06T23:15:00.000Z", // 1개월 이내
-  },
-  {
-    content:
-      "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
-    date: "2024-07-11T16:45:00.000Z", // 1개월 이내
-
-    likes: 3,
-  },
-  {
-    content:
-      "냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.냉난방 시스템을 개선해 주신다면 정말 도움이 될 것 같습니다. 학생들이 편안하게 수업을 받을 수 있는 환경이 필요해요.",
-    date: "2024-07-11T16:45:00.000Z", // 1개월 이내
-    likes: 10,
-  },
-];
-
-export const myPageInfo: MyPageProps = {
-  name: "홍길동",
-  state: "재학생",
-  sid: 2012345,
-  major: "컴퓨터과학전공",
-  email: "test1234@gmail.com",
-};
 
 export const alarmData: AlarmDataProps[] = [
   {

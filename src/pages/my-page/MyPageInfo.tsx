@@ -5,8 +5,8 @@ import { SvgIcon, SvgIconProps } from "@mui/material";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import Gmail from "../../assets/icons/gmail.png";
 import { userInfo } from "../../services/userService";
-import { My_DATA_Modify_URL } from "../../utils/URL";
 import { useNavigate } from "react-router-dom";
+import { MY_MODIFY_URL } from "../../utils/URL";
 
 interface UserResponse {
   name: string;
@@ -104,7 +104,7 @@ const MyPageInfo = () => {
     <Container>
       <EditIcon
         component={CreateRoundedIcon}
-        onClick={() => navigate(My_DATA_Modify_URL)}
+        onClick={() => navigate(MY_MODIFY_URL)}
       />
       <CategoryTag
         contents="재학생"

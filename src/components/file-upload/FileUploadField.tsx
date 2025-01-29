@@ -7,13 +7,13 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 const FileInputContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: start;
   gap: 1.5rem;
   width: 100%;
 `;
 
 const FileLabelContainer = styled.div`
-  width: 15%;
+  width: 17%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -27,8 +27,16 @@ const HiddenFileInput = styled.input`
   display: none;
 `;
 
+const InputInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+  gap: 0.5rem;
+`;
+
 const FileInputWrapper = styled.div`
-  width: 85%;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -37,22 +45,26 @@ const FileInputWrapper = styled.div`
 const FileDetailsContainer = styled.div`
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   border: 1px solid var(--gray3-border);
   border-radius: 4px;
   padding: 5px 10px;
-  height: 40px;
+  height: auto;
   gap: 10px;
 `;
 
+const FileNameContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+`;
+
 const FileName = styled.div`
-  font-size: 14px;
   color: var(--gray5-lowText);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 1;
+  display: inline;
 `;
 
 const DeleteFileButton = styled(SvgIcon)<SvgIconProps>`
@@ -67,24 +79,37 @@ const DeleteFileButton = styled(SvgIcon)<SvgIconProps>`
 `;
 
 interface FileUploadFieldProps {
-  onFileChange: (file: File | null) => void;
+  onFileChange: (file: File[] | null) => void;
 }
 
-const FileUploadField: React.FC<FileUploadFieldProps> = ({ onFileChange }) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+const FileUploadField = ({ onFileChange }: FileUploadFieldProps) => {
+  const INVALID_EXTENSION = "Jpg / Jpeg / Png 파일만 업로드 할 수 있습니다";
+
+  //file view
+  const [selectedFile, setSelectedFile] = useState<File[] | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const files = e.target.files;
-    if (files && files[0]) {
-      setSelectedFile(files[0]);
-      onFileChange(files[0]);
+    const fileList = e.target.files;
+    if (fileList) {
+      const newFiles = Array.from(fileList);
+
+      setSelectedFile((prev) => (prev ? [...prev, ...newFiles] : newFiles));
+      onFileChange(newFiles);
     }
   };
 
-  const handleFileRemove = () => {
-    setSelectedFile(null);
-    onFileChange(null);
+  const handleFileRemove = (index: number) => {
+    if (selectedFile) {
+      const updatedFiles = Array.from(selectedFile);
+      updatedFiles.splice(index, 1);
+      setSelectedFile(updatedFiles ? updatedFiles : null);
+      onFileChange(updatedFiles);
+    }
+  };
+
+  const handleFileClick = () => {
+    document.getElementById("file")?.click();
   };
 
   return (
@@ -92,25 +117,40 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({ onFileChange }) => {
       <FileLabelContainer>
         <FileInputLabel>첨부파일</FileInputLabel>
       </FileLabelContainer>
-      <FileInputWrapper>
-        <HiddenFileInput type="file" id="file" onChange={handleFileChange} />
-        <Button
-          content="첨부파일"
-          type="_100x35_Gray2"
-          onClick={() => document.getElementById("file")?.click()}
-        />
-        <FileDetailsContainer>
-          <FileName>
-            {selectedFile ? selectedFile.name : "선택된 파일 없음"}
-          </FileName>
-          {selectedFile && (
-            <DeleteFileButton
-              component={CancelRoundedIcon}
-              onClick={handleFileRemove}
+
+      <InputInfoContainer>
+        <FileInputWrapper>
+          <HiddenFileInput
+            type="file"
+            id="file"
+            multiple
+            onChange={handleFileChange}
+            accept=".jpg, .png, .jpeg"
+          />
+
+          <div onClick={handleFileClick}>
+            <Button
+              content="첨부파일"
+              styleType="_100x35_Gray2"
+              type="button"
             />
-          )}
-        </FileDetailsContainer>
-      </FileInputWrapper>
+          </div>
+
+          <FileDetailsContainer>
+            {selectedFile &&
+              Array.from(selectedFile).map((file, index) => (
+                <FileNameContainer key={index}>
+                  <FileName>{file.name}</FileName>
+                  <DeleteFileButton
+                    component={CancelRoundedIcon}
+                    onClick={() => handleFileRemove(index)}
+                  />
+                </FileNameContainer>
+              ))}
+            {!selectedFile?.length && <FileName>{INVALID_EXTENSION}</FileName>}
+          </FileDetailsContainer>
+        </FileInputWrapper>
+      </InputInfoContainer>
     </FileInputContainer>
   );
 };

@@ -11,32 +11,8 @@ import {
   ComplaintGrid as ScrapGrid,
 } from "../../styles/ComplaintScrap";
 import styled from "@emotion/styled";
-
-type StatusType = "IN_PROGRESS" | "WAITING" | "RETURN" | "DONE";
-
-interface ScrapResponse {
-  complaintId: number;
-  tag: string;
-  category: string;
-  complaintStatus: string;
-  complaintTitle: string;
-  contentProb: string;
-  likeCount: number;
-  scrapCount: number;
-  createdAt: string;
-}
-
-interface ContentType {
-  complaintId: number;
-  tag: string;
-  category: string;
-  complaintStatus: StatusType;
-  complaintTitle: string;
-  contentProb: string;
-  likeCount: number;
-  scrapCount: number;
-  date: Date;
-}
+import Loading from "../../components/loading/Loading";
+import { ContentType } from "../../types/Type";
 
 const Border = styled.div`
   display: flex;
@@ -56,52 +32,18 @@ const EmptyMessage = styled.div`
   color: var(--gray4-placeholder-low);
 `;
 
-const toStatusType = (status: string): StatusType => {
-  const statusMap: Record<string, StatusType> = {
-    IN_PROGRESS: "IN_PROGRESS",
-    WAITING: "WAITING",
-    RETURN: "RETURN",
-    DONE: "DONE",
-    COMPLETED: "DONE",
-  };
-  return statusMap[status] || "WAITING";
-};
-
 const Scrap = () => {
   const [scrapData, setScrapData] = useState<ContentType[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchScrapData = async () => {
-      try {
-        const response = await myScrap();
-        const { data } = response;
-
-        const transformedData = data.map((item: ScrapResponse) => ({
-          complaintId: item.complaintId,
-          tag: item.tag,
-          category: item.category,
-          complaintStatus: toStatusType(item.complaintStatus),
-          complaintTitle: item.complaintTitle,
-          contentProb: item.contentProb,
-          likeCount: item.likeCount,
-          scrapCount: item.scrapCount,
-          date: new Date(item.createdAt),
-        }));
-
-        setScrapData(transformedData);
-      } catch (error) {
-        console.error("스크랩 데이터를 불러오는 거 실패하였습니다.", error);
-        setError("스크랩 데이터를 불러오는 거 실패하였습니다.");
-      }
-    };
-
-    fetchScrapData();
+    myScrap()
+      .then((res) => {
+        setScrapData(res.data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.log(error));
   }, []);
-
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   return (
     <Container>
@@ -111,7 +53,8 @@ const Scrap = () => {
       </TitleContainer>
 
       <Border>
-        {scrapData.length === 0 ? (
+        {isLoading && <Loading />}
+        {!isLoading && scrapData.length === 0 ? (
           <EmptyMessage>스크랩한 민원이 없습니다.</EmptyMessage>
         ) : (
           <ScrapGrid>
