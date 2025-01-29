@@ -3,6 +3,7 @@ import { categoryName } from "../../utils/SubCategoryContent";
 import { CategoryValue } from "../../types/Type";
 import { useContext, useState } from "react";
 import { ViewContext } from "../../pages/view/View";
+import useComplaintStore from "../../store/store";
 
 interface SubCategoryProps {
   category: keyof typeof categoryName;
@@ -41,12 +42,15 @@ const SubCategory = (props: SubCategoryProps) => {
   const { category, usage } = props;
   const subCategoryField = categoryName[category];
 
+  const { setCategoryName } = useComplaintStore((state) => state);
+
   const context = usage === "filter" ? useContext(ViewContext) : null;
 
   const [subCategory, setSubCategory] = useState<CategoryValue>();
   const handleSubCategorySelect = (value: CategoryValue) => {
     if (subCategory === value) {
       setSubCategory(undefined);
+      context?.handleFilterOptions("category", null);
       return;
     }
     setSubCategory(value);
@@ -54,7 +58,13 @@ const SubCategory = (props: SubCategoryProps) => {
   };
 
   const handleClick = (value: CategoryValue) => {
-    setSubCategory((prev) => (prev === value ? undefined : value));
+    if (subCategory === value) {
+      setSubCategory(undefined);
+      setCategoryName("");
+      return;
+    }
+    setSubCategory(value);
+    setCategoryName(value);
   };
 
   const handleClickHandler =

@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
-import Layout from "./ApplicationStepLayout";
-import Button from "../../components/button/Button";
-import AcademicInfo from "../../components/academic-info/AcademicInfoForm";
-import Checkbox from "../../components/check-box/CheckBox";
-import InfoMessage from "../../components/info-message/InfoMessage";
 import { useState } from "react";
-import Alert from "../../components/alert/Alert";
+import { useNavigate } from "react-router-dom";
+import ApplicationStepLayout from "../ApplicationStepLayout";
+import Checkbox from "../../../components/check-box/CheckBox";
+import InfoMessage from "../../../components/info-message/InfoMessage";
+import AcademicInfo from "../../../components/academic-info/AcademicInfoForm";
+import Button from "../../../components/button/Button";
+import Alert from "../../../components/alert/Alert";
 
 const ContentWrapper = styled.div`
   background-color: var(--white);
@@ -40,12 +40,13 @@ const ButtonGroup = styled.div`
 `;
 const AlertContainer = styled.div`
   position: absolute;
-  top: 250px;
+  top: 15rem;
 `;
 
 const AcademicInfoStep = () => {
   const INFO_MESSAGE =
     "학적 정보는 관리자에게 전송되며, 오직 민원 처리 목적으로만 사용됩니다";
+  const NEXT_PAGE_URL = "../2";
 
   const [isChecked, setIsChecked] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -58,7 +59,7 @@ const AcademicInfoStep = () => {
       return;
     }
     setShowAlert(false);
-    navigate("../2", { replace: true });
+    navigate(NEXT_PAGE_URL);
   };
 
   const handleIsChecked = (isChecked: boolean) => {
@@ -69,7 +70,7 @@ const AcademicInfoStep = () => {
   };
 
   return (
-    <Layout activeStep={1}>
+    <ApplicationStepLayout activeStep={1}>
       <ContentWrapper>
         <AlertContainer>
           {showAlert && (
@@ -97,7 +98,7 @@ const AcademicInfoStep = () => {
           <Button content="다음" type="_120x40_Primary" onClick={handleNext} />
         </ButtonGroup>
       </ContentWrapper>
-    </Layout>
+    </ApplicationStepLayout>
   );
 };
 

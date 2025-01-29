@@ -110,3 +110,19 @@ export interface UserInfoType {
   name: string;
   number: string;
 }
+
+//전역 상태
+export interface ComplaintForm {
+  title: string;
+  contentProb: string;
+  contentDir: string;
+  contentExpect: string;
+  categoryName: string | undefined;
+  tagName: string;
+  setTitle: (title: string) => void;
+  setContentProb: (contentProb: string) => void;
+  setContentDir: (contentDir: string) => void;
+  setContentExpect: (contentExpect: string) => void;
+  setCategoryName: (categoryName: string | undefined) => void;
+  setTagName: (tagName: string) => void;
+}
