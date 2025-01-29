@@ -29,16 +29,23 @@ const Input = styled.input`
 interface SearchInputProps {
   placeholder?: string;
   handleKeyword: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const SearchInput = ({
   placeholder = "디즈니 인턴십 학점 인정",
   handleKeyword,
+  handleKeyDown,
 }: SearchInputProps) => {
   return (
     <InputWrapper>
       <FixedText>민원 검색</FixedText>
-      <Input type="text" placeholder={placeholder} onChange={handleKeyword} />
+      <Input
+        type="text"
+        placeholder={placeholder}
+        onChange={handleKeyword}
+        onKeyDown={handleKeyDown}
+      />
     </InputWrapper>
   );
 };

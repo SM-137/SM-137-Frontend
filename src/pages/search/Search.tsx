@@ -13,6 +13,8 @@ import { SortOptionsProps, useSort } from "../../hooks/useSort";
 import { usePagination } from "../../hooks/usePagination";
 import Pagination from "../../components/Pagination";
 import { complaintSearch } from "../../services/complaintService";
+import Loading from "../../components/loading/Loading";
+import { useLocation } from "react-router-dom";
 
 interface SearchDataProps {
   originData: ContentType[];
@@ -79,27 +81,43 @@ export const SearchContext = createContext<SearchDataProps | undefined>(
 
 const Search = () => {
   //검색어 연동
-  const params = new URLSearchParams(location.search);
-  const SEARCH_KEYWORD = decodeURIComponent(params.get("keyword") || "");
-  useEffect(() => {
-    complaintSearch(SEARCH_KEYWORD)
-      .then((res) => console.log(res.data))
-      .catch((error) => console.error(error));
-  }, []);
+  const location = useLocation();
 
-  const [originData] = useState([]);
+  const params = new URLSearchParams(location.search);
+  const [searchKeyword, setSearchKeyword] = useState<string>();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const NO_CONTENTS = "검색결과가 없습니다";
+
+  const [originData, setOriginData] = useState([]);
   const { filteredData, handleFilter, handleFilterOptions, filters } =
     useFilter(originData);
   const { handleSort, sortOptions, handleSortOption, sortData } =
     useSort(filteredData);
 
   useEffect(() => {
-    handleFilter();
-  }, [filters]);
+    const SEARCH_KEYWORD = decodeURIComponent(params.get("keyword") || "");
+    setSearchKeyword(SEARCH_KEYWORD);
+
+    setIsLoading(true);
+    complaintSearch(SEARCH_KEYWORD)
+      .then((res) => setOriginData(res.data))
+      .catch((error) => console.error(error))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [location.search]);
+  useEffect(() => {
+    if (originData) {
+      handleFilter();
+    }
+  }, [filters, originData]);
 
   useEffect(() => {
-    handleSort(filteredData);
-  }, [sortOptions, filteredData]);
+    if (originData) {
+      handleSort(filteredData);
+    }
+  }, [sortOptions, filteredData, originData]);
 
   const isComplaintExist = !(filteredData.length == 0);
 
@@ -128,7 +146,7 @@ const Search = () => {
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.5 }}
             >
-              <SearchKeyword>"{SEARCH_KEYWORD}"</SearchKeyword>
+              <SearchKeyword>"{searchKeyword}"</SearchKeyword>
             </AnimationContainer>
             <Title>민원 검색 결과</Title>
           </SearchTitleContainer>
@@ -137,12 +155,13 @@ const Search = () => {
 
         <ContentContainer>
           <SortBar context={SearchContext} />
-          {isComplaintExist ? (
+          {isLoading && <Loading />}
+          {!isLoading && isComplaintExist ? (
             displayedData.map((i, index) => (
               <ContentList data={i} key={index} />
             ))
           ) : (
-            <NoComplaints>조건에 맞는 게시물이 없습니다</NoComplaints>
+            <NoComplaints>{NO_CONTENTS}</NoComplaints>
           )}
         </ContentContainer>
         <Pagination
