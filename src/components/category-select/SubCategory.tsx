@@ -42,11 +42,14 @@ const SubCategory = (props: SubCategoryProps) => {
   const { category, usage } = props;
   const subCategoryField = categoryName[category];
 
-  const { setCategoryName } = useComplaintStore((state) => state);
-
   const context = usage === "filter" ? useContext(ViewContext) : null;
 
-  const [subCategory, setSubCategory] = useState<CategoryValue>();
+  const storedValue = sessionStorage.getItem("category");
+  const [subCategory, setSubCategory] = useState<CategoryValue | null>(
+    storedValue ? (storedValue as CategoryValue) : null
+  );
+
+  //필터링 (usage : filter)
   const handleSubCategorySelect = (value: CategoryValue) => {
     if (subCategory === value) {
       setSubCategory(undefined);
@@ -57,14 +60,19 @@ const SubCategory = (props: SubCategoryProps) => {
     context?.handleFilterOptions("category", value);
   };
 
+  //일반 선택 (usage : normal)
+  const { setCategoryName } = useComplaintStore((state) => state);
+
   const handleClick = (value: CategoryValue) => {
     if (subCategory === value) {
       setSubCategory(undefined);
       setCategoryName("");
+      sessionStorage.removeItem("category");
       return;
     }
     setSubCategory(value);
     setCategoryName(value);
+    sessionStorage.setItem("category", `${value}`);
   };
 
   const handleClickHandler =

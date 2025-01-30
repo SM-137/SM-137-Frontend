@@ -1,12 +1,13 @@
 import { create } from "zustand";
 import { ComplaintForm } from "../types/Type";
 
+const storedCategory = sessionStorage.getItem("category");
 const useComplaintStore = create<ComplaintForm>((set) => ({
   title: "",
   contentProb: "",
   contentDir: "",
   contentExpect: "",
-  categoryName: "",
+  categoryName: storedCategory ? storedCategory : "",
   tagName: "",
   attachments: [],
 
