@@ -63,7 +63,7 @@ const Comment = ({ data, index }: CommentProps) => {
         <Interaction
           type="likes"
           count={data.likeCount}
-          isIconClicked={true}
+          isIconClicked={data.isLiked}
           commentId={data.commentId}
         />
       </InfoContainer>
