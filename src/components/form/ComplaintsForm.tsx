@@ -4,12 +4,19 @@ import TextArea from "../input/TextArea";
 import FileUploadField from "../file-upload/FileUploadField";
 import useComplaintStore from "../../store/useComplaintStore";
 import { removeBlankContent } from "../../utils/SessionStorage";
+import { useEffect } from "react";
 
 interface ComplaintsFormProps {
   isEssentialWrite: {
     title: boolean;
     contentProb: boolean;
     contentDir: boolean;
+  };
+  //데이터 수정용 초기데이터
+  initialData?: {
+    complaintTitle: string;
+    contentProb: string;
+    contentDir: string;
   };
 }
 
@@ -30,7 +37,10 @@ const FormInputGroup = styled.div`
   width: 100%;
 `;
 
-const ComplaintsForm = ({ isEssentialWrite }: ComplaintsFormProps) => {
+const ComplaintsForm = ({
+  isEssentialWrite,
+  initialData,
+}: ComplaintsFormProps) => {
   const { setTitle, setContentDir, setContentProb, setContentExpect } =
     useComplaintStore((state) => state);
   const { title, contentDir, contentProb, contentExpect } = useComplaintStore(
@@ -58,6 +68,15 @@ const ComplaintsForm = ({ isEssentialWrite }: ComplaintsFormProps) => {
     sessionStorage.setItem(formType, e.target.value);
     removeBlankContent(e, formType);
   };
+
+  //데이터 수정용
+  useEffect(() => {
+    if (initialData) {
+      setTitle(initialData.complaintTitle);
+      setContentProb(initialData.contentProb);
+      setContentDir(initialData.contentDir);
+    }
+  }, [initialData, setTitle, setContentProb, setContentDir]);
 
   return (
     <FormContainer>

@@ -12,7 +12,7 @@ import Modal from "../modal/Modal";
 import DeleteComment from "../modal/contents/DeleteComment";
 import Alert from "../alert/Alert";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import ContentImage from "./ContentImage";
 import { AlertContainer } from "../../styles/AlertStyles";
@@ -137,6 +137,8 @@ const Category = styled.span`
 `;
 
 const ComplaintContent = ({ data }: ComplaintContentProps) => {
+  const navigate = useNavigate();
+
   const date = data.createdAt ? new Date(data.createdAt) : new Date();
   const formatTime = getFormatTime(date);
 
@@ -272,7 +274,13 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
       <Footer>
         {!data.answer ? (
           <EditDeleteButtonContainer>
-            <EditDeleteButton>수정</EditDeleteButton>
+            <EditDeleteButton
+              onClick={() =>
+                navigate(`/complaint-modify?complaintId=${data.complaintId}`)
+              }
+            >
+              수정
+            </EditDeleteButton>
             <pre>|</pre>
 
             {alertDelete && (

@@ -37,19 +37,28 @@ export const complaintWrite = async (data: ApplyContentProps) => {
   }
 };
 
-// export const complaintModify = async (complaintId, data) => {
-//   try {
-//     const response = await apiClient.put(
-//       import.meta.env.MODIFY_COMPLAINT + complaintId,
-//       data
-//     );
-//     console.log(response); // 백엔드에서 전달된 데이터 확인
-//     return response.data;
-//   } catch (error) {
-//     console.error("민원 수정 중 에러 발생 :", error);
-//     throw error;
-//   }
-// };
+interface ModifyContentProps {
+  title: string;
+  contentProb: string;
+  contentDir: string;
+}
+
+export const complaintModify = async (
+  complaintId: number,
+  data: ModifyContentProps
+) => {
+  try {
+    const response = await apiClient.patch(
+      `api/complaints/${complaintId}`,
+      data
+    );
+    console.log(response); // 백엔드에서 전달된 데이터 확인
+    return response.data;
+  } catch (error) {
+    console.error("민원 수정 중 에러 발생 :", error);
+    throw error;
+  }
+};
 
 export const addThumbUp = async (complaintId: number) => {
   try {

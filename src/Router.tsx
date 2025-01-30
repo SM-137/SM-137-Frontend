@@ -16,6 +16,7 @@ import AcademicInfoStep from "./pages/complaint-apply/apply-step/AcademicInfoSte
 import CategorySelectionStep from "./pages/complaint-apply/apply-step/CategorySelectionStep";
 import ComplaintsWrittingStep from "./pages/complaint-apply/apply-step/CompaintsWrittingStep";
 import ScrollToTop from "./components/ScrollToTop";
+import ComplaintModify from "./pages/complaint-modify/ComplaintModify";
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
       {
         path: "complaint-view",
         element: <View />,
+      },
+      {
+        path: "complaint-modify",
+        element: <ComplaintModify />,
       },
       {
         path: "mypage",

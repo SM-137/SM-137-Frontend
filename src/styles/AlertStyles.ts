@@ -8,4 +8,5 @@ export const AlertContainer = styled.div<AlertProps>`
   top: ${(props) => props.top};
   left: 50%;
   transform: translateX(-50%);
+  z-index: 100;
 `;
