@@ -90,6 +90,7 @@ const ComplaintsForm = ({
       setAttachments(() => initialData.attachmentUrls);
       setIsLoading(false);
     }
+    setIsLoading(false);
   }, [initialData, setTitle, setContentProb, setContentDir]);
 
   return (
