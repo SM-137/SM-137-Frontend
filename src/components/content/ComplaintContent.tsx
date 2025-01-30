@@ -161,7 +161,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   //복사할 URL 설정
   const baseURL = window.location.origin;
   const contentURL = useLocation().pathname;
-  const sharedLink = baseURL + contentURL;
+  const sharedLink = baseURL + contentURL + window.location.search;
   const imageLink = "https://sm137.netlify.app/preview.png";
 
   const copyToClipboard = async () => {
