@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { MY_COMPLAINT_URL } from "../../utils/URL";
 import { useEffect, useState } from "react";
 import { myComplaint } from "../../services/userService";
+import Loading from "../../components/loading/Loading";
 
 const Container = styled(ContentContainer)`
   margin-top: 60px;
@@ -33,29 +34,18 @@ const EmptyMessage = styled.div`
 const MyComplaints = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const SHOW_DATA_COUNT = 2;
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await myComplaint();
-        if (response && response.length > 0) {
-          setData(response.slice(0, 2));
-        } else {
-          setData([]);
-        }
-      } catch (error) {
-        console.error("내 민원 데이터를 불러오는 데 실패했습니다.", error);
-        setError("데이터를 불러오는 데 실패했습니다.");
-      }
-    };
-
-    fetchData();
+    myComplaint()
+      .then((res) => {
+        setData(res.data.slice(0, SHOW_DATA_COUNT));
+        setIsLoading(false);
+      })
+      .catch((error) => console.error(error));
   }, []);
-
-  if (error) {
-    return <Container>{error}</Container>;
-  }
 
   return (
     <Container>
@@ -64,7 +54,8 @@ const MyComplaints = () => {
         <ViewMore onClick={() => navigate(MY_COMPLAINT_URL)}>더보기 +</ViewMore>
       </TitleContainer>
       <ContentBoxContainer>
-        {data.length > 0 ? (
+        {isLoading && <Loading />}
+        {!isLoading && data.length > 0 ? (
           data.map((item, index) => (
             <ContentBox key={index} type="large" data={item} />
           ))
