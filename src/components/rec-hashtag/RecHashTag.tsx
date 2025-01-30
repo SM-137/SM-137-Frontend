@@ -46,13 +46,19 @@ const RecHashTag = ({ contentTotal }: RecHashTagProps) => {
   const [tagArray, setTagArray] = useState<string[]>([]);
   const [showAlert, setShowAlert] = useState(false);
 
+  const [hasError, setHasError] = useState(false);
+
   useEffect(() => {
     getHashtags(contentTotal)
       .then((res) => {
         setHashtagData(res.split(", "));
         setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+        setHasError(true);
+      });
   }, []);
 
   return (
@@ -76,6 +82,9 @@ const RecHashTag = ({ contentTotal }: RecHashTagProps) => {
               setShowAlert={setShowAlert}
             />
           ))}
+          {!isLoading && hasError && (
+            <div>사용할 수 있는 크레딧이 초과되었습니다</div>
+          )}
         </HashTagButton>
       )}
     </HashTagContainer>
