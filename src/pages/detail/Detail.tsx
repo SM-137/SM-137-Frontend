@@ -17,6 +17,7 @@ import {
 import Loading from "../../components/loading/Loading";
 import { CommentType, ContentDetailProps } from "../../types/Type";
 import { defaultCommentData, defaultComplaintData } from "../../DefaulatData";
+import { useLocation } from "react-router-dom";
 
 const Container = styled.div`
   position: absolute;
@@ -63,6 +64,16 @@ const AnswerContainer = styled.div`
 `;
 
 const Detail = () => {
+  //수정 후 이동시 재렌더링
+  const location = useLocation();
+  const [isUpdated, setIsUpdated] = useState(false);
+
+  useEffect(() => {
+    if (location.state?.updated) {
+      setIsUpdated(true);
+    }
+  }, [location.state]);
+
   const [isLoading, setIsLoading] = useState(true);
   const [complaintData, setComplaintData] =
     useState<ContentDetailProps>(defaultComplaintData);
@@ -84,7 +95,7 @@ const Detail = () => {
         setIsLoading(false);
       })
       .catch((error) => console.error(error));
-  }, [complaintId, isCommentAdd]);
+  }, [complaintId, isCommentAdd, isUpdated]);
 
   //댓글 작성시 스크롤 하단으로 이동
   const commentListRef = useRef<HTMLDivElement | null>(null);
