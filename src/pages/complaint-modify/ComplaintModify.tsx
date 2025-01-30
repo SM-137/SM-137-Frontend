@@ -93,8 +93,9 @@ const ComplaintModify = () => {
 
   const handleSend = () => {
     handleModalClose();
-    navigate(`/complaint-detail?complaintId=${complaintId}`);
-
+    navigate(`/complaint-detail?complaintId=${complaintId}`, {
+      state: { updated: true },
+    });
     complaintModify(complaintId, sendData)
       .then((res) => {
         console.log(res);
