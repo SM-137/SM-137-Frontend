@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import SubCategory from "./SubCategory";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { categoryName } from "../../utils/SubCategoryContent";
 import { motion } from "framer-motion";
 
@@ -38,9 +38,6 @@ const Category = styled.button<CategoryProps>`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  &:hover {
-    color: ${(props) => !props.isClick && "var(--primary)"};
-  }
   color: ${(props) => props.isClick && "var(--white)"};
   z-index: 100;
 `;
@@ -65,15 +62,35 @@ const CategorySelect = ({ usage }: UsageProps) => {
   const CATEGORY = ["facility", "degree", "career", "school"] as const;
   const CATEGORY_CONTENT = ["시설/설비", "대학원", "진로/취업", "학교생활"];
 
-  const [category, setCategory] =
-    useState<keyof typeof categoryName>("facility");
+  const storedMajorCategory = sessionStorage.getItem("majorCategory");
+  const [category, setCategory] = useState<keyof typeof categoryName>(
+    storedMajorCategory &&
+      categoryName[storedMajorCategory as keyof typeof categoryName]
+      ? (storedMajorCategory as keyof typeof categoryName)
+      : "facility"
+  );
 
   const [isClick, setIsClick] = useState({
-    facility: true,
+    facility: true, // 첫 선택 값이 true로 설정
     degree: false,
     career: false,
     school: false,
   });
+
+  useEffect(() => {
+    if (
+      storedMajorCategory &&
+      CATEGORY.includes(storedMajorCategory as keyof typeof categoryName)
+    ) {
+      setIsClick(() => ({
+        facility: false,
+        degree: false,
+        career: false,
+        school: false,
+        [storedMajorCategory]: true,
+      }));
+    }
+  }, [storedMajorCategory]);
 
   const handleCategorySelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     const value = e.currentTarget.getAttribute("data-category")!;
@@ -84,9 +101,11 @@ const CategorySelect = ({ usage }: UsageProps) => {
         for (let key in newPrev) {
           newPrev[key as keyof typeof categoryName] = key === value;
         }
+        sessionStorage.setItem("majorCategory", value);
         return newPrev;
       });
     }
+    sessionStorage.removeItem("majorCategory");
   };
 
   return (

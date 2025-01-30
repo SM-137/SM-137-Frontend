@@ -31,24 +31,11 @@ const FormInputGroup = styled.div`
 `;
 
 const ComplaintsForm = ({ isEssentialWrite }: ComplaintsFormProps) => {
-  const {
-    setTitle,
-    setContentDir,
-    setContentProb,
-    setContentExpect,
-    setAttachment,
-  } = useComplaintStore((state) => state);
+  const { setTitle, setContentDir, setContentProb, setContentExpect } =
+    useComplaintStore((state) => state);
   const { title, contentDir, contentProb, contentExpect } = useComplaintStore(
     (state) => state
   );
-
-  const handleFileChange = (file: File[] | null) => {
-    if (file) {
-      setAttachment((prev: File[] | null) =>
-        prev ? [...prev, ...file] : [...file]
-      );
-    }
-  };
 
   const handleChange = (
     e:
@@ -113,7 +100,7 @@ const ComplaintsForm = ({ isEssentialWrite }: ComplaintsFormProps) => {
           value={contentExpect}
         />
       </FormInputGroup>
-      <FileUploadField onFileChange={handleFileChange} />
+      <FileUploadField />
     </FormContainer>
   );
 };
