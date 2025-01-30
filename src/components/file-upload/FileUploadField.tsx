@@ -82,7 +82,6 @@ const FileUploadField = () => {
   const INVALID_EXTENSION = "Jpg / Jpeg / Png 파일만 업로드 할 수 있습니다";
 
   const { attachments, setAttachments } = useComplaintStore((state) => state);
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
     const files = fileList && Array.from(fileList);
@@ -110,6 +109,7 @@ const FileUploadField = () => {
     if (attachments) {
       const updatedFiles = attachments.filter((_, idx) => idx !== index);
       setAttachments(() => updatedFiles);
+
       const newFilesData = updatedFiles.map((file) => ({
         name: file.name,
         size: file.size,
@@ -118,14 +118,15 @@ const FileUploadField = () => {
       }));
       sessionStorage.setItem("files", JSON.stringify(newFilesData));
     }
-    const storedFiles = sessionStorage.getItem("files");
-    if (storedFiles && JSON.parse(storedFiles).length === 0) {
-      sessionStorage.removeItem("files");
-    }
   };
-
   const handleFileClick = () => {
     document.getElementById("file")?.click();
+  };
+
+  const handleFileRemoveAndClearInput = (index: number) => {
+    handleFileRemove(index);
+    const fileInput = document.getElementById("file") as HTMLInputElement;
+    fileInput.value = "";
   };
 
   return (
@@ -159,7 +160,7 @@ const FileUploadField = () => {
                   <FileName>{file.name}</FileName>
                   <DeleteFileButton
                     component={CancelRoundedIcon}
-                    onClick={() => handleFileRemove(index)}
+                    onClick={() => handleFileRemoveAndClearInput(index)}
                   />
                 </FileNameContainer>
               ))}
