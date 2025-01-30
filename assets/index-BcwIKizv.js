@@ -1794,6 +1794,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 `,C2=()=>h.jsxs(nz,{children:[h.jsx(cz,{children:h.jsx(dz,{src:"https://sm137.netlify.app/assets/emblem-1_DarkGray-Cv6FiteB.png"})}),h.jsx(sz,{children:h.jsxs(az,{children:[h.jsx(lz,{children:"숙명여자대학교"}),h.jsx(uz,{children:"민원 시스템"})]})}),h.jsx(rz,{children:h.jsxs(iz,{children:[h.jsx(oz,{children:h.jsx(ez,{width:"500px",height:"300px"})}),h.jsx(fz,{children:h.jsx(hz,{onClick:tF})})]})})]}),pz=E.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
 `,mz=E.h3`
   color: var(--light-primary);
