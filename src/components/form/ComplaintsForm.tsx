@@ -3,6 +3,7 @@ import Input from "../input/Input";
 import TextArea from "../input/TextArea";
 import FileUploadField from "../file-upload/FileUploadField";
 import useComplaintStore from "../../store/useComplaintStore";
+import { removeBlankContent } from "../../utils/SessionStorage";
 
 interface ComplaintsFormProps {
   isEssentialWrite: {
@@ -37,6 +38,9 @@ const ComplaintsForm = ({ isEssentialWrite }: ComplaintsFormProps) => {
     setContentExpect,
     setAttachment,
   } = useComplaintStore((state) => state);
+  const { title, contentDir, contentProb, contentExpect } = useComplaintStore(
+    (state) => state
+  );
 
   const handleFileChange = (file: File[] | null) => {
     if (file) {
@@ -61,6 +65,11 @@ const ComplaintsForm = ({ isEssentialWrite }: ComplaintsFormProps) => {
     if (formType === "contentDir") {
       setContentDir(e.target.value);
     }
+    if (formType === "contentExpect") {
+      setContentExpect(e.target.value);
+    }
+    sessionStorage.setItem(formType, e.target.value);
+    removeBlankContent(e, formType);
   };
 
   return (
@@ -73,6 +82,7 @@ const ComplaintsForm = ({ isEssentialWrite }: ComplaintsFormProps) => {
           height="40px"
           onChange={(e) => handleChange(e, "title")}
           hasError={!isEssentialWrite.title}
+          value={title}
         />
       </FormInputGroup>
       <FormInputGroup>
@@ -82,6 +92,7 @@ const ComplaintsForm = ({ isEssentialWrite }: ComplaintsFormProps) => {
           isRequired={true}
           onChange={(e) => handleChange(e, "contentProb")}
           hasError={!isEssentialWrite.contentProb}
+          value={contentProb}
         />
       </FormInputGroup>
       <FormInputGroup>
@@ -91,13 +102,15 @@ const ComplaintsForm = ({ isEssentialWrite }: ComplaintsFormProps) => {
           isRequired={true}
           onChange={(e) => handleChange(e, "contentDir")}
           hasError={!isEssentialWrite.contentDir}
+          value={contentDir}
         />
       </FormInputGroup>
       <FormInputGroup>
         <TextArea
           label="기대효과"
           placeholder="내용을 입력해주세요"
-          onChange={(e) => setContentExpect(e.target.value)}
+          onChange={(e) => handleChange(e, "contentExpect")}
+          value={contentExpect}
         />
       </FormInputGroup>
       <FileUploadField onFileChange={handleFileChange} />

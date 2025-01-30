@@ -67,6 +67,7 @@ const Input = ({
   isRequired = false,
   onChange,
   hasError,
+  value,
 }: InputProps) => {
   return (
     <Container>
@@ -80,6 +81,7 @@ const Input = ({
         height={height}
         onChange={onChange}
         hasError={hasError}
+        value={value}
       />
     </Container>
   );

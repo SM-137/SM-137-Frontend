@@ -11,6 +11,7 @@ interface TextAreaProps extends InfoTextAreaProps {
   isRequired?: boolean;
   hasError?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  value?: string;
 }
 
 const TextAreaContainer = styled.div`
@@ -67,6 +68,7 @@ const TextArea = ({
   isRequired = false,
   hasError = false,
   onChange,
+  value,
 }: TextAreaProps) => {
   return (
     <TextAreaContainer>
@@ -79,6 +81,7 @@ const TextArea = ({
         height={height}
         onChange={onChange}
         hasError={hasError}
+        value={value}
       />
     </TextAreaContainer>
   );
