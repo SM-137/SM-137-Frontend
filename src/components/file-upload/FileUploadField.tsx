@@ -108,10 +108,15 @@ const FileUploadField = () => {
 
   const handleFileRemove = (index: number) => {
     if (attachments) {
-      const updatedFiles = Array.from(attachments);
-      updatedFiles.splice(index, 1);
-      console.log(updatedFiles);
-      sessionStorage.setItem("files", JSON.stringify(updatedFiles));
+      const updatedFiles = attachments.filter((_, idx) => idx !== index);
+      setAttachments(() => updatedFiles);
+      const newFilesData = updatedFiles.map((file) => ({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified,
+      }));
+      sessionStorage.setItem("files", JSON.stringify(newFilesData));
     }
     const storedFiles = sessionStorage.getItem("files");
     if (storedFiles && JSON.parse(storedFiles).length === 0) {
