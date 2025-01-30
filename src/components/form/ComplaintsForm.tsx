@@ -4,7 +4,8 @@ import TextArea from "../input/TextArea";
 import FileUploadField from "../file-upload/FileUploadField";
 import useComplaintStore from "../../store/useComplaintStore";
 import { removeBlankContent } from "../../utils/SessionStorage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Loading from "../loading/Loading";
 
 interface ComplaintsFormProps {
   isEssentialWrite: {
@@ -17,6 +18,8 @@ interface ComplaintsFormProps {
     complaintTitle: string;
     contentProb: string;
     contentDir: string;
+    contentExpect: string;
+    attachmentUrls: File[];
   };
 }
 
@@ -41,8 +44,15 @@ const ComplaintsForm = ({
   isEssentialWrite,
   initialData,
 }: ComplaintsFormProps) => {
-  const { setTitle, setContentDir, setContentProb, setContentExpect } =
-    useComplaintStore((state) => state);
+  const {
+    setTitle,
+    setContentDir,
+    setContentProb,
+    setContentExpect,
+    setAttachments,
+  } = useComplaintStore((state) => state);
+  const [isLoading, setIsLoading] = useState(true);
+
   const { title, contentDir, contentProb, contentExpect } = useComplaintStore(
     (state) => state
   );
@@ -75,50 +85,60 @@ const ComplaintsForm = ({
       setTitle(initialData.complaintTitle);
       setContentProb(initialData.contentProb);
       setContentDir(initialData.contentDir);
+      setContentExpect(initialData.contentExpect);
+      //임시 첨부파일명 (첨부파일 수정 기능 추가 필요)
+      setAttachments(() => initialData.attachmentUrls);
+      setIsLoading(false);
     }
   }, [initialData, setTitle, setContentProb, setContentDir]);
 
   return (
     <FormContainer>
-      <FormInputGroup>
-        <Input
-          label="제목"
-          placeholder="내용을 입력해주세요"
-          isRequired={true}
-          height="40px"
-          onChange={(e) => handleChange(e, "title")}
-          hasError={!isEssentialWrite.title}
-          value={title}
-        />
-      </FormInputGroup>
-      <FormInputGroup>
-        <TextArea
-          label="현황 및 문제점"
-          placeholder="내용을 입력해주세요"
-          isRequired={true}
-          onChange={(e) => handleChange(e, "contentProb")}
-          hasError={!isEssentialWrite.contentProb}
-          value={contentProb}
-        />
-      </FormInputGroup>
-      <FormInputGroup>
-        <TextArea
-          label="개선 방향"
-          placeholder="내용을 입력해주세요"
-          isRequired={true}
-          onChange={(e) => handleChange(e, "contentDir")}
-          hasError={!isEssentialWrite.contentDir}
-          value={contentDir}
-        />
-      </FormInputGroup>
-      <FormInputGroup>
-        <TextArea
-          label="기대효과"
-          placeholder="내용을 입력해주세요"
-          onChange={(e) => handleChange(e, "contentExpect")}
-          value={contentExpect}
-        />
-      </FormInputGroup>
+      {isLoading && <Loading />}
+
+      {!isLoading && (
+        <>
+          <FormInputGroup>
+            <Input
+              label="제목"
+              placeholder="내용을 입력해주세요"
+              isRequired={true}
+              height="40px"
+              onChange={(e) => handleChange(e, "title")}
+              hasError={!isEssentialWrite.title}
+              value={title}
+            />
+          </FormInputGroup>
+          <FormInputGroup>
+            <TextArea
+              label="현황 및 문제점"
+              placeholder="내용을 입력해주세요"
+              isRequired={true}
+              onChange={(e) => handleChange(e, "contentProb")}
+              hasError={!isEssentialWrite.contentProb}
+              value={contentProb}
+            />
+          </FormInputGroup>
+          <FormInputGroup>
+            <TextArea
+              label="개선 방향"
+              placeholder="내용을 입력해주세요"
+              isRequired={true}
+              onChange={(e) => handleChange(e, "contentDir")}
+              hasError={!isEssentialWrite.contentDir}
+              value={contentDir}
+            />
+          </FormInputGroup>
+          <FormInputGroup>
+            <TextArea
+              label="기대효과"
+              placeholder="내용을 입력해주세요"
+              onChange={(e) => handleChange(e, "contentExpect")}
+              value={contentExpect}
+            />
+          </FormInputGroup>
+        </>
+      )}
       <FileUploadField />
     </FormContainer>
   );
