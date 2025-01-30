@@ -603,7 +603,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 `,IN=E(Rw)`
   left: auto;
   right: -2.5rem;
-`,LN=()=>{const[e,t]=C.useState(0),[n,r]=C.useState([]),[i,o]=C.useState(!0);C.useEffect(()=>{EN().then(m=>r(m.data)).catch(m=>console.log(m)),o(!1)},[]);const s=0,a=4,[l,u]=C.useState(s),d=n.slice(0,a),c=d.slice(l,l+2),f=()=>{if(t(m=>m+1),l+2<d.length){u(l+2);return}u(s)},p=()=>{if(t(m=>m-1),l-2>=0){u(l-2);return}if(d.length<a){u(Math.floor(d.length/2+1));return}u(s)};return console.log(l),h.jsxs(_N,{children:[h.jsx(MN,{children:"최근 주목받은 민원"}),i?h.jsx(xn,{}):h.jsxs(ON,{children:[h.jsx(Rw,{component:T_,onClick:p}),h.jsx(IN,{component:k_,onClick:f}),h.jsx(DN,{initial:{opacity:0,x:-20},animate:{opacity:1,x:0},exit:{opacity:0,x:20},children:c.map((m,v)=>h.jsx(xa,{type:"large",data:m},v))},e)]})]})},NN="/assets/emblem-1_DarkGray-Cv6FiteB.png",FN=E.div`
+`,LN=()=>{const[e,t]=C.useState(0),[n,r]=C.useState([]),[i,o]=C.useState(!0);C.useEffect(()=>{EN().then(m=>r(m.data)).catch(m=>console.log(m)),o(!1)},[]);const s=0,a=4,[l,u]=C.useState(s),d=n.slice(0,a),c=d.slice(l,l+2),f=()=>{if(t(m=>m+1),l+2<d.length){u(l+2);return}u(s)},p=()=>{if(t(m=>m-1),l-2>=0){u(l-2);return}if(d.length<a){u(Math.floor(d.length/2+1));return}u(s)};return h.jsxs(_N,{children:[h.jsx(MN,{children:"최근 주목받은 민원"}),i?h.jsx(xn,{}):h.jsxs(ON,{children:[h.jsx(Rw,{component:T_,onClick:p}),h.jsx(IN,{component:k_,onClick:f}),h.jsx(DN,{initial:{opacity:0,x:-20},animate:{opacity:1,x:0},exit:{opacity:0,x:20},children:c.map((m,v)=>h.jsx(xa,{type:"large",data:m},v))},e)]})]})},NN="/assets/emblem-1_DarkGray-Cv6FiteB.png",FN=E.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -748,7 +748,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 `,dF=E.div`
   width: 350px;
   height: 200px;
-`,fF=["냉난방","학사일정","교환학생","연계전공","졸업","시설","설비"],hF=()=>{const[e,t]=C.useState({name:"",number:"",email:"",department:""}),[n,r]=C.useState(!0),{isModalOpen:i,handleModalClose:o,handleModalOpen:s}=Ro();return C.useEffect(()=>{Oc().then(a=>{t(a.data),r(!1)}).catch(a=>console.error(a))},[]),console.log(e.number),C.useEffect(()=>{n||(e.number==="Unknown"||e.department==="Unknown")&&s()},[e]),h.jsxs(aF,{children:[i&&h.jsx(ui,{isOpen:i,handleClose:o,contents:h.jsx(sF,{handleClose:o})}),h.jsx(uF,{src:NN}),h.jsxs(cF,{children:[h.jsx(dF,{children:h.jsx(u_,{data:fF})}),h.jsx(X3,{})]}),h.jsx(lF,{children:h.jsx(b_,{})}),h.jsx(LN,{})]})},$m=te(h.jsx("path",{d:"M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2"}),"BookmarkRounded"),Ow=E.div`
+`,fF=["냉난방","학사일정","교환학생","연계전공","졸업","시설","설비"],hF=()=>{const[e,t]=C.useState({name:"",number:"",email:"",department:""}),[n,r]=C.useState(!0),{isModalOpen:i,handleModalClose:o,handleModalOpen:s}=Ro();return C.useEffect(()=>{Oc().then(a=>{t(a.data),r(!1)}).catch(a=>console.error(a))},[]),C.useEffect(()=>{n||(e.number==="Unknown"||e.department==="Unknown")&&s()},[e]),h.jsxs(aF,{children:[i&&h.jsx(ui,{isOpen:i,handleClose:o,contents:h.jsx(sF,{handleClose:o})}),h.jsx(uF,{src:NN}),h.jsxs(cF,{children:[h.jsx(dF,{children:h.jsx(u_,{data:fF})}),h.jsx(X3,{})]}),h.jsx(lF,{children:h.jsx(b_,{})}),h.jsx(LN,{})]})},$m=te(h.jsx("path",{d:"M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2"}),"BookmarkRounded"),Ow=E.div`
   display: flex;
   flex-direction: column;
   align-items: center;
