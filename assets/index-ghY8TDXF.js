@@ -1274,7 +1274,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   color: var(--gray5-lowText);
 `,iV=E.pre`
   color: var(--gray4-placeholder-low);
-`,oV=({data:e,index:t})=>{const n="var(--disabled-primary)",r="20px",i=new Date(e.createdAt),o=Iw(i);return h.jsxs(eV,{children:[h.jsxs(tV,{children:[h.jsxs(Fw,{children:[h.jsx(Bm,{component:zm,sx:{fill:n,width:r}}),h.jsxs($w,{children:["댓글 ",t]})]}),h.jsx(wh,{type:"likes",count:e.likeCount,isIconClicked:!0,commentId:e.commentId})]}),h.jsxs(nV,{children:[h.jsx(rV,{children:e.content}),h.jsx(iV,{children:o})]})]})},sV=E.div`
+`,oV=({data:e,index:t})=>{const n="var(--disabled-primary)",r="20px",i=new Date(e.createdAt),o=Iw(i);return h.jsxs(eV,{children:[h.jsxs(tV,{children:[h.jsxs(Fw,{children:[h.jsx(Bm,{component:zm,sx:{fill:n,width:r}}),h.jsxs($w,{children:["댓글 ",t]})]}),h.jsx(wh,{type:"likes",count:e.likeCount,isIconClicked:e.isLiked,commentId:e.commentId})]}),h.jsxs(nV,{children:[h.jsx(rV,{children:e.content}),h.jsx(iV,{children:o})]})]})},sV=E.div`
   width: 100%;
   display: flex;
   align-items: center;
