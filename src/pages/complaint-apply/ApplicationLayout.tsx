@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import ProgressBar from "../../components/progress-line/ProgressBar";
 import MailRoundedIcon from "@mui/icons-material/MailRounded";
+import usePrompt from "../../hooks/\busePrompt";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -62,6 +63,8 @@ interface LayoutProps {
 }
 
 const ApplicationLayout: React.FC<LayoutProps> = ({ children, activeStep }) => {
+  usePrompt();
+
   return (
     <LayoutContainer>
       <Background />

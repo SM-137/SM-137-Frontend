@@ -34,7 +34,10 @@ const AcademicInfoStep = () => {
     "학적 정보는 관리자에게 전송되며, 오직 민원 처리 목적으로만 사용됩니다";
   const NEXT_PAGE_URL = "../2";
 
-  const [isChecked, setIsChecked] = useState(false);
+  const storedValue = sessionStorage.getItem("isChecked");
+  const [isChecked, setIsChecked] = useState(
+    storedValue ? JSON.parse(storedValue) : false
+  );
   const [showAlert, setShowAlert] = useState(false);
 
   const navigate = useNavigate();
@@ -52,6 +55,10 @@ const AcademicInfoStep = () => {
     setIsChecked(isChecked);
     if (isChecked) {
       setShowAlert(false);
+      sessionStorage.setItem("isChecked", JSON.stringify(true));
+    }
+    if (!isChecked) {
+      sessionStorage.removeItem("isChecked");
     }
   };
 
@@ -74,7 +81,8 @@ const AcademicInfoStep = () => {
           <Checkbox
             text="확인했습니다"
             hasError={showAlert}
-            onChange={handleIsChecked}
+            isChecked={isChecked}
+            handleIsChecked={handleIsChecked}
           />
         </FormTitleContainer>
 

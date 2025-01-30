@@ -1,6 +1,8 @@
 import { Outlet, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import HeaderProvider from "../components/header/HeaderProvider";
+import { useEffect } from "react";
+import useComplaintStore from "../store/useComplaintStore";
 
 const Wrap = styled.div`
   width: 100%;
@@ -26,6 +28,27 @@ const ColoredLayout = styled.div<{ bgc: string }>`
 const Layout = () => {
   const path = useLocation().pathname;
   const backgroundColor = path === "/" ? "var(--primary)" : "none";
+
+  const {
+    setTitle,
+    setContentDir,
+    setContentProb,
+    setContentExpect,
+    setCategoryName,
+    setAttachments,
+  } = useComplaintStore((state) => state);
+
+  useEffect(() => {
+    if (!path.includes("complaint-request")) {
+      sessionStorage.clear();
+      setTitle("");
+      setContentDir("");
+      setContentProb("");
+      setContentExpect("");
+      setAttachments(() => []);
+      setCategoryName("");
+    }
+  }, [path]);
   return (
     <Wrap>
       <ColoredLayout bgc={backgroundColor}>

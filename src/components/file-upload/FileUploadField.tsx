@@ -1,8 +1,8 @@
-import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Button from "../button/Button";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import useComplaintStore from "../../store/useComplaintStore";
 
 const FileInputContainer = styled.div`
   display: flex;
@@ -78,38 +78,55 @@ const DeleteFileButton = styled(SvgIcon)<SvgIconProps>`
   }
 `;
 
-interface FileUploadFieldProps {
-  onFileChange: (file: File[] | null) => void;
-}
-
-const FileUploadField = ({ onFileChange }: FileUploadFieldProps) => {
+const FileUploadField = () => {
   const INVALID_EXTENSION = "Jpg / Jpeg / Png 파일만 업로드 할 수 있습니다";
 
-  //file view
-  const [selectedFile, setSelectedFile] = useState<File[] | null>(null);
-
+  const { attachments, setAttachments } = useComplaintStore((state) => state);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
     const fileList = e.target.files;
-    if (fileList) {
-      const newFiles = Array.from(fileList);
+    const files = fileList && Array.from(fileList);
 
-      setSelectedFile((prev) => (prev ? [...prev, ...newFiles] : newFiles));
-      onFileChange(newFiles);
+    if (files) {
+      setAttachments((prev: File[] | null) =>
+        prev ? [...prev, ...files] : [...files]
+      );
+
+      const newFilesData = files.map((file) => ({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified,
+      }));
+
+      const storedFiles = sessionStorage.getItem("files");
+      const filesArray = storedFiles ? JSON.parse(storedFiles) : [];
+      const updatedFilesArray = [...filesArray, ...newFilesData];
+      sessionStorage.setItem("files", JSON.stringify(updatedFilesArray));
     }
   };
 
   const handleFileRemove = (index: number) => {
-    if (selectedFile) {
-      const updatedFiles = Array.from(selectedFile);
-      updatedFiles.splice(index, 1);
-      setSelectedFile(updatedFiles ? updatedFiles : null);
-      onFileChange(updatedFiles);
+    if (attachments) {
+      const updatedFiles = attachments.filter((_, idx) => idx !== index);
+      setAttachments(() => updatedFiles);
+
+      const newFilesData = updatedFiles.map((file) => ({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified,
+      }));
+      sessionStorage.setItem("files", JSON.stringify(newFilesData));
     }
   };
-
   const handleFileClick = () => {
     document.getElementById("file")?.click();
+  };
+
+  const handleFileRemoveAndClearInput = (index: number) => {
+    handleFileRemove(index);
+    const fileInput = document.getElementById("file") as HTMLInputElement;
+    fileInput.value = "";
   };
 
   return (
@@ -137,17 +154,17 @@ const FileUploadField = ({ onFileChange }: FileUploadFieldProps) => {
           </div>
 
           <FileDetailsContainer>
-            {selectedFile &&
-              Array.from(selectedFile).map((file, index) => (
+            {attachments &&
+              Array.from(attachments).map((file, index) => (
                 <FileNameContainer key={index}>
                   <FileName>{file.name}</FileName>
                   <DeleteFileButton
                     component={CancelRoundedIcon}
-                    onClick={() => handleFileRemove(index)}
+                    onClick={() => handleFileRemoveAndClearInput(index)}
                   />
                 </FileNameContainer>
               ))}
-            {!selectedFile?.length && <FileName>{INVALID_EXTENSION}</FileName>}
+            {!attachments?.length && <FileName>{INVALID_EXTENSION}</FileName>}
           </FileDetailsContainer>
         </FileInputWrapper>
       </InputInfoContainer>

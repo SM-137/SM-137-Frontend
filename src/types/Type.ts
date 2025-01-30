@@ -127,5 +127,5 @@ export interface ComplaintForm {
   setContentExpect: (contentExpect: string) => void;
   setCategoryName: (categoryName: string | undefined) => void;
   setTagName: (tagName: string) => void;
-  setAttachment: (update: (prev: File[] | null) => File[] | null) => void;
+  setAttachments: (update: (prev: File[] | null) => File[] | null) => void;
 }

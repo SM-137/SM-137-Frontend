@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
 
 interface hasErroProps {
   hasError: boolean;
@@ -7,7 +6,8 @@ interface hasErroProps {
 type CheckboxProps = {
   text: string;
   hasError: boolean;
-  onChange: (checked: boolean) => void;
+  handleIsChecked: (isChecked: boolean) => void;
+  isChecked: boolean;
 };
 
 const StyledLabel = styled.label<hasErroProps>`
@@ -43,21 +43,24 @@ const ConfirmationMessage = styled.p<hasErroProps>`
     props.hasError ? "var(--error-dark)" : "var(--gray5-lowText)"};
 `;
 
-function Checkbox({ text, hasError, onChange }: CheckboxProps) {
-  const [isChecked, setIsChecked] = useState(false);
-  const handleCheck = () => {
-    const newCheckState = !isChecked;
-    setIsChecked((prev) => !prev);
-    onChange(newCheckState);
+function Checkbox({
+  text,
+  hasError,
+  handleIsChecked,
+  isChecked,
+}: CheckboxProps) {
+  const handleChange = () => {
+    const newIsChecked = !isChecked;
+    handleIsChecked(newIsChecked);
   };
-
   return (
     <StyledLabel htmlFor={text} hasError={hasError}>
       <StyledInput
         type="checkbox"
         id={text}
         name={text}
-        onChange={handleCheck}
+        onChange={handleChange}
+        checked={isChecked}
       />
       <ConfirmationMessage hasError={hasError}>{text}</ConfirmationMessage>
     </StyledLabel>
