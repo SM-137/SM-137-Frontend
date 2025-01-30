@@ -29,6 +29,17 @@ const ButtonGroup = styled.div`
   gap: 1rem;
 `;
 
+const CategoryView = styled.div`
+  display: inline-flex;
+  padding: 0.5rem 3rem;
+  justify-content: center;
+  background-color: var(--primary);
+  color: var(--white);
+  margin-top: 1rem;
+  text-align: center;
+  border-radius: 8px;
+`;
+
 const CategorySelectionStep = () => {
   const PREV_PAGE_URL = "../1";
   const NEXT_PAGE_URL = "../3";
@@ -63,7 +74,10 @@ const CategorySelectionStep = () => {
             가장 연관이 깊은 1개의 카테고리(분류)를 선택해 주세요
           </FormTitle>
         </FormTitleContainer>
+
         <CategorySelect usage="normal" />
+        {categoryName && <CategoryView>{categoryName}</CategoryView>}
+
         <ButtonGroup>
           <Button
             content="이전"
