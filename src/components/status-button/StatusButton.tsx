@@ -31,7 +31,7 @@ const CheckIcon = styled(check_circle)`
 `;
 
 const CancelIcon = styled(cancel)`
-  color: var(--error-light);
+  color: var(--error);
   width: 20px;
   height: 20px;
 `;
@@ -50,7 +50,7 @@ export const buttonStyles = {
   },
   RETURN: {
     Icon: CancelIcon,
-    color: "var(--error-light)",
+    color: "var(--error)",
     text: "반려",
   },
   DONE: {
