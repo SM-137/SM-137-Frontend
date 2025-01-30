@@ -38,7 +38,7 @@ export const googleRedirect = async () => {
 
 export const modify = async (data: ModifyData) => {
   try {
-    const response = await apiClient.patch("/api/user/modify", data);
+    const response = await apiClient.patch("api/user/modify", data);
 
     return response.data;
   } catch (error) {

@@ -8,6 +8,7 @@ import Emblem from "../../assets/emblem-1_DarkGray.png";
 import Modal from "../../components/modal/Modal";
 import InitialInfo from "../../components/modal/contents/InitialInfo";
 import { userInfo } from "../../services/userService";
+import { useModal } from "../../hooks/useModal";
 
 const HomeContainer = styled.div`
   height: 100%;
@@ -67,31 +68,37 @@ const mockHashtag = [
 ];
 
 const Home = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
+  const [initialInfo, setInitialInfo] = useState({
+    name: "",
+    number: "",
+    email: "",
+    department: "",
+  });
+  const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
 
   useEffect(() => {
     userInfo()
       .then((res) => {
-        const { number, department } = res.data;
-
-        if (number === "string" || department === "string") {
-          setIsModalOpen(true);
-        }
+        setInitialInfo(res.data);
       })
       .catch((error) => console.error(error));
   }, []);
 
+  useEffect(() => {
+    if (!initialInfo.number || !initialInfo.department) {
+      handleModalOpen();
+    }
+  }, [userInfo]);
+
   return (
     <HomeContainer>
-      <Modal
-        isOpen={isModalOpen}
-        handleClose={handleModalClose}
-        contents={<InitialInfo handleClose={handleModalClose} />}
-      />
+      {isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+          handleClose={handleModalClose}
+          contents={<InitialInfo handleClose={handleModalClose} />}
+        />
+      )}
 
       <EmblemContainer src={Emblem} />
 

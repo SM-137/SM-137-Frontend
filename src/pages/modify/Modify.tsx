@@ -12,10 +12,12 @@ import {
 } from "react";
 import majors from "../../utils/MajorList";
 import { useNavigate } from "react-router-dom";
-import { userInfo, modify, deleteAccount } from "../../services/userService";
+import { userInfo, modify } from "../../services/userService";
 import { MYPAGE_URL } from "../../utils/URL";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
-import { deleteJWTToken } from "../../utils/JWT";
+import { useModal } from "../../hooks/useModal";
+import Modal from "../../components/modal/Modal";
+import DeleteAccount from "../../components/modal/contents/DeleteAccount";
 
 const Container = styled.div`
   display: flex;
@@ -159,17 +161,26 @@ const Modify = () => {
     }
   };
 
+  const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
+
   const handleDeleteAccount = () => {
-    deleteAccount()
-      .then(() => {
-        navigate("/login");
-        deleteJWTToken();
-      })
-      .catch((error) => console.error(error));
+    handleModalOpen();
   };
 
   return (
     <Container>
+      {isModalOpen && (
+        <Modal
+          contents={
+            <DeleteAccount
+              handleCancel={handleModalClose}
+              handleClose={handleDeleteAccount}
+            />
+          }
+          isOpen={isModalOpen}
+          handleClose={handleModalClose}
+        />
+      )}
       <HeaderContainer>
         <ModifyIcon component={MoodRoundedIcon} />
         <ModifyTitle>개인정보 수정</ModifyTitle>
