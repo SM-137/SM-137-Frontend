@@ -82,7 +82,6 @@ export const SearchContext = createContext<SearchDataProps | undefined>(
 const Search = () => {
   //검색어 연동
   const location = useLocation();
-
   const params = new URLSearchParams(location.search);
   const [searchKeyword, setSearchKeyword] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
