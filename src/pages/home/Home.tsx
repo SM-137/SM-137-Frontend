@@ -86,13 +86,18 @@ const Home = () => {
       .catch((error) => console.error(error));
   }, []);
 
+  console.log(initialInfo.number);
+
   useEffect(() => {
     if (!isLoading) {
-      if (!initialInfo.number || !initialInfo.department) {
+      if (
+        initialInfo.number === "Unknown" ||
+        initialInfo.department === "Unknown"
+      ) {
         handleModalOpen();
       }
     }
-  }, [userInfo]);
+  }, [initialInfo]);
 
   return (
     <HomeContainer>
