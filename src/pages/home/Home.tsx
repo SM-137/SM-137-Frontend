@@ -74,19 +74,23 @@ const Home = () => {
     email: "",
     department: "",
   });
+  const [isLoading, setIsLoading] = useState(true);
   const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
 
   useEffect(() => {
     userInfo()
       .then((res) => {
         setInitialInfo(res.data);
+        setIsLoading(false);
       })
       .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
-    if (!initialInfo.number || !initialInfo.department) {
-      handleModalOpen();
+    if (!isLoading) {
+      if (!initialInfo.number || !initialInfo.department) {
+        handleModalOpen();
+      }
     }
   }, [userInfo]);
 

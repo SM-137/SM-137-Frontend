@@ -199,7 +199,7 @@ const Modify = () => {
         <WithdrawText onClick={handleDeleteAccount}>회원 탈퇴</WithdrawText>
         <Button
           styleType="_120x40_Primary"
-          content="다음"
+          content="수정"
           onClick={handleNext}
         />
       </Background>

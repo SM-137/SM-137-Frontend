@@ -24,15 +24,15 @@ interface InitialInfoProps {
 const InitialInfo = ({ handleClose }: InitialInfoProps) => {
   const formRef = useRef<UserInfoFormHandles>(null);
 
-  const handleNextClick = async () => {
+  const handleNext = async () => {
     if (formRef.current?.validateForm()) {
-      const formData = formRef.current.getFormData();
-
       try {
-        await modify(formData);
-        handleClose(); // 성공 시 모달 닫기
-      } catch (e) {
-        console.error("서버 요청 중 에러 발생:", e);
+        const formData = formRef.current.getFormData();
+        const response = await modify(formData);
+        console.log("서버 응답:", response);
+        handleClose();
+      } catch (error) {
+        console.error("서버 요청 중 에러 발생:", error);
       }
     }
   };
@@ -45,11 +45,7 @@ const InitialInfo = ({ handleClose }: InitialInfoProps) => {
         content={InfoMessageText}
       />
       <UserInfoForm ref={formRef} />
-      <Button
-        styleType="_120x40_Primary"
-        content="다음"
-        onClick={handleNextClick}
-      />
+      <Button styleType="_120x40_Primary" content="시작" onClick={handleNext} />
     </Container>
   );
 };
