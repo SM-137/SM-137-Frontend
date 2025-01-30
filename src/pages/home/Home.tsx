@@ -86,8 +86,6 @@ const Home = () => {
       .catch((error) => console.error(error));
   }, []);
 
-  console.log(initialInfo.number);
-
   useEffect(() => {
     if (!isLoading) {
       if (

@@ -107,7 +107,7 @@ const HomeContentList = () => {
     }
     setCurrentIndex(FIRST_PAGE_INDEX);
   };
-  console.log(currentIndex);
+
   return (
     <ContentContainer>
       <Title>최근 주목받은 민원</Title>
