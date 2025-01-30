@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { MY_SCRAP_URL } from "../../utils/URL";
 import { useEffect, useState } from "react";
 import { myScrap } from "../../services/userService";
+import Loading from "../../components/loading/Loading";
 
 const Background = styled.div`
   z-index: 0;
@@ -44,29 +45,16 @@ const EmptyMessage = styled.div`
 const ScrapComplaints = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await myScrap();
-        if (response && response.length > 0) {
-          setData(response.slice(0, 2));
-        } else {
-          setData([]);
-        }
-      } catch (error) {
-        console.error("스크랩한 민원을 불러오는 데 실패했습니다.", error);
-        setError("스크랩한 민원을 불러오는 데 실패했습니다.");
-      }
-    };
-
-    fetchData();
+    myScrap()
+      .then((res) => {
+        setData(res.data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error(error));
   }, []);
-
-  if (error) {
-    return <ContentContainer>{error}</ContentContainer>;
-  }
 
   return (
     <ContentContainer>
@@ -77,7 +65,8 @@ const ScrapComplaints = () => {
             <ViewMore onClick={() => navigate(MY_SCRAP_URL)}>더보기 +</ViewMore>
           </TitleContainer>
           <ContentBoxContainer>
-            {data.length > 0 ? (
+            {isLoading && <Loading />}
+            {!isLoading && data.length > 0 ? (
               data.map((item, index) => (
                 <ContentBox key={index} type="large" data={item} />
               ))
