@@ -12,7 +12,7 @@ import {
 } from "react";
 import majors from "../../utils/MajorList";
 import { useNavigate } from "react-router-dom";
-import { userInfo, modify } from "../../services/userService";
+import { userInfo, modify, deleteAccount } from "../../services/userService";
 import { MYPAGE_URL } from "../../utils/URL";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 
@@ -158,6 +158,12 @@ const Modify = () => {
     }
   };
 
+  const handleDeleteAccount = () => {
+    deleteAccount()
+      .then((res) => console.log(res))
+      .catch((error) => console.error(error));
+  };
+
   return (
     <Container>
       <HeaderContainer>
@@ -175,7 +181,7 @@ const Modify = () => {
             {initialInfo.email}
           </Email>
         </ContentContainer>
-        <WithdrawText>회원 탈퇴</WithdrawText>
+        <WithdrawText onClick={handleDeleteAccount}>회원 탈퇴</WithdrawText>
         <Button
           styleType="_120x40_Primary"
           content="다음"

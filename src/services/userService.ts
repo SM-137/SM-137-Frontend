@@ -87,11 +87,21 @@ export const Result = async () => {
 
 export const myScrap = async () => {
   try {
-    const response = await apiClient.get(`/api/user/scrap`);
-    console.log(response); // 백엔드에서 전달된 데이터 확인
+    const response = await apiClient.get("/api/user/scrap");
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error("스크랩한 민원 로딩 중 에러 발생 :", error);
+    throw error;
+  }
+};
+
+export const deleteAccount = async () => {
+  try {
+    const response = await apiClient.delete("api/user/signout");
+    return response.data;
+  } catch (error) {
+    console.error("회원탈퇴 중 에러 발생", error);
     throw error;
   }
 };
