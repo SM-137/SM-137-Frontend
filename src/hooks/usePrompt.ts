@@ -6,7 +6,9 @@ const CONFIRM_MESSAGE =
 
 const usePrompt = () => {
   const blocker = useBlocker(({ currentLocation, nextLocation }) => {
-    const condition = !nextLocation.pathname.includes("complaint-request");
+    const condition =
+      !nextLocation.pathname.includes("complaint-request") &&
+      !currentLocation.pathname.includes("complaint-request/4");
     return condition && currentLocation.pathname !== nextLocation.pathname;
   });
 
