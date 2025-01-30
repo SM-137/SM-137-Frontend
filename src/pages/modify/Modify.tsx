@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { userInfo, modify, deleteAccount } from "../../services/userService";
 import { MYPAGE_URL } from "../../utils/URL";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
+import { deleteJWTToken } from "../../utils/JWT";
 
 const Container = styled.div`
   display: flex;
@@ -160,7 +161,10 @@ const Modify = () => {
 
   const handleDeleteAccount = () => {
     deleteAccount()
-      .then((res) => console.log(res))
+      .then(() => {
+        navigate("/login");
+        deleteJWTToken();
+      })
       .catch((error) => console.error(error));
   };
 
