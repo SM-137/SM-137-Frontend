@@ -13,6 +13,7 @@
     "deploy": "gh-pages -d dist"
   },
   "homepage": "https://sm137.netlify.app/",
+  "proxy": "http://ec2-54-180-106-175.ap-northeast-2.compute.amazonaws.com:8080/",
   "lint-staged": {
     "**/*.{tsx,ts,jsx,js}": [
       "prettier --write",

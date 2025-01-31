@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react(), svgr()],
   server: {
     proxy: {
-      "/base/": {
+      "/base": {
         target:
           "http://ec2-54-180-106-175.ap-northeast-2.compute.amazonaws.com:8080",
         changeOrigin: true,

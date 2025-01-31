@@ -1,9 +1,12 @@
 import axios from "axios";
 import { getJwtTokenFromCookie } from "../utils/JWT";
 
+const PROXY = window.location.hostname === "localhost" ? "" : "/base";
+const URL = `${PROXY}`;
+
 const token = getJwtTokenFromCookie();
 const apiClient = axios.create({
-  baseURL: "/base/",
+  baseURL: URL,
   headers: {
     "Content-Type": "application/json",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
