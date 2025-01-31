@@ -129,9 +129,10 @@ const HomeContentList = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
           >
-            {complaintList.map((i, index) => (
-              <ContentBox key={index} type="large" data={i} />
-            ))}
+            {complaintList &&
+              complaintList.map((i, index) => (
+                <ContentBox key={index} type="large" data={i} />
+              ))}
           </AnimationContainer>
         </ContentBoxContainer>
       )}
