@@ -80,6 +80,7 @@ const HomeContentList = () => {
   }, []);
 
   const FIRST_PAGE_INDEX = 0;
+  const LAST_PAGE_INDEX = 2;
   //추천 개수
   const RECOMMEND_COUNT = 4;
   const [currentIndex, setCurrentIndex] = useState(FIRST_PAGE_INDEX);
@@ -101,11 +102,7 @@ const HomeContentList = () => {
       setCurrentIndex(currentIndex - 2);
       return;
     }
-    if (data.length < RECOMMEND_COUNT) {
-      setCurrentIndex(Math.floor(data.length / 2 + 1));
-      return;
-    }
-    setCurrentIndex(FIRST_PAGE_INDEX);
+    setCurrentIndex(LAST_PAGE_INDEX);
   };
 
   return (
