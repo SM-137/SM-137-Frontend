@@ -1791,7 +1791,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   width: 250px;
   height: 80px;
   display: inline-flex;
-`,C2=()=>{const e="https://sm137.netlify.app/assets/emblem-1_DarkGray-Cv6FiteB.png";return C.useEffect(()=>{Cc()&&Sc()},[]),h.jsxs(iz,{children:[h.jsx(fz,{children:h.jsx(hz,{src:e})}),h.jsx(lz,{children:h.jsxs(uz,{children:[h.jsx(cz,{children:"숙명여자대학교"}),h.jsx(dz,{children:"민원 시스템"})]})}),h.jsx(oz,{children:h.jsxs(sz,{children:[h.jsx(az,{children:h.jsx(nz,{width:"500px",height:"300px"})}),h.jsx(pz,{children:h.jsx(mz,{onClick:rF})})]})})]})},gz=E.div`
+`,C2=()=>{const e="https://sm137.netlify.app/assets/emblem-1_DarkGray-Cv6FiteB.png",[t,n]=C.useState(null);return C.useEffect(()=>{const r=Cc();r&&n(r)},[]),C.useEffect(()=>{t&&Sc()},[t]),h.jsxs(iz,{children:[h.jsx(fz,{children:h.jsx(hz,{src:e})}),h.jsx(lz,{children:h.jsxs(uz,{children:[h.jsx(cz,{children:"숙명여자대학교"}),h.jsx(dz,{children:"민원 시스템"})]})}),h.jsx(oz,{children:h.jsxs(sz,{children:[h.jsx(az,{children:h.jsx(nz,{width:"500px",height:"300px"})}),h.jsx(pz,{children:h.jsx(mz,{onClick:rF})})]})})]})},gz=E.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
