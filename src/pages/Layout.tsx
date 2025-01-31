@@ -49,6 +49,13 @@ const Layout = () => {
       setCategoryName("");
     }
   }, [path]);
+
+  //document.title 설정
+  useEffect(() => {
+    if (!path.includes("complaint-detail")) {
+      document.title = "숙명137";
+    }
+  }, [path]);
   return (
     <Wrap>
       <ColoredLayout bgc={backgroundColor}>
