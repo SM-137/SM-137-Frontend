@@ -93,13 +93,13 @@ const ComplaintModify = () => {
 
   const handleSend = () => {
     handleModalClose();
-    navigate(`/complaint-detail?complaintId=${complaintId}`, {
-      state: { updated: true },
-    });
     complaintModify(complaintId, sendData)
       .then((res) => {
         console.log(res);
         alert("수정되었습니다");
+        navigate(`/complaint-detail?complaintId=${complaintId}`, {
+          state: { updated: true },
+        });
       })
       .catch((error) => console.error(error));
   };
