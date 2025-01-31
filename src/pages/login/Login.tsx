@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Logo from "../../assets/icons/logo/logo-bubble.svg?react";
 import { googleLogin } from "../../services/userService";
 import GoogleLoginSvg from "../../assets/google-login.svg?react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { deleteJWTToken, getJwtTokenFromCookie } from "../../utils/JWT";
 
 const Background = styled.div`
@@ -91,12 +91,22 @@ const Login = () => {
   const IMAGE_SRC =
     "https://sm137.netlify.app/assets/emblem-1_DarkGray-Cv6FiteB.png";
 
-  //기존 jwt토큰 삭제
+  const [jwtToken, setJwtToken] = useState<string | null>(null);
+
+  // jwtToken 상태 업데이트
   useEffect(() => {
-    if (getJwtTokenFromCookie()) {
-      deleteJWTToken();
+    const token = getJwtTokenFromCookie();
+    if (token) {
+      setJwtToken(token);
     }
   }, []);
+
+  // jwtToken이 있다면 삭제
+  useEffect(() => {
+    if (jwtToken) {
+      deleteJWTToken();
+    }
+  }, [jwtToken]);
 
   return (
     <Background>
