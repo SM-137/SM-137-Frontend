@@ -27,8 +27,9 @@ const Redirect = () => {
         const jwtToken = await googleRedirect();
         const isValidDomain = handleValidDomain();
         if (!isValidDomain) {
-          deleteJWTToken();
           alert("숙명 Gmail 계정으로만 로그인 가능합니다.");
+          deleteJWTToken();
+
           navigate("/login");
           return;
         }
