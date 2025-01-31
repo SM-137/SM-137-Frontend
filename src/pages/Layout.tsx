@@ -56,6 +56,7 @@ const Layout = () => {
       document.title = "숙명137";
     }
   }, [path]);
+
   return (
     <Wrap>
       <ColoredLayout bgc={backgroundColor}>

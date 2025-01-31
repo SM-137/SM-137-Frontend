@@ -29,7 +29,6 @@ const Redirect = () => {
         if (!isValidDomain) {
           alert("숙명 Gmail 계정으로만 로그인 가능합니다.");
           deleteJWTToken();
-
           navigate("/login");
           return;
         }
