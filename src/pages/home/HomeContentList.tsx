@@ -75,8 +75,8 @@ const HomeContentList = () => {
   useEffect(() => {
     complaintHome()
       .then((res) => setHomeComplaint(res.data))
-      .catch((error) => console.log(error));
-    setIsLoading(false);
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   }, []);
 
   const FIRST_PAGE_INDEX = 0;
