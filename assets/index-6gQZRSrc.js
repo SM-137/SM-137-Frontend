@@ -603,7 +603,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 `,IN=E(Rw)`
   left: auto;
   right: -2.5rem;
-`,LN=()=>{const[e,t]=C.useState(0),[n,r]=C.useState([]),[i,o]=C.useState(!0);C.useEffect(()=>{EN().then(m=>r(m.data)).catch(m=>console.log(m)).finally(()=>o(!1))},[]);const s=0,a=4,[l,u]=C.useState(s),c=n&&n.slice(0,a),d=c&&c.slice(l,l+2),f=()=>{if(t(m=>m+1),l+2<c.length){u(l+2);return}u(s)},p=()=>{if(t(m=>m-1),l-2>=0){u(l-2);return}if(c.length<a){u(Math.floor(c.length/2+1));return}u(s)};return h.jsxs(_N,{children:[h.jsx(MN,{children:"최근 주목받은 민원"}),i?h.jsx(on,{}):h.jsxs(ON,{children:[h.jsx(Rw,{component:T_,onClick:p}),h.jsx(IN,{component:k_,onClick:f}),h.jsx(DN,{initial:{opacity:0,x:-20},animate:{opacity:1,x:0},exit:{opacity:0,x:20},children:d.map((m,v)=>h.jsx(xa,{type:"large",data:m},v))},e)]})]})},NN="/assets/emblem-1_DarkGray-Cv6FiteB.png",FN=E.div`
+`,LN=()=>{const[e,t]=C.useState(0),[n,r]=C.useState([]),[i,o]=C.useState(!0);C.useEffect(()=>{EN().then(m=>r(m.data)).catch(m=>console.log(m)).finally(()=>o(!1))},[]);const s=0,a=4,[l,u]=C.useState(s),c=n&&n.slice(0,a),d=c&&c.slice(l,l+2),f=()=>{if(t(m=>m+1),l+2<c.length){u(l+2);return}u(s)},p=()=>{if(t(m=>m-1),l-2>=0){u(l-2);return}if(c.length<a){u(Math.floor(c.length/2+1));return}u(s)};return h.jsxs(_N,{children:[h.jsx(MN,{children:"최근 주목받은 민원"}),i?h.jsx(on,{}):h.jsxs(ON,{children:[h.jsx(Rw,{component:T_,onClick:p}),h.jsx(IN,{component:k_,onClick:f}),h.jsx(DN,{initial:{opacity:0,x:-20},animate:{opacity:1,x:0},exit:{opacity:0,x:20},children:d&&d.map((m,v)=>h.jsx(xa,{type:"large",data:m},v))},e)]})]})},NN="/assets/emblem-1_DarkGray-Cv6FiteB.png",FN=E.div`
   position: fixed;
   top: 0;
   left: 0;
