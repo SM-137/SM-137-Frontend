@@ -748,7 +748,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 `,dF=E.div`
   width: 350px;
   height: 200px;
-`,fF=["냉난방","학사일정","교환학생","연계전공","졸업","시설","설비"],hF=()=>{const[e,t]=C.useState({name:"",number:"",email:"",department:""}),[n,r]=C.useState(!0),{isModalOpen:i,handleModalClose:o,handleModalOpen:s}=Ro();return C.useEffect(()=>{Oc().then(a=>{t(a.data),r(!1)}).catch(a=>console.error(a))},[]),C.useEffect(()=>{n||(e.number==="Unknown"||e.department==="Unknown")&&s()},[e]),h.jsxs(aF,{children:[i&&h.jsx(ui,{isOpen:i,handleClose:o,contents:h.jsx(sF,{handleClose:o})}),h.jsx(uF,{src:NN}),h.jsxs(cF,{children:[h.jsx(dF,{children:h.jsx(u_,{data:fF})}),h.jsx(X3,{})]}),h.jsx(lF,{children:h.jsx(b_,{})}),h.jsx(LN,{})]})},$m=te(h.jsx("path",{d:"M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2"}),"BookmarkRounded"),Ow=E.div`
+`,fF=["냉난방","학사일정","교환학생","연계전공","졸업","시설","설비"],hF=()=>{const[e,t]=C.useState({name:"",number:"",email:"",department:""}),[n,r]=C.useState(!0),{isModalOpen:i,handleModalClose:o,handleModalOpen:s}=Ro();return C.useEffect(()=>{Oc().then(a=>{t(a.data),r(!1)}).catch(a=>console.error(a))},[]),C.useEffect(()=>{!n&&e&&(e.number==="Unknown"||e.department==="Unknown")&&s()},[e]),h.jsxs(aF,{children:[i&&h.jsx(ui,{isOpen:i,handleClose:o,contents:h.jsx(sF,{handleClose:o})}),h.jsx(uF,{src:NN}),h.jsxs(cF,{children:[h.jsx(dF,{children:h.jsx(u_,{data:fF})}),h.jsx(X3,{})]}),h.jsx(lF,{children:h.jsx(b_,{})}),h.jsx(LN,{})]})},$m=te(h.jsx("path",{d:"M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2"}),"BookmarkRounded"),Ow=E.div`
   display: flex;
   flex-direction: column;
   align-items: center;
