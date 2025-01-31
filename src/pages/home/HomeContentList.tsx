@@ -83,8 +83,8 @@ const HomeContentList = () => {
   //추천 개수
   const RECOMMEND_COUNT = 4;
   const [currentIndex, setCurrentIndex] = useState(FIRST_PAGE_INDEX);
-  const data = homeComplaint.slice(0, RECOMMEND_COUNT);
-  const complaintList = data.slice(currentIndex, currentIndex + 2);
+  const data = homeComplaint && homeComplaint.slice(0, RECOMMEND_COUNT);
+  const complaintList = data && data.slice(currentIndex, currentIndex + 2);
 
   const nextPage = () => {
     setAnimateKey((prev) => prev + 1);
