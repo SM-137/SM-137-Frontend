@@ -87,7 +87,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && initialInfo) {
       if (
         initialInfo.number === "Unknown" ||
         initialInfo.department === "Unknown"
