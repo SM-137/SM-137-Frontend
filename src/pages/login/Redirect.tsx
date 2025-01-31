@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Loading from "../../components/loading/Loading";
 import styled from "@emotion/styled";
 import { googleRedirect } from "../../services/userService";
-import { handleValidDomain } from "../../utils/JWT";
+import { deleteJWTToken, handleValidDomain } from "../../utils/JWT";
 
 const Container = styled.div`
   display: flex;
@@ -27,6 +27,7 @@ const Redirect = () => {
         const jwtToken = await googleRedirect();
         const isValidDomain = handleValidDomain();
         if (!isValidDomain) {
+          deleteJWTToken();
           alert("숙명 Gmail 계정으로만 로그인 가능합니다.");
           navigate("/login");
           return;
