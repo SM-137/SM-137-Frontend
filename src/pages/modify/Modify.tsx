@@ -13,6 +13,7 @@ import { useModal } from "../../hooks/useModal";
 import Modal from "../../components/modal/Modal";
 import DeleteAccount from "../../components/modal/contents/DeleteAccount";
 import useUserInfoStore from "../../store/useUserInfoStore";
+import Dropdown from "../../components/input/MajorDropdown";
 
 const Container = styled.div`
   display: flex;
@@ -199,10 +200,10 @@ export interface ModifyFormHandles {
 }
 
 const ModifyForm = forwardRef<ModifyFormHandles>((_, ref) => {
-  const [studentId, setStudentId] = useState("");
-  const [major, setMajor] = useState("");
-  const [errors, setErrors] = useState({ studentId: "", major: "" });
   const { number, department } = useUserInfoStore();
+  const [studentId, setStudentId] = useState(number || "");
+  const [major, setMajor] = useState(department || majors[0]);
+  const [errors, setErrors] = useState({ studentId: "" });
 
   useImperativeHandle(ref, () => ({
     validateForm,
@@ -216,32 +217,25 @@ const ModifyForm = forwardRef<ModifyFormHandles>((_, ref) => {
     }
   };
 
-  const handleMajorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMajor(e.target.value);
+  const handleMajorChange = (selectedMajor: string) => {
+    setMajor(selectedMajor);
   };
 
   const validateForm = () => {
-    const newErrors: { studentId: string; major: string } = {
-      studentId: "",
-      major: "",
-    };
+    const newErrors: { studentId: string } = { studentId: "" };
 
     if (studentId.length !== 7) {
       newErrors.studentId = "학번은 7자리 숫자로 입력해주세요.";
     }
 
-    if (!majors.includes(major)) {
-      newErrors.major = "유효한 학과/학부를 입력해주세요.";
-    }
-
     setErrors(newErrors);
 
-    return !newErrors.studentId && !newErrors.major;
+    return !newErrors.studentId;
   };
 
   const getFormData = () => ({
     number: studentId,
-    department: major,
+    department: major === department ? department : major,
   });
 
   return (
@@ -255,14 +249,12 @@ const ModifyForm = forwardRef<ModifyFormHandles>((_, ref) => {
       />
       {errors.studentId && <ErrorText>{errors.studentId}</ErrorText>}
 
-      <StyledInput
+      <Dropdown
         label="학과/학부"
-        placeholder={department}
+        options={majors}
         value={major}
         onChange={handleMajorChange}
-        hasError={!!errors.major}
       />
-      {errors.major && <ErrorText>{errors.major}</ErrorText>}
     </InfoForm>
   );
 });

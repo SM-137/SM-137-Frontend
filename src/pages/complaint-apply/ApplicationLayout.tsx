@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import ProgressBar from "../../components/progress-line/ProgressBar";
 import MailRoundedIcon from "@mui/icons-material/MailRounded";
-import usePrompt from "../../hooks/\busePrompt";
+import usePrompt from "../../hooks/usePrompt";
 
 const LayoutContainer = styled.div`
   display: flex;
