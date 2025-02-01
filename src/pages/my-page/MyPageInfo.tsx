@@ -7,6 +7,7 @@ import Gmail from "../../assets/icons/gmail.png";
 import { userInfo } from "../../services/userService";
 import { useNavigate } from "react-router-dom";
 import { MY_MODIFY_URL } from "../../utils/URL";
+import useUserInfoStore from "../../store/useUserInfoStore";
 
 interface UserResponse {
   name: string;
@@ -68,37 +69,8 @@ const EditIcon = styled(SvgIcon)<SvgIconProps>`
 `;
 
 const MyPageInfo = () => {
-  const [userData, setUserData] = useState<UserResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await userInfo();
-        const { data } = response;
-        setUserData({
-          name: data.name,
-          email: data.email,
-          number: data.number,
-          department: data.department,
-        });
-      } catch (error) {
-        console.error("사용자 정보 조회 중 에러 발생 :", error);
-        setError("사용자 정보를 불러오는 데 실패했습니다.");
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  if (!userData) {
-    return null;
-  }
+  const { name, number, department, email } = useUserInfoStore();
 
   return (
     <Container>
@@ -111,12 +83,12 @@ const MyPageInfo = () => {
         background="var(--primary)"
         color="var(--white)"
       />
-      <Name>{userData.name}</Name>
-      <Sid>{userData.number}</Sid>
-      <Major>{userData.department}</Major>
+      <Name>{name}</Name>
+      <Sid>{number}</Sid>
+      <Major>{department}</Major>
       <Email>
         <EmailIcon src={Gmail} alt="gmail icon" />
-        {userData.email}
+        {email}
       </Email>
     </Container>
   );
