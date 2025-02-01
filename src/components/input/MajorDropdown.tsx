@@ -85,6 +85,10 @@ const Option = styled.li`
   cursor: pointer;
 `;
 
+const CurrentValue = styled.div`
+  color: var(--gray6-header);
+`;
+
 const DropDownIcon = styled(SvgIcon)<SvgIconProps>`
   fill: var(--gray5-lowText);
 `;
@@ -129,13 +133,16 @@ const MajorDropdown: React.FC<DropdownProps> = ({
         <InfoLabel>{label}</InfoLabel>
       </LabelContainer>
       <SelectBox onClick={() => setIsOpen((prev) => !prev)} ref={selectRef}>
-        <span>{currentValue}</span>
+        <CurrentValue>{currentValue}</CurrentValue>
         <DropDownIcon component={KeyboardArrowDownRoundedIcon} />
         <SelectOptions isOpen={isOpen}>
           {options.map((option, index) => (
             <Option
               key={index}
-              onClick={() => handleOnChangeSelectValue(option)}
+              onClick={(e) => {
+                e.stopPropagation;
+                handleOnChangeSelectValue(option);
+              }}
             >
               {option}
             </Option>
