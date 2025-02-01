@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useState, forwardRef, useImperativeHandle } from "react";
 import Input from "../input/Input";
 import majors from "../../utils/MajorList";
+import Dropdown from "../input/MajorDropdown";
 
 const InfoForm = styled.form`
   display: flex;
@@ -28,8 +29,8 @@ export interface UserInfoFormHandles {
 
 const UserInfoForm = forwardRef<UserInfoFormHandles>((_, ref) => {
   const [studentId, setStudentId] = useState("");
-  const [major, setMajor] = useState("");
-  const [errors, setErrors] = useState({ studentId: "", major: "" });
+  const [major, setMajor] = useState(majors[0]);
+  const [errors, setErrors] = useState({ studentId: "" });
 
   useImperativeHandle(ref, () => ({
     validateForm,
@@ -43,27 +44,20 @@ const UserInfoForm = forwardRef<UserInfoFormHandles>((_, ref) => {
     }
   };
 
-  const handleMajorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMajor(e.target.value);
+  const handleMajorChange = (selectedMajor: string) => {
+    setMajor(selectedMajor);
   };
 
   const validateForm = () => {
-    const newErrors: { studentId: string; major: string } = {
-      studentId: "",
-      major: "",
-    };
+    const newErrors: { studentId: string } = { studentId: "" };
 
     if (studentId.length !== 7) {
       newErrors.studentId = "학번은 7자리 숫자로 입력해주세요.";
     }
 
-    if (!majors.includes(major)) {
-      newErrors.major = "유효한 학과/학부를 입력해주세요.";
-    }
-
     setErrors(newErrors);
 
-    return !newErrors.studentId && !newErrors.major;
+    return !newErrors.studentId;
   };
 
   const getFormData = () => ({
@@ -82,14 +76,12 @@ const UserInfoForm = forwardRef<UserInfoFormHandles>((_, ref) => {
       />
       {errors.studentId && <ErrorText>{errors.studentId}</ErrorText>}
 
-      <StyledInput
+      <Dropdown
         label="학과/학부"
-        placeholder="컴퓨터과학전공"
+        options={majors}
         value={major}
         onChange={handleMajorChange}
-        hasError={!!errors.major}
       />
-      {errors.major && <ErrorText>{errors.major}</ErrorText>}
     </InfoForm>
   );
 });
