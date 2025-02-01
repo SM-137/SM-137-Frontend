@@ -1,7 +1,7 @@
 import { create } from "zustand";
-import { UserInfoType } from "../types/Type";
+import { UserInfoStateType } from "../types/Type";
 
-const useUserInfoStore = create<UserInfoType>((set) => ({
+const useUserInfoStore = create<UserInfoStateType>((set) => ({
   name: "",
   department: "",
   email: "",
