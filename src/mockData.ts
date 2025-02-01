@@ -64,47 +64,6 @@ export const sampleData: ContentType[] = [
   },
 ];
 
-export const ContentDetailSampleData: ContentDetailProps[] = [
-  {
-    complaintId: 1,
-    complaintStatus: "WAITING",
-    complaintTitle: "저녁 수업 냉난방 가동 요청",
-    contentProb:
-      "강의실에서 냉난방기가 작동하지 않아 수업 진행에 어려움이 있습니다.",
-    contentDir: "냉난방 문제",
-    contentExpect: "수업 시간 동안 냉난방기가 정상적으로 작동했으면 합니다.",
-    answer: "해당 문제를 확인 중입니다. 빠른 시일 내에 조치하겠습니다.",
-    likeCount: 10,
-    scrapCount: 3,
-    category: "시설",
-    tag: "냉난방",
-    createdAt: "2025-01-28T12:00:00",
-    liked: false,
-    scrapped: false,
-    attachmentUrls: [
-      "https://example.com/screenshots/classroom1.png",
-      "https://example.com/screenshots/classroom2.png",
-    ],
-  },
-  {
-    complaintId: 2,
-    complaintStatus: "DONE",
-    complaintTitle: "화장실 휴지 부족",
-    contentProb: "화장실에 휴지가 계속 부족한 상태입니다.",
-    contentDir: "화장실 문제",
-    contentExpect: "항상 휴지가 준비되어 있었으면 합니다.",
-    answer: "문제가 해결되었습니다. 확인해주셔서 감사합니다.",
-    likeCount: 25,
-    scrapCount: 8,
-    category: "청소",
-    tag: "화장실",
-    createdAt: "2025-01-27T09:30:00",
-    liked: true,
-    scrapped: true,
-    attachmentUrls: [],
-  },
-];
-
 //프론트 더미 데이터
 export const mockData: DataType[] = [
   {
