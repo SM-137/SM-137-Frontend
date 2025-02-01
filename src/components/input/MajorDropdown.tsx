@@ -14,9 +14,30 @@ interface OptionProps {
   isOpen: boolean;
 }
 
+const Container = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: start;
+  gap: 1.5rem;
+  width: 100%;
+`;
+
+const LabelContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  gap: 0.4rem;
+  width: 15%;
+`;
+
+const InfoLabel = styled.label`
+  color: var(--gray4-placeholder-low);
+  text-align: right;
+`;
+
 const SelectBox = styled.div`
   position: relative;
-  width: 11.25rem;
+  width: 85%;
   height: 2rem;
   padding: 0.4rem 0.6rem;
   border-radius: 4px;
@@ -62,6 +83,12 @@ const Option = styled.li`
   padding: 10px;
   transition: background-color 0.2s ease-in;
   cursor: pointer;
+
+  &:hover {
+    color: white;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #5658df 0%, #2f6dd0 100%);
+  }
 `;
 
 const DropDownIcon = styled(SvgIcon)<SvgIconProps>`
@@ -103,8 +130,10 @@ const MajorDropdown: React.FC<DropdownProps> = ({
   };
 
   return (
-    <div>
-      <label>{label}</label>
+    <Container>
+      <LabelContainer>
+        <InfoLabel>{label}</InfoLabel>
+      </LabelContainer>
       <SelectBox onClick={() => setIsOpen((prev) => !prev)} ref={selectRef}>
         <span>{currentValue}</span>
         <DropDownIcon component={KeyboardArrowDownRoundedIcon} />
@@ -119,7 +148,7 @@ const MajorDropdown: React.FC<DropdownProps> = ({
           ))}
         </SelectOptions>
       </SelectBox>
-    </div>
+    </Container>
   );
 };
 
