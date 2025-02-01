@@ -9,7 +9,6 @@ import Modal from "../../components/modal/Modal";
 import InitialInfo from "../../components/modal/contents/InitialInfo";
 import { userInfo } from "../../services/userService";
 import { useModal } from "../../hooks/useModal";
-import useUserInfoStore from "../../store/useUserInfoStore";
 
 const HomeContainer = styled.div`
   height: 100%;
@@ -77,12 +76,17 @@ const Home = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
-  const { setNumber, setDepartment, setEmail, setName } = useUserInfoStore();
 
   useEffect(() => {
     userInfo()
       .then((res) => {
         setInitialInfo(res.data);
+
+        sessionStorage.setItem("name", res.data.name);
+        sessionStorage.setItem("number", res.data.number);
+        sessionStorage.setItem("department", res.data.department);
+        sessionStorage.setItem("email", res.data.email);
+
         setIsLoading(false);
       })
       .catch((error) => console.error(error));
@@ -97,10 +101,6 @@ const Home = () => {
         handleModalOpen();
         return;
       }
-      setNumber(initialInfo.number);
-      setDepartment(initialInfo.department);
-      setName(initialInfo.name);
-      setEmail(initialInfo.email);
     }
   }, [initialInfo]);
 

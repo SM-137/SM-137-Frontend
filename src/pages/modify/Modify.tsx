@@ -12,7 +12,6 @@ import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import { useModal } from "../../hooks/useModal";
 import Modal from "../../components/modal/Modal";
 import DeleteAccount from "../../components/modal/contents/DeleteAccount";
-import useUserInfoStore from "../../store/useUserInfoStore";
 import Dropdown from "../../components/input/MajorDropdown";
 
 const Container = styled.div`
@@ -130,7 +129,8 @@ const StyledInput = styled(Input)<{ hasError: boolean }>`
 const Modify = () => {
   const formRef = useRef<ModifyFormHandles | null>(null);
   const navigate = useNavigate();
-  const { email, setNumber, setDepartment } = useUserInfoStore();
+
+  const email = sessionStorage.getItem("email");
 
   const handleNext = async () => {
     if (formRef.current?.validateForm()) {
@@ -139,8 +139,9 @@ const Modify = () => {
         const response = await modify(formData);
         console.log("서버 응답:", response);
         alert("수정되었습니다.");
-        setNumber(formData.number);
-        setDepartment(formData.department);
+        //값 업데이트
+        sessionStorage.setItem("number", formData.number);
+        sessionStorage.setItem("department", formData.department);
         navigate(MYPAGE_URL);
       } catch (error) {
         console.error("서버 요청 중 에러 발생:", error);
@@ -202,7 +203,9 @@ export interface ModifyFormHandles {
 }
 
 const ModifyForm = forwardRef<ModifyFormHandles>((_, ref) => {
-  const { number, department } = useUserInfoStore();
+  const number = sessionStorage.getItem("number");
+  const department = sessionStorage.getItem("department");
+
   const [studentId, setStudentId] = useState(number || "");
   const [major, setMajor] = useState(department || majors[0]);
   const [errors, setErrors] = useState({ studentId: "" });
@@ -244,7 +247,7 @@ const ModifyForm = forwardRef<ModifyFormHandles>((_, ref) => {
     <InfoForm>
       <StyledInput
         label="학번"
-        placeholder={number}
+        placeholder={number ?? "학번"}
         value={studentId}
         onChange={handleStudentIdChange}
         hasError={!!errors.studentId}

@@ -5,7 +5,6 @@ import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import Gmail from "../../assets/icons/gmail.png";
 import { useNavigate } from "react-router-dom";
 import { MY_MODIFY_URL } from "../../utils/URL";
-import useUserInfoStore from "../../store/useUserInfoStore";
 
 const Container = styled.div`
   width: 100%;
@@ -61,7 +60,11 @@ const EditIcon = styled(SvgIcon)<SvgIconProps>`
 
 const MyPageInfo = () => {
   const navigate = useNavigate();
-  const { name, number, department, email } = useUserInfoStore();
+
+  const name = sessionStorage.getItem("name");
+  const number = sessionStorage.getItem("number");
+  const department = sessionStorage.getItem("department");
+  const email = sessionStorage.getItem("email");
 
   return (
     <Container>

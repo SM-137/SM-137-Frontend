@@ -40,7 +40,13 @@ const Layout = () => {
 
   useEffect(() => {
     if (!path.includes("complaint-request")) {
-      sessionStorage.clear();
+      sessionStorage.removeItem("category");
+      sessionStorage.removeItem("title");
+      sessionStorage.removeItem("contentProb");
+      sessionStorage.removeItem("contentDir");
+      sessionStorage.removeItem("contentExpect");
+      sessionStorage.removeItem("files");
+      sessionStorage.removeItem("isChecked");
       setTitle("");
       setContentDir("");
       setContentProb("");

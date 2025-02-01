@@ -3,7 +3,6 @@ import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useHeaderContext } from "../../contexts/HeaderOpenContext";
 import siteLogo from "../../assets/symbol_Color.png";
-import useUserInfoStore from "../../store/useUserInfoStore";
 
 const Logo = styled.img`
   width: 70px;
@@ -37,7 +36,7 @@ const CrossIcon = styled(SvgIcon)<SvgIconProps>`
 
 const UserInfo = () => {
   const { handleOpen } = useHeaderContext();
-  const { name } = useUserInfoStore();
+  const name = sessionStorage.getItem("name");
 
   return (
     <Info>

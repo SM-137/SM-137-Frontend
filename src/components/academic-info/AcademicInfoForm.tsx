@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { MY_MODIFY_URL } from "../../utils/URL";
-import useUserInfoStore from "../../store/useUserInfoStore";
 
 const FormContainer = styled.div`
   display: flex;
@@ -48,7 +47,8 @@ const ModifyComment = styled.div`
 `;
 
 const AcademicInfo = () => {
-  const { number, department } = useUserInfoStore();
+  const number = sessionStorage.getItem("number");
+  const department = sessionStorage.getItem("department");
 
   const navigate = useNavigate();
   const handleClick = () => {
