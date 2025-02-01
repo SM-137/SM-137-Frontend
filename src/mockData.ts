@@ -1,9 +1,4 @@
-import {
-  AlarmDataProps,
-  ContentDetailProps,
-  ContentType,
-  DataType,
-} from "./types/Type";
+import { AlarmDataProps, ContentType, DataType } from "./types/Type";
 
 //백엔드 연동
 export const sampleData: ContentType[] = [
