@@ -95,8 +95,10 @@ const Login = () => {
 
   // jwtToken 상태 업데이트
   useEffect(() => {
+    console.log("작동1");
     const token = getJwtTokenFromCookie();
     if (token) {
+      console.log(`작동2 : ${token}`);
       setJwtToken(token);
     }
   }, []);
