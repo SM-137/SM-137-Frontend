@@ -753,7 +753,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   color: var(--gray6-header);
 `,oF=E(he)`
   fill: var(--gray5-lowText);
-`,kw=({label:e,options:t,onChange:n,value:r})=>{const i=C.useRef(null),[o,s]=C.useState(r||t[0]),[a,l]=C.useState(!1);C.useEffect(()=>{const c=d=>{i.current&&!i.current.contains(d.target)&&l(!1)};return document.addEventListener("mousedown",c),()=>{document.removeEventListener("mousedown",c)}},[]);const u=c=>{s(c),l(!1),n&&n(c)};return h.jsxs(QN,{children:[h.jsx(JN,{children:h.jsx(eF,{children:e})}),h.jsxs(tF,{onClick:()=>l(c=>!c),ref:i,children:[h.jsx(iF,{children:o}),h.jsx(oF,{component:Tw}),h.jsx(nF,{isOpen:a,children:t.map((c,d)=>h.jsx(rF,{onClick:f=>{f.stopPropagation,u(c)},children:c},d))})]})]})},sF=E.form`
+`,kw=({label:e,options:t,onChange:n,value:r})=>{const i=C.useRef(null),[o,s]=C.useState(r||t[0]),[a,l]=C.useState(!1);C.useEffect(()=>{const c=d=>{i.current&&!i.current.contains(d.target)&&l(!1)};return document.addEventListener("mousedown",c),()=>{document.removeEventListener("mousedown",c)}},[]);const u=c=>{s(c),l(!1),n&&n(c)};return h.jsxs(QN,{children:[h.jsx(JN,{children:h.jsx(eF,{children:e})}),h.jsxs(tF,{onClick:()=>l(c=>!c),ref:i,children:[h.jsx(iF,{children:o}),h.jsx(oF,{component:Tw}),h.jsx(nF,{isOpen:a,children:t.map((c,d)=>h.jsx(rF,{onClick:f=>{f.stopPropagation(),u(c)},children:c},d))})]})]})},sF=E.form`
   display: flex;
   flex-direction: column;
   align-items: center;
