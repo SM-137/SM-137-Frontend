@@ -1,20 +1,11 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
 import CategoryTag from "../../components/category-tag/CategoryTag";
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import Gmail from "../../assets/icons/gmail.png";
-import { userInfo } from "../../services/userService";
 import { useNavigate } from "react-router-dom";
 import { MY_MODIFY_URL } from "../../utils/URL";
 import useUserInfoStore from "../../store/useUserInfoStore";
-
-interface UserResponse {
-  name: string;
-  email: string;
-  number: string;
-  department: string;
-}
 
 const Container = styled.div`
   width: 100%;
