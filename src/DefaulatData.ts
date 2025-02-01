@@ -16,6 +16,7 @@ export const defaultComplaintData: ContentDetailProps = {
   liked: false,
   scrapped: false,
   attachmentUrls: [],
+  isWriter: false,
 };
 
 export const defaultCommentData: CommentType[] = [

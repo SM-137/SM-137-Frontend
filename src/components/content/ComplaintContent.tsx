@@ -272,7 +272,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
 
       {/* Footer */}
       <Footer>
-        {!data.answer ? (
+        {!data.answer && data.isWriter ? (
           <EditDeleteButtonContainer>
             <EditDeleteButton
               onClick={() =>

@@ -82,6 +82,7 @@ export interface ContentDetailProps {
   liked: boolean;
   scrapped: boolean;
   attachmentUrls: string[];
+  isWriter: boolean;
 }
 
 export type StatusType = "WAITING" | "IN_PROGRESS" | "RETURN" | "DONE";
