@@ -83,12 +83,6 @@ const Option = styled.li`
   padding: 10px;
   transition: background-color 0.2s ease-in;
   cursor: pointer;
-
-  &:hover {
-    color: white;
-    border-radius: 5px;
-    background: linear-gradient(135deg, #5658df 0%, #2f6dd0 100%);
-  }
 `;
 
 const DropDownIcon = styled(SvgIcon)<SvgIconProps>`
