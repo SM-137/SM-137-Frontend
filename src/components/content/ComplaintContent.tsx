@@ -157,6 +157,9 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
   };
 
   const COPIED_COMMENT = "링크가 복사되었습니다";
+  const CANNOT_DELETE_WITH_ANSWER =
+    "답변이 달린 이후에는 수정 및 삭제가 불가능합니다";
+
   const [isCopied, setIsCopied] = useState(false);
   //복사할 URL 설정
   const baseURL = window.location.origin;
@@ -272,7 +275,7 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
 
       {/* Footer */}
       <Footer>
-        {!data.answer && data.isWriter ? (
+        {!data.answer && data.isWriter && (
           <EditDeleteButtonContainer>
             <EditDeleteButton
               onClick={() =>
@@ -292,11 +295,8 @@ const ComplaintContent = ({ data }: ComplaintContentProps) => {
               삭제
             </EditDeleteButton>
           </EditDeleteButtonContainer>
-        ) : (
-          <InfoComment>
-            답변이 달린 이후에는 수정 및 삭제가 불가능합니다
-          </InfoComment>
         )}
+        {data.answer && <InfoComment>{CANNOT_DELETE_WITH_ANSWER}</InfoComment>}
         <DateSection>{formatTime}</DateSection>
       </Footer>
     </Container>
