@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
+import { SvgIcon, SvgIconProps } from "@mui/material";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 
 interface DropdownProps {
   label: string;
@@ -8,42 +10,49 @@ interface DropdownProps {
   value?: string;
 }
 
+interface OptionProps {
+  isOpen: boolean;
+}
+
 const SelectBox = styled.div`
   position: relative;
-  width: 165px;
-  height: 40px;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #ffffff;
-  align-self: center;
-  border: 1px solid #cccccc;
-
+  width: 11.25rem;
+  height: 2rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  color: var(--gray5-lowText);
+  background-color: var(--white);
+  border: 1px solid var(--gray3-border);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
-const SelectOptions = styled.ul<{ isOpen: boolean }>`
+const SelectOptions = styled.ul<OptionProps>`
   position: absolute;
   top: calc(100% + 1px);
   left: 0;
   width: 100%;
-  background-color: #fefefe;
-  border-radius: 5px;
+  background-color: var(--white);
+  border-radius: 4px;
   max-height: ${({ isOpen }) => (isOpen ? "200px" : "0")};
   overflow-y: auto;
   overflow-x: hidden;
   transition: max-height 0.3s ease-in-out;
-  border: ${({ isOpen }) => (isOpen ? "1px solid #cccccc;" : "none")};
-  z-index: 100;
+  border: ${({ isOpen }) =>
+    isOpen ? "1px solid var(--gray3-border)" : "none"};
+  z-index: 10;
 
   ::-webkit-scrollbar {
     width: 4px;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: #777777;
+    background-color: var(--gray4-placeholder-low);
     border-radius: 10px;
   }
   ::-webkit-scrollbar-track {
-    background-color: #cccccc;
+    background-color: var(--white);
     border-radius: 0px 3px 3px 0px;
   }
 `;
@@ -53,12 +62,10 @@ const Option = styled.li`
   padding: 10px;
   transition: background-color 0.2s ease-in;
   cursor: pointer;
+`;
 
-  &:hover {
-    color: white;
-    border-radius: 5px;
-    background: linear-gradient(135deg, #5658df 0%, #2f6dd0 100%);
-  }
+const DropDownIcon = styled(SvgIcon)<SvgIconProps>`
+  fill: var(--gray5-lowText);
 `;
 
 const MajorDropdown: React.FC<DropdownProps> = ({
@@ -69,15 +76,7 @@ const MajorDropdown: React.FC<DropdownProps> = ({
 }) => {
   const selectRef = useRef<HTMLDivElement>(null);
   const [currentValue, setCurrentValue] = useState(value || options[0]);
-  const [isOpen, setIsOpen] = useState(false); // 열림 상태 관리
-
-  const handleOnChangeSelectValue = (value: string) => {
-    setCurrentValue(value);
-    setIsOpen(false);
-    if (onChange) {
-      onChange(value);
-    }
-  };
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -95,11 +94,20 @@ const MajorDropdown: React.FC<DropdownProps> = ({
     };
   }, []);
 
+  const handleOnChangeSelectValue = (value: string) => {
+    setCurrentValue(value);
+    setIsOpen(false);
+    if (onChange) {
+      onChange(value);
+    }
+  };
+
   return (
     <div>
       <label>{label}</label>
       <SelectBox onClick={() => setIsOpen((prev) => !prev)} ref={selectRef}>
         <span>{currentValue}</span>
+        <DropDownIcon component={KeyboardArrowDownRoundedIcon} />
         <SelectOptions isOpen={isOpen}>
           {options.map((option, index) => (
             <Option
