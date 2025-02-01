@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
-import { UserInfoType } from "../../types/Type";
-import { userInfo } from "../../services/userService";
 import { useNavigate } from "react-router-dom";
 import { MY_MODIFY_URL } from "../../utils/URL";
+import useUserInfoStore from "../../store/useUserInfoStore";
 
 const FormContainer = styled.div`
   display: flex;
@@ -50,18 +48,7 @@ const ModifyComment = styled.div`
 `;
 
 const AcademicInfo = () => {
-  const [info, setInfo] = useState<UserInfoType>({
-    department: "",
-    name: "",
-    email: "",
-    number: "",
-  });
-
-  useEffect(() => {
-    userInfo()
-      .then((res) => setInfo(res.data))
-      .catch((error) => console.error(error));
-  }, []);
+  const { number, department } = useUserInfoStore();
 
   const navigate = useNavigate();
   const handleClick = () => {
@@ -73,12 +60,12 @@ const AcademicInfo = () => {
       <Info>
         <UserInfoBoxContainer>
           <UserInfoBoxTitle>학번</UserInfoBoxTitle>
-          <UserInfoBox>{info.number}</UserInfoBox>
+          <UserInfoBox>{number}</UserInfoBox>
         </UserInfoBoxContainer>
 
         <UserInfoBoxContainer>
           <UserInfoBoxTitle>학과/학부</UserInfoBoxTitle>
-          <UserInfoBox>{info.department}</UserInfoBox>
+          <UserInfoBox>{department}</UserInfoBox>
         </UserInfoBoxContainer>
       </Info>
 

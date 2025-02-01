@@ -3,21 +3,16 @@ import MoodRoundedIcon from "@mui/icons-material/MoodRounded";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import Gmail from "../../assets/icons/gmail.png";
-import {
-  useRef,
-  useState,
-  useEffect,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import { useRef, useState, forwardRef, useImperativeHandle } from "react";
 import majors from "../../utils/MajorList";
 import { useNavigate } from "react-router-dom";
-import { userInfo, modify } from "../../services/userService";
+import { modify } from "../../services/userService";
 import { MYPAGE_URL } from "../../utils/URL";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import { useModal } from "../../hooks/useModal";
 import Modal from "../../components/modal/Modal";
 import DeleteAccount from "../../components/modal/contents/DeleteAccount";
+import useUserInfoStore from "../../store/useUserInfoStore";
 
 const Container = styled.div`
   display: flex;
@@ -132,20 +127,9 @@ const StyledInput = styled(Input)<{ hasError: boolean }>`
 `;
 
 const Modify = () => {
-  const formRef = useRef<ModifyFormHandles>(null);
+  const formRef = useRef<ModifyFormHandles | null>(null);
   const navigate = useNavigate();
-  const [initialInfo, setInitialInfo] = useState({
-    name: "",
-    email: "",
-    number: "",
-    department: "",
-  });
-
-  useEffect(() => {
-    userInfo()
-      .then((res) => setInitialInfo(res.data))
-      .catch((error) => console.error(error));
-  }, []);
+  const { email } = useUserInfoStore();
 
   const handleNext = async () => {
     if (formRef.current?.validateForm()) {
@@ -189,11 +173,11 @@ const Modify = () => {
         <ContentContainer>
           <PillMark>재학생</PillMark>
           <FormWrapper>
-            <ModifyForm ref={formRef} info={initialInfo} />
+            <ModifyForm ref={formRef} />
           </FormWrapper>
           <Email>
             <EmailIcon src={Gmail} alt="gmail icon" />
-            {initialInfo.email}
+            {email}
           </Email>
         </ContentContainer>
         <WithdrawText onClick={handleDeleteAccount}>회원 탈퇴</WithdrawText>
@@ -212,89 +196,73 @@ export default Modify;
 export interface ModifyFormHandles {
   validateForm: () => boolean;
   getFormData: () => { number: string; department: string };
-  info?: {
-    number: string;
-    department: string;
-  };
 }
 
-const ModifyForm = forwardRef<
-  ModifyFormHandles,
-  { info: ModifyFormHandles["info"] }
->(
-  (
-    {
-      info = {
-        number: "1234567",
-        department: "컴퓨터과학전공",
-      },
-    },
-    ref
-  ) => {
-    const [studentId, setStudentId] = useState("");
-    const [major, setMajor] = useState("");
-    const [errors, setErrors] = useState({ studentId: "", major: "" });
+const ModifyForm = forwardRef<ModifyFormHandles>((_, ref) => {
+  const [studentId, setStudentId] = useState("");
+  const [major, setMajor] = useState("");
+  const [errors, setErrors] = useState({ studentId: "", major: "" });
+  const { number, department } = useUserInfoStore();
 
-    useImperativeHandle(ref, () => ({
-      validateForm,
-      getFormData,
-    }));
+  useImperativeHandle(ref, () => ({
+    validateForm,
+    getFormData,
+  }));
 
-    const handleStudentIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      if (/^\d*$/.test(value)) {
-        setStudentId(value);
-      }
+  const handleStudentIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setStudentId(value);
+    }
+  };
+
+  const handleMajorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMajor(e.target.value);
+  };
+
+  const validateForm = () => {
+    const newErrors: { studentId: string; major: string } = {
+      studentId: "",
+      major: "",
     };
 
-    const handleMajorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setMajor(e.target.value);
-    };
+    if (studentId.length !== 7) {
+      newErrors.studentId = "학번은 7자리 숫자로 입력해주세요.";
+    }
 
-    const validateForm = () => {
-      const newErrors: { studentId: string; major: string } = {
-        studentId: "",
-        major: "",
-      };
+    if (!majors.includes(major)) {
+      newErrors.major = "유효한 학과/학부를 입력해주세요.";
+    }
 
-      if (studentId.length !== 7) {
-        newErrors.studentId = "학번은 7자리 숫자로 입력해주세요.";
-      }
+    setErrors(newErrors);
 
-      if (!majors.includes(major)) {
-        newErrors.major = "유효한 학과/학부를 입력해주세요.";
-      }
+    return !newErrors.studentId && !newErrors.major;
+  };
 
-      setErrors(newErrors);
+  const getFormData = () => ({
+    number: studentId,
+    department: major,
+  });
 
-      return !newErrors.studentId && !newErrors.major;
-    };
+  return (
+    <InfoForm>
+      <StyledInput
+        label="학번"
+        placeholder={number}
+        value={studentId}
+        onChange={handleStudentIdChange}
+        hasError={!!errors.studentId}
+      />
+      {errors.studentId && <ErrorText>{errors.studentId}</ErrorText>}
 
-    const getFormData = () => ({
-      number: studentId,
-      department: major,
-    });
-
-    return (
-      <InfoForm>
-        <StyledInput
-          label="학번"
-          placeholder={info.number}
-          value={studentId}
-          onChange={handleStudentIdChange}
-          hasError={!!errors.studentId}
-        />
-        {errors.studentId && <ErrorText>{errors.studentId}</ErrorText>}
-
-        <StyledInput
-          label="학과/학부"
-          placeholder={info.department}
-          value={major}
-          onChange={handleMajorChange}
-          hasError={!!errors.major}
-        />
-        {errors.major && <ErrorText>{errors.major}</ErrorText>}
-      </InfoForm>
-    );
-  }
-);
+      <StyledInput
+        label="학과/학부"
+        placeholder={department}
+        value={major}
+        onChange={handleMajorChange}
+        hasError={!!errors.major}
+      />
+      {errors.major && <ErrorText>{errors.major}</ErrorText>}
+    </InfoForm>
+  );
+});

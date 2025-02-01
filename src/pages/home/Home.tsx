@@ -77,16 +77,7 @@ const Home = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const { isModalOpen, handleModalClose, handleModalOpen } = useModal();
-  const {
-    number,
-    department,
-    setNumber,
-    setDepartment,
-    setEmail,
-    email,
-    name,
-    setName,
-  } = useUserInfoStore();
+  const { setNumber, setDepartment, setEmail, setName } = useUserInfoStore();
 
   useEffect(() => {
     userInfo()
@@ -112,9 +103,6 @@ const Home = () => {
       setEmail(initialInfo.email);
     }
   }, [initialInfo]);
-
-  console.log(number, department);
-  console.log(name, email);
 
   return (
     <HomeContainer>
