@@ -129,3 +129,14 @@ export interface ComplaintForm {
   setTagName: (tagName: string) => void;
   setAttachments: (update: (prev: File[] | null) => File[] | null) => void;
 }
+
+export interface UserInfoStateType {
+  name: string;
+  department: string;
+  email: string;
+  number: string;
+  setName: (name: string) => void;
+  setDepartment: (department: string) => void;
+  setEmail: (email: string) => void;
+  setNumber: (number: string) => void;
+}
