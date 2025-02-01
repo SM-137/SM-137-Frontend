@@ -130,7 +130,7 @@ const StyledInput = styled(Input)<{ hasError: boolean }>`
 const Modify = () => {
   const formRef = useRef<ModifyFormHandles | null>(null);
   const navigate = useNavigate();
-  const { email } = useUserInfoStore();
+  const { email, setNumber, setDepartment } = useUserInfoStore();
 
   const handleNext = async () => {
     if (formRef.current?.validateForm()) {
@@ -138,7 +138,9 @@ const Modify = () => {
         const formData = formRef.current.getFormData();
         const response = await modify(formData);
         console.log("서버 응답:", response);
-
+        alert("수정되었습니다.");
+        setNumber(formData.number);
+        setDepartment(formData.department);
         navigate(MYPAGE_URL);
       } catch (error) {
         console.error("서버 요청 중 에러 발생:", error);
