@@ -12,7 +12,7 @@ import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import { useModal } from "../../hooks/useModal";
 import Modal from "../../components/modal/Modal";
 import DeleteAccount from "../../components/modal/contents/DeleteAccount";
-import Dropdown from "../../components/input/MajorDropdown";
+import MajorDropdown from "../../components/drop-down/MajorDropdown";
 
 const Container = styled.div`
   display: flex;
@@ -254,7 +254,7 @@ const ModifyForm = forwardRef<ModifyFormHandles>((_, ref) => {
       />
       {errors.studentId && <ErrorText>{errors.studentId}</ErrorText>}
 
-      <Dropdown
+      <MajorDropdown
         label="학과/학부"
         options={majors}
         value={major}

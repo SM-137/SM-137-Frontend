@@ -140,7 +140,7 @@ const MajorDropdown: React.FC<DropdownProps> = ({
             <Option
               key={index}
               onClick={(e) => {
-                e.stopPropagation;
+                e.stopPropagation();
                 handleOnChangeSelectValue(option);
               }}
             >

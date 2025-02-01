@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useState, forwardRef, useImperativeHandle } from "react";
 import Input from "../input/Input";
 import majors from "../../utils/MajorList";
-import Dropdown from "../input/MajorDropdown";
+import MajorDropdown from "../drop-down/MajorDropdown";
 
 const InfoForm = styled.form`
   display: flex;
@@ -76,7 +76,7 @@ const UserInfoForm = forwardRef<UserInfoFormHandles>((_, ref) => {
       />
       {errors.studentId && <ErrorText>{errors.studentId}</ErrorText>}
 
-      <Dropdown
+      <MajorDropdown
         label="학과/학부"
         options={majors}
         value={major}
